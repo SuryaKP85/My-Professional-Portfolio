@@ -1,0 +1,1816 @@
+{
+  "profile": {
+    "name": "Surya Prashanth",
+    "title": "Enterprise Product Manager",
+    "shortTitle": "Enterprise Product Manager",
+    "subtitle": "ERP • Manufacturing • Supply Chain • Warehouse Management • AI Product Strategy",
+    "tagline": "16+ Years Building Products That Remove Unnecessary Effort From Complex Operations",
+    "executiveSummary": "I build products that remove unnecessary effort from complex business operations.\n\nFor over 16 years, I've worked across ERP, Manufacturing, Warehouse Management, Supply Chain, and Logistics, partnering with customers, engineering teams, and business stakeholders to deliver products that solve real operational challenges.\n\nMy experience spans product strategy, customer discovery, roadmap planning, stakeholder management, and end-to-end product delivery, with a growing focus on applying AI to make enterprise software more intuitive, efficient, and effective.",
+    "yearsExperience": 16,
+    "location": "Bangalore, India",
+    "email": "surya.prashanth.kp@gmail.com",
+    "linkedIn": "https://linkedin.com/in/suryaprashanth",
+    "github": "https://github.com/suryaprashanth",
+    "photoUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    "stats": {
+      "years": "16+",
+      "enterpriseValue": "Customer-Centric",
+      "productsDelivered": "Enterprise Platforms",
+      "teamSize": "AI Innovation"
+    },
+    "philosophy": {
+      "career": "I build products that remove unnecessary effort from complex business operations across ERP, Manufacturing, Supply Chain, and Warehouse Management.",
+      "leadership": "Partnering with customers, engineering teams, and business stakeholders to deliver products that solve real operational challenges.",
+      "productMindset": "Focusing on customer discovery, roadmap planning, and practical solutions that turn complex workflows into intuitive software.",
+      "problemSolving": "Translating operational challenges into scalable enterprise product strategies with continuous stakeholder collaboration.",
+      "approachPM": "End-to-end product management from vision and discovery to roadmap prioritization, delivery, and AI-enabled enhancement."
+    }
+  },
+  "experiences": [
+    {
+      "id": "exp-5",
+      "company": "iRely Soft Services",
+      "role": "Product Manager",
+      "period": "2026 - Present",
+      "duration": "Present",
+      "location": "Bangalore, India",
+      "category": "ERP & Manufacturing",
+      "description": "Leading product strategy for Manufacturing ERP solutions and managing a cross-functional team of approximately 14 professionals across Business Analysis, Development, and Quality Assurance.",
+      "careerSummary": "Joining iRely has allowed me to expand my responsibilities beyond Product Management into product leadership and team management. Alongside defining product strategy for Manufacturing ERP solutions, I lead a cross-functional team of approximately 14 professionals across Business Analysis, Development, and Quality Assurance. My role combines product strategy, delivery leadership, people management, and engineering collaboration to ensure teams deliver high-quality solutions aligned with customer and business goals. In parallel, I have been driving AI-assisted engineering practices that improve development efficiency, code quality, and overall delivery effectiveness.",
+      "majorAchievements": [
+        "Established a collaborative product organization that brings together Product, Business Analysis, Development, and QA around shared business goals.",
+        "Improved engineering productivity through AI-assisted development practices and modern delivery workflows.",
+        "Strengthened cross-functional collaboration, enabling faster decision-making and improved delivery predictability.",
+        "Delivered Manufacturing ERP capabilities across Agriculture, Petroleum, and Commodity Trading domains.",
+        "Built an environment focused on ownership, continuous improvement, and customer-centric product delivery."
+      ],
+      "keyContributions": [
+        "Transformed cross-functional product delivery and team alignment across 14 team members.",
+        "Advanced AI-assisted engineering practices for faster, higher quality releases.",
+        "Expanded Manufacturing ERP capabilities across Agriculture, Petroleum, and Commodity Trading."
+      ],
+      "productsOwned": [
+        "iRely Manufacturing ERP",
+        "Agri-Business & Commodity Trading Suite",
+        "AI-Assisted Engineering Workflows"
+      ],
+      "businessImpact": "14-person cross-functional team leadership, AI-assisted productivity gains, multi-domain ERP delivery.",
+      "technologies": [
+        "Manufacturing ERP",
+        "AI-assisted Workflows",
+        "Cross-Functional Leadership",
+        "Agile Product Delivery"
+      ],
+      "kpisImproved": [
+        "Delivery Predictability (+35%)",
+        "Engineering Efficiency (+30%)",
+        "Cross-Functional Alignment (100%)"
+      ],
+      "whatILearned": "Leading both products and people has reinforced my belief that successful Product Management extends beyond defining roadmaps. It requires creating an environment where teams can collaborate effectively, make informed decisions, and continuously improve together. Managing a multidisciplinary team has given me a broader perspective on balancing customer needs, business priorities, engineering challenges, and people development while delivering products that create meaningful business value."
+    },
+    {
+      "id": "exp-4",
+      "company": "Epicor Software",
+      "role": "Lead Product Owner",
+      "period": "2019 - 2025",
+      "duration": "6 Yrs",
+      "location": "Enterprise Software",
+      "category": "Warehouse Management",
+      "description": "Shaping product direction, modernizing legacy platforms into mobile-first solutions, mentoring Product Owners, and partnering with enterprise customers across Warehouse Management and Order Fulfillment.",
+      "careerSummary": "Epicor represented a significant step in my Product Management journey. Beyond owning features, I became responsible for shaping product direction, modernizing legacy platforms, mentoring Product Owners, and working with enterprise customers to solve increasingly complex operational challenges.",
+      "majorAchievements": [
+        "Led modernization of the Warehouse Management System into a mobile-first platform.",
+        "Defined product roadmaps across Warehouse Management and Order Fulfillment.",
+        "Partnered with customers to validate product direction and prioritize enhancements.",
+        "Worked closely with Engineering, UX, QA, and leadership throughout the product lifecycle.",
+        "Led Supplier Integration, Verify & Load, Field Service Management, and Enterprise Integration initiatives.",
+        "Contributed to EVA, an AI-powered engagement solution.",
+        "Mentored Product Owners on backlog management, customer discovery, and stakeholder communication."
+      ],
+      "keyContributions": [
+        "Modernized a legacy Warehouse Management platform.",
+        "Delivered multiple enterprise integration initiatives.",
+        "Improved customer engagement through AI-assisted experiences.",
+        "Established stronger product management practices across the team."
+      ],
+      "productsOwned": [
+        "Epicor Mobile WMS",
+        "Order Fulfillment Engine",
+        "EVA AI Engagement Solution",
+        "Supplier Integration Mesh"
+      ],
+      "businessImpact": "Platform modernization, AI engagement adoption, mobile WMS transformation.",
+      "technologies": [
+        "Mobile WMS",
+        "AI Engagement (EVA)",
+        "Enterprise Integration",
+        "Agile & Product Strategy"
+      ],
+      "kpisImproved": [
+        "Mobile Adoption (+65%)",
+        "Warehouse Workflow Speed (+40%)",
+        "PO Error Reduction (-85%)"
+      ],
+      "whatILearned": "This role strengthened my ability to balance customer needs, technical complexity, and long-term product strategy. I learned that great enterprise products evolve through continuous collaboration, disciplined prioritization, and a deep understanding of customer operations."
+    },
+    {
+      "id": "exp-3",
+      "company": "Amber Road (WiseTech Global)",
+      "role": "Product Owner",
+      "period": "2015 - 2019",
+      "duration": "4 Yrs",
+      "location": "Global Logistics",
+      "category": "Logistics",
+      "description": "Owned end-to-end product lifecycle from discovery through delivery, combining customer insights, business strategy, and technology across Supply Chain and Logistics products.",
+      "careerSummary": "Amber Road was where I officially transitioned into Product Management. It was the first opportunity where I could combine customer insights, business strategy, and technology to influence product direction rather than simply delivering requirements.",
+      "majorAchievements": [
+        "Owned the end-to-end product lifecycle from discovery through delivery.",
+        "Conducted customer interviews and market research.",
+        "Defined product requirements, epics, and user stories.",
+        "Collaborated with Engineering, UX, QA, and customers throughout the product lifecycle.",
+        "Led EDI integration initiatives and GAP analysis.",
+        "Supported product demonstrations and customer validation activities."
+      ],
+      "keyContributions": [
+        "Delivered enhancements across Supply Chain and Logistics products.",
+        "Improved collaboration between customers and development teams.",
+        "Helped validate product direction through customer feedback.",
+        "Contributed to product strategy using market and customer insights."
+      ],
+      "productsOwned": [
+        "Global Logistics Management Suite",
+        "Supply Chain Compliance Portal",
+        "EDI Integration Gateway"
+      ],
+      "businessImpact": "End-to-end product lifecycle ownership, customer discovery framework, global logistics scaling.",
+      "technologies": [
+        "Logistics",
+        "Supply Chain EDI",
+        "User Story Mapping",
+        "Customer Research"
+      ],
+      "kpisImproved": [
+        "Compliance Accuracy (99.9%)",
+        "Customer Validation Speed (+50%)",
+        "Release Quality (+40%)"
+      ],
+      "whatILearned": "This was where I truly began thinking like a Product Manager. I learned that successful products are built through continuous customer discovery, thoughtful prioritization, and close collaboration with cross-functional teams."
+    },
+    {
+      "id": "exp-2",
+      "company": "GT Nexus (Infor)",
+      "role": "Client Manager",
+      "period": "2010 - 2015",
+      "duration": "5 Yrs",
+      "location": "Global Supply Chain",
+      "category": "Supply Chain",
+      "description": "Worked directly with enterprise customers to translate business and supply chain requirements into functional solution design, leading EDI integration across Ocean and Air transportation.",
+      "careerSummary": "Joining GT Nexus introduced me to the world of enterprise supply chain solutions and large-scale customer implementations. Working closely with global organizations gave me a deeper understanding of how technology supports complex business operations and how successful products must align with real customer workflows.",
+      "majorAchievements": [
+        "Worked directly with enterprise customers to understand business and supply chain requirements.",
+        "Served as the bridge between customers and engineering teams for functional and technical solution design.",
+        "Led EDI integration initiatives across Ocean and Air Transportation messaging.",
+        "Managed solution delivery for Apparel and Third-Party Logistics (3PL) customers.",
+        "Applied Six Sigma methodologies to improve operational efficiency.",
+        "Built and mentored customer support teams to improve post-implementation success."
+      ],
+      "keyContributions": [
+        "Successfully delivered multiple enterprise integration initiatives.",
+        "Improved collaboration between customers and development teams.",
+        "Reduced manual intervention in EDI processing through process improvements.",
+        "Strengthened customer relationships through consultative engagement."
+      ],
+      "productsOwned": [
+        "GT Nexus Supply Chain Portal",
+        "Ocean & Air EDI Gateway",
+        "3PL Integration Engine"
+      ],
+      "businessImpact": "Enterprise EDI automation, 3PL customer growth, Six Sigma operational optimization.",
+      "technologies": [
+        "EDI 850/856/309/315",
+        "Supply Chain Mesh",
+        "Six Sigma",
+        "Solution Architecture"
+      ],
+      "kpisImproved": [
+        "Manual EDI Touchpoints (-75%)",
+        "Customer Onboarding Time (-30%)",
+        "System Reliability (99.9%)"
+      ],
+      "whatILearned": "This role helped me understand that technology alone does not solve business problems. Success comes from understanding customer workflows, aligning technology with business objectives, and communicating effectively across technical and non-technical teams."
+    },
+    {
+      "id": "exp-1",
+      "company": "HP Global Soft Pvt Ltd",
+      "role": "Tech Support Engineer",
+      "period": "2007 - 2010",
+      "duration": "3 Yrs",
+      "location": "Global / APAC",
+      "category": "Enterprise Tech",
+      "description": "Provided enterprise technical support, diagnosing hardware, storage, and RAID environments while mentoring peers and establishing structured troubleshooting methodologies.",
+      "careerSummary": "My career began in enterprise technical support, where I learned that every customer issue is ultimately a business problem waiting to be understood. Supporting global enterprise customers taught me structured problem solving, customer empathy, and the importance of delivering reliable solutions—principles that continue to influence how I approach Product Management today.",
+      "majorAchievements": [
+        "Supported enterprise customers across the USA, Canada, Australia, New Zealand, and APAC regions.",
+        "Diagnosed and resolved hardware and storage-related issues involving RAID technologies.",
+        "Provided technical assistance for Intel RAID Matrix and AMD RAID Xpert environments.",
+        "Troubleshot POST errors, POST beep sequences, and hardware initialization failures.",
+        "Monitored customer support calls and coached team members to improve service quality.",
+        "Helped improve quality metrics by mentoring colleagues and sharing troubleshooting best practices.",
+        "Reduced unnecessary hardware replacements by promoting structured root cause analysis and effective troubleshooting techniques."
+      ],
+      "keyContributions": [
+        "Delivered consistent technical support to global enterprise customers.",
+        "Improved customer satisfaction through accurate issue diagnosis and resolution.",
+        "Contributed to higher service quality by mentoring peers and monitoring support interactions.",
+        "Encouraged process-driven troubleshooting that reduced avoidable component replacements."
+      ],
+      "productsOwned": [
+        "Enterprise Storage & RAID Diagnostic Suite",
+        "Technical Quality Support Framework"
+      ],
+      "businessImpact": "Global customer resolution across 5 continents, hardware replacement cost reduction, quality coaching.",
+      "technologies": [
+        "Intel RAID Matrix",
+        "AMD RAID Xpert",
+        "Root Cause Analysis",
+        "Enterprise Diagnostics"
+      ],
+      "kpisImproved": [
+        "First Contact Resolution (+35%)",
+        "Avoidable Hardware Replacements (-45%)",
+        "Quality Score (+25%)"
+      ],
+      "whatILearned": "This role taught me that every technical issue represents a customer problem waiting to be understood. It strengthened my analytical thinking, customer empathy, and communication skills—foundations that later became essential in understanding customer pain points and building better enterprise products."
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-epicor-wms",
+      "title": "Warehouse Management Modernization",
+      "subtitle": "Reimagining warehouse operations through modern product design",
+      "category": "Warehouse Management",
+      "company": "Epicor Software",
+      "summary": "Modernized legacy RF client software into a responsive Web UI for Epicor Prophet 21 ERP, replacing platform-specific deployments with a device-independent platform designed around warehouse user workflows.",
+      "executiveSummary": "Modernized the existing Warehouse Management System for Epicor Prophet 21 ERP by replacing legacy RF technology with a responsive Web UI, significantly improving usability, workflow efficiency, and platform flexibility across distribution and wholesale enterprise customers.",
+      "problem": "Legacy RF clients were platform-specific, difficult to deploy across modern devices, required excessive navigation, and presented dated interfaces containing unnecessary screen complexity for warehouse operators.",
+      "solution": "Delivered a responsive Web UI built around warehouse operator workflows, enabling Build Once Run Anywhere deployment across Android and handheld devices while showing only relevant task data.",
+      "role": "Lead Product Owner / Product Manager — Responsible for product vision, Customer Advisory Board prioritization, epic creation, UX workflow design, and cross-functional execution across engineering, services, and support.",
+      "businessOutcome": "Dramatically improved warehouse usability, simplified operator workflows, reduced training effort, created a flexible Web-based platform foundation, and increased customer satisfaction.",
+      "techStack": [
+        "Epicor Prophet 21",
+        "Responsive Web UI",
+        "Cross-Platform RF",
+        "Android RF Handhelds",
+        "RICE Prioritization",
+        "Agile / Scrum"
+      ],
+      "futureVision": "Integrating Artificial Intelligence to proactively assist warehouse operators with intelligent picking recommendations, predictive replenishment, AI-assisted exception handling, and context-aware guidance.",
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1000",
+      "metrics": [
+        {
+          "label": "Deployment Flexibility",
+          "value": "Cross-Platform"
+        },
+        {
+          "label": "Screen Navigation",
+          "value": "Simplified"
+        },
+        {
+          "label": "Operator Training Effort",
+          "value": "Significantly Reduced"
+        }
+      ],
+      "sections": [
+        {
+          "id": "sec-why-mattered",
+          "title": "Why This Project Mattered",
+          "summaryCallout": "Warehouse success is measured by physical operational efficiency—not software complexity. Modernizing legacy RF clients presented a chance to eliminate workflow friction and build for future enterprise scale.",
+          "type": "standard",
+          "content": [
+            "Warehouse teams don't measure success by software—they measure it by how efficiently products move through the warehouse. Every unnecessary screen, extra click, or confusing workflow slows operations, increases training effort, and ultimately impacts customer satisfaction.",
+            "When I joined Epicor, the Warehouse Management System had already been serving distributors and wholesalers successfully for several years. However, after nearly eight years, both the technology and user experience had begun to show their age. The application relied on platform-specific RF clients that were becoming increasingly difficult to deploy and maintain across the growing variety of warehouse devices.",
+            "But technology wasn't the real problem.",
+            "The real challenge was usability.",
+            "Warehouse operators needed an application that helped them complete tasks quickly, accurately, and confidently. They didn't care what technology powered the application—they cared about getting their work done with fewer clicks, less training, and minimal friction.",
+            "This project became an opportunity to rethink how warehouse users interact with enterprise software while creating a platform capable of supporting future customer needs."
+          ]
+        },
+        {
+          "id": "sec-exec-summary",
+          "title": "Executive Summary",
+          "summaryCallout": "Lead PM initiative to replace legacy RF clients with a responsive Web UI for Epicor Prophet 21 ERP, dramatically improving usability, workflow efficiency, and multi-device platform flexibility across wholesale distribution.",
+          "type": "standard",
+          "content": [
+            "Project: Warehouse Management System Modernization",
+            "Company: Epicor Software",
+            "ERP Platform: Epicor Prophet 21",
+            "Industry: Distribution & Wholesale",
+            "Role: Lead Product Owner / Product Manager",
+            "Primary Objective: Modernize the existing Warehouse Management System by replacing legacy RF technology with a responsive Web UI while significantly improving usability, workflow efficiency, and platform flexibility."
+          ]
+        },
+        {
+          "id": "sec-understanding-business",
+          "title": "Understanding the Business",
+          "summaryCallout": "Epicor Prophet 21 powers thousands of daily high-velocity warehouse transactions across Receiving, Picking, Packing, and Replenishment where small usability gains drive massive operational productivity.",
+          "type": "standard",
+          "content": [
+            "Epicor Prophet 21 is an ERP platform designed for distributors and wholesalers, where warehouse efficiency plays a critical role in overall business performance.",
+            "The Warehouse Management System supports the day-to-day activities that keep products moving through the supply chain, including:"
+          ],
+          "bullets": [
+            "Receiving",
+            "Directed Putaway",
+            "Inventory Transfers",
+            "Picking",
+            "Packing",
+            "Replenishment",
+            "Cycle Counting",
+            "Physical Inventory",
+            "Returns",
+            "Cross Docking"
+          ],
+          "subsections": [
+            {
+              "title": "Business Impact of Daily Transactions",
+              "content": [
+                "For many customers, these processes represent thousands of daily warehouse transactions. Even small usability improvements can significantly reduce operational effort and improve employee productivity.",
+                "Modernizing the product wasn't simply about updating technology. It was about improving how warehouse teams interacted with the software every day."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-understanding-customer",
+          "title": "Understanding the Customer",
+          "summaryCallout": "Direct field observations, customer visits, and Customer Advisory Board sessions revealed a critical product truth: Most warehouse frustrations stemmed from unnecessary screen complexity rather than missing features.",
+          "type": "standard",
+          "content": [
+            "One of the most valuable aspects of this project was the opportunity to engage directly with warehouse users and understand how they actually worked.",
+            "Rather than relying only on feature requests, I gathered insights through multiple channels:"
+          ],
+          "bullets": [
+            "Bi-weekly Customer Advisory Board (CAB) meetings",
+            "Direct customer conversations",
+            "Warehouse visits",
+            "User observation sessions",
+            "Product workshops",
+            "Professional Services teams",
+            "Customer Support teams",
+            "Product roadmap discussions"
+          ],
+          "subsections": [
+            {
+              "title": "Core Customer Discovery Insight",
+              "content": [
+                "I also encouraged customers to reach out directly with their ideas, frustrations, and operational pain points. This helped ensure that product decisions were based on real warehouse workflows rather than assumptions.",
+                "Spending time observing warehouse users revealed something important:",
+                "Most frustrations weren't caused by missing functionality—they were caused by unnecessary complexity."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-customer-problem",
+          "title": "The Customer Problem",
+          "summaryCallout": "Legacy RF clients suffered from slow repetitive interactions, excessive screen navigation, hardware-bound UI, and platform-specific deployment overhead that slowed operator throughput.",
+          "type": "problem",
+          "content": [
+            "Customers consistently highlighted several challenges with the existing Warehouse Management System.",
+            "The product had become increasingly difficult to use within modern warehouse environments.",
+            "Common concerns included:"
+          ],
+          "bullets": [
+            "Slow user interactions during repetitive warehouse tasks.",
+            "RF screens requiring excessive navigation.",
+            "A dated interface designed around older hardware.",
+            "Poor mobile experience on newer RF devices.",
+            "Platform-specific deployments that complicated implementation.",
+            "Difficult customization.",
+            "Performance limitations.",
+            "Screens containing more information than users actually needed."
+          ],
+          "subsections": [
+            {
+              "title": "Core Usability & Operational Friction",
+              "content": [
+                "None of these issues prevented customers from completing warehouse operations.",
+                "However, together they created unnecessary friction that affected productivity, training effort, and user satisfaction.",
+                "The opportunity wasn't simply to modernize the software.",
+                "The opportunity was to simplify the warehouse experience."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-product-vision",
+          "title": "Product Vision",
+          "summaryCallout": "Architected around three core pillars: Simplify Warehouse Workflows, Build Once Run Anywhere via Web UI, and Show Only What Matters to operators.",
+          "type": "strategy",
+          "content": [
+            "From the beginning, I wanted the modernization effort to achieve three clear objectives."
+          ],
+          "subsections": [
+            {
+              "title": "Simplify Warehouse Workflows",
+              "summaryCallout": "Core question: Can this task be completed faster and with fewer steps?",
+              "content": [
+                "The objective wasn't to recreate existing screens using newer technology.",
+                "Instead, every workflow was reviewed with one question:",
+                "Can this task be completed faster and with fewer steps?"
+              ]
+            },
+            {
+              "title": "Build Once, Run Anywhere",
+              "summaryCallout": "Universal Web UI replacing OS-specific legacy RF applications across diverse Android and handheld devices.",
+              "content": [
+                "The legacy application required operating system-specific implementations.",
+                "Modern RF devices were increasingly adopting Android and other platforms, making maintenance more complex.",
+                "Moving to a Web UI allowed customers to use a single application across multiple RF devices without maintaining different platform-specific versions."
+              ]
+            },
+            {
+              "title": "Show Only What Matters",
+              "summaryCallout": "Contextual UI principle: The right information should appear for the right user at the right time.",
+              "content": [
+                "Warehouse operators should never be overwhelmed by unnecessary information.",
+                "One principle guided every screen design:",
+                "The right information should appear for the right user at the right time.",
+                "This philosophy influenced every design discussion throughout the project."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-discovery-research",
+          "title": "Discovery & Research",
+          "summaryCallout": "Combined Customer Advisory Board voting, field observation, and RICE framework prioritization to balance high-demand requests with engineering effort and operational efficiency.",
+          "type": "standard",
+          "content": [
+            "Product discovery combined structured prioritization with continuous customer engagement.",
+            "Customer priorities were collected through:"
+          ],
+          "bullets": [
+            "Customer Advisory Board voting",
+            "Customer interviews",
+            "Professional Services feedback",
+            "Support cases",
+            "Warehouse observations",
+            "Product workshops"
+          ],
+          "subsections": [
+            {
+              "title": "RICE Prioritization Framework",
+              "content": [
+                "Roadmap decisions balanced customer demand with business value using a combination of customer voting and the RICE prioritization framework.",
+                "Rather than simply implementing the highest-voted requests, each decision considered:"
+              ],
+              "bullets": [
+                "Customer impact",
+                "Frequency of use",
+                "Operational efficiency",
+                "Long-term product direction",
+                "Engineering effort"
+              ]
+            },
+            {
+              "title": "Strategic Alignment",
+              "content": [
+                "This helped ensure the roadmap remained both customer-driven and strategically aligned."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-product-strategy",
+          "title": "Product Strategy",
+          "summaryCallout": "Focused on progressive, non-disruptive modernization that improves user experience, maintainability, and device independence while serving established enterprise clients.",
+          "type": "strategy",
+          "content": [
+            "The modernization effort was never intended to be a simple technology migration.",
+            "Instead, it focused on improving the overall warehouse experience while creating a foundation for future innovation.",
+            "Key strategic priorities included:"
+          ],
+          "bullets": [
+            "Modern Web-based user experience.",
+            "Device-independent deployment.",
+            "Simplified warehouse workflows.",
+            "Reduced training effort.",
+            "Improved platform flexibility.",
+            "Better long-term maintainability.",
+            "Progressive modernization without disrupting existing customer operations."
+          ],
+          "subsections": [
+            {
+              "title": "Guiding Strategic Question",
+              "content": [
+                "Every roadmap decision was evaluated against one guiding question:",
+                "Does this make warehouse operations simpler for the customer?"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-my-role",
+          "title": "My Role",
+          "summaryCallout": "Lead PM & Product Owner owning vision, roadmap, Customer Advisory Board alignment, epics, user stories, sprint planning, and cross-functional execution across engineering and UX.",
+          "type": "strategy",
+          "content": [
+            "As the Product Manager leading this initiative, my responsibilities extended far beyond writing requirements.",
+            "I was responsible for driving the overall product direction by working closely with customers, Professional Services, Engineering, UX, QA, Support, and executive stakeholders.",
+            "My responsibilities included:"
+          ],
+          "bullets": [
+            "Product vision and roadmap planning",
+            "Customer discovery",
+            "Customer Advisory Board meetings",
+            "Product prioritization",
+            "Epic creation",
+            "User stories",
+            "Acceptance criteria",
+            "Workflow design",
+            "Sprint planning",
+            "Release planning",
+            "Daily collaboration with Engineering",
+            "UX reviews",
+            "Executive roadmap discussions"
+          ],
+          "subsections": [
+            {
+              "title": "Leadership Impact",
+              "content": [
+                "Because I was leading the modernization initiative, my prioritization decisions directly influenced sprint planning and delivery sequencing."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-key-decisions",
+          "title": "Key Product Decisions",
+          "summaryCallout": "Prioritized evidence-based customer value over executive sponsorship pressure when evaluating competing high-demand feature requests.",
+          "type": "tradeoffs",
+          "content": [
+            "One of the most challenging decisions occurred when two highly requested features received nearly identical customer demand.",
+            "To complicate matters further, one influential customer had executive sponsorship and strongly advocated for their preferred feature to be delivered first.",
+            "Rather than prioritizing based on influence, I revisited customer usage patterns, operational impact, and supporting data.",
+            "Although the decision required difficult stakeholder conversations, I chose the feature that created greater value across the broader customer base.",
+            "This reinforced one of my core Product Management principles:",
+            "Product decisions should be guided by evidence and customer value—not by the loudest voice in the room."
+          ]
+        },
+        {
+          "id": "sec-collaboration",
+          "title": "Cross-functional Collaboration",
+          "summaryCallout": "Orchestrated daily alignment across Engineering, UX, QA, Professional Services, Support, Customer Advisory Board, and C-suite leadership.",
+          "type": "strategy",
+          "content": [
+            "This project required continuous collaboration across multiple teams.",
+            "I worked daily with:"
+          ],
+          "bullets": [
+            "Engineering",
+            "UX Designers",
+            "QA",
+            "Professional Services",
+            "Customer Support",
+            "Customer Advisory Board members",
+            "Executive Leadership"
+          ],
+          "subsections": [
+            {
+              "title": "Alignment Strategy",
+              "content": [
+                "Product decisions were rarely made in isolation.",
+                "Successful delivery depended on aligning technical feasibility, customer expectations, business priorities, and long-term product strategy."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-capabilities",
+          "title": "Product Capabilities",
+          "summaryCallout": "Delivered responsive Web UI, cross-platform RF support, reduced screen complexity, and a modern flexible platform foundation.",
+          "type": "solution",
+          "content": [
+            "The modernization introduced several important improvements:"
+          ],
+          "bullets": [
+            "Responsive Web UI",
+            "Cross-platform RF support",
+            "Simplified warehouse workflows",
+            "Device-independent deployment",
+            "Workflow-focused user experience",
+            "Better usability",
+            "Improved navigation",
+            "Reduced screen complexity",
+            "Modernized platform foundation",
+            "Improved flexibility for future enhancements"
+          ],
+          "subsections": [
+            {
+              "title": "Core Focus",
+              "content": [
+                "The focus remained on enabling warehouse users to complete their work more efficiently rather than introducing unnecessary functionality."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-tradeoffs",
+          "title": "Challenges & Trade-offs",
+          "summaryCallout": "Balanced backward compatibility and continuous maintenance with progressive modernization; key reflection: bundling complementary workflows accelerates adoption.",
+          "type": "tradeoffs",
+          "content": [
+            "Modernizing an existing enterprise product presented several challenges.",
+            "The platform already had an established customer base, making backward compatibility an important consideration.",
+            "Customers often had different priorities depending on how they used the product.",
+            "Engineering also had to balance modernization efforts with ongoing product maintenance.",
+            "Rather than rebuilding everything at once, the product was modernized incrementally.",
+            "Looking back, one lesson stands out.",
+            "If starting again, I would release multiple related warehouse workflows together instead of modernizing one feature at a time.",
+            "Grouping complementary workflows would likely have accelerated customer adoption and generated broader feedback earlier in the program."
+          ]
+        },
+        {
+          "id": "sec-impact",
+          "title": "Business Impact",
+          "summaryCallout": "Elevated warehouse operator productivity, reduced training overhead, boosted customer satisfaction, and established a scalable Web platform foundation.",
+          "type": "outcome",
+          "content": [
+            "Although the modernization was not measured using public business metrics, it delivered meaningful operational improvements.",
+            "The project:"
+          ],
+          "bullets": [
+            "Improved warehouse usability.",
+            "Simplified user workflows.",
+            "Increased customer satisfaction.",
+            "Reduced training effort.",
+            "Created a flexible Web-based platform.",
+            "Improved deployment across modern RF devices.",
+            "Established a stronger foundation for future product innovation."
+          ],
+          "subsections": [
+            {
+              "title": "Strategic Mindset Shift",
+              "content": [
+                "More importantly, it shifted the focus from modernizing technology to improving the warehouse user experience."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-lessons",
+          "title": "Lessons Learned",
+          "summaryCallout": "Technology should never drive product decisions—modernization is about simplifying how customers work through deep workflow discovery.",
+          "type": "standard",
+          "content": [
+            "This project fundamentally changed how I approach Product Management.",
+            "One lesson became very clear:",
+            "Technology should never drive product decisions.",
+            "The best products are designed by understanding customer workflows first and then selecting the technology that best supports those workflows.",
+            "I also learned that successful modernization requires patience.",
+            "Rather than immediately redesigning everything, product teams should invest time gathering customer insights, validating assumptions, and understanding operational pain points before deciding what should change.",
+            "Modernization is not about replacing software.",
+            "It is about simplifying how customers work."
+          ]
+        },
+        {
+          "id": "sec-future-ai",
+          "title": "If I Were Building This Today",
+          "summaryCallout": "Harness AI for automated wireframing, feedback pattern analysis, and interactive prototyping, while embedding intelligent picking and predictive replenishment directly into WMS.",
+          "type": "standard",
+          "content": [
+            "If I were starting this project today, I would still begin with customer workflows rather than technology.",
+            "However, Artificial Intelligence would significantly accelerate product discovery and design.",
+            "I would use AI to:"
+          ],
+          "bullets": [
+            "Generate initial workflow wireframes from customer requirements.",
+            "Analyze customer feedback to identify recurring usability patterns.",
+            "Create interactive design prototypes before development begins.",
+            "Validate user journeys with customers much earlier in the discovery process."
+          ],
+          "subsections": [
+            {
+              "title": "Next-Generation WMS Evolution",
+              "content": [
+                "Within the product itself, I believe modern Warehouse Management Systems will evolve beyond recording warehouse transactions.",
+                "The next generation of WMS should proactively assist warehouse operators by providing:"
+              ],
+              "bullets": [
+                "Intelligent picking recommendations.",
+                "Predictive replenishment suggestions.",
+                "AI-assisted exception handling.",
+                "Context-aware user guidance.",
+                "Smarter warehouse decision support."
+              ]
+            },
+            {
+              "title": "Core Purpose",
+              "content": [
+                "The objective isn't to automate every decision.",
+                "The objective is to help warehouse teams make better decisions, faster."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sec-takeaways",
+          "title": "Key Takeaways",
+          "summaryCallout": "4 Core Executive Lessons: Workflow-first value, evidence-based prioritization, right-time information presentation, and cross-functional alignment.",
+          "type": "outcome",
+          "bullets": [
+            "Modernization is successful when it improves customer workflows—not just technology.",
+            "Product decisions should be driven by customer evidence and business impact rather than stakeholder influence alone.",
+            "Enterprise software should present the right information to the right user at the right time.",
+            "Simplifying complex operations requires continuous collaboration between customers, engineering teams, and business stakeholders."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proj-epicor-supplier-integration",
+      "title": "Supplier Integration Platform",
+      "subtitle": "Simplifying supplier connectivity through scalable enterprise integrations",
+      "category": "Supply Chain",
+      "company": "Epicor Software",
+      "summary": "Designed a scalable Supplier Integration platform that simplified supplier onboarding, standardized integrations, and enabled customers to connect with suppliers more efficiently while reducing implementation complexity.",
+      "executiveSummary": "Designed a scalable Supplier Integration platform for Epicor Prophet 21 ERP that simplified supplier onboarding, standardized integrations, and enabled enterprise distribution customers to connect with suppliers more efficiently while reducing implementation complexity.",
+      "problem": "Supplier onboarding and ERP integration was a slow, manual, and resource-intensive process requiring custom data mapping, repeated configuration, and high implementation effort for every supplier.",
+      "solution": "Created a scalable platform capability with standardized integration patterns, reusable business mappings, and configurable workflows that simplified supplier connectivity and reduced onboarding effort.",
+      "role": "Lead Product Owner / Product Manager — Led product direction from discovery through delivery, product vision, roadmap, epic creation, backlog prioritization, and cross-functional alignment across engineering, services, and support.",
+      "businessOutcome": "Transformed supplier connectivity from custom projects into a reusable platform capability, significantly reducing implementation effort, accelerating supplier onboarding, and creating a scalable foundation.",
+      "techStack": [
+        "Epicor Prophet 21",
+        "Supplier EDI / APIs",
+        "Standardized Workflows",
+        "Integration Platform",
+        "Configurable Mapping",
+        "Agile / Scrum"
+      ],
+      "futureVision": "Applying AI to automatically suggest data mappings, detect document inconsistencies, recommend configuration based on previous onboarding, and enable guided self-service supplier onboarding.",
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&q=80&w=1000",
+      "metrics": [
+        {
+          "label": "Supplier Onboarding",
+          "value": "Standardized"
+        },
+        {
+          "label": "Implementation Effort",
+          "value": "Significantly Reduced"
+        },
+        {
+          "label": "Platform Scalability",
+          "value": "High"
+        }
+      ],
+      "sections": [
+        {
+          "id": "sec-why-mattered",
+          "title": "Why This Project Mattered",
+          "summaryCallout": "To me, this project wasn't about APIs—it was about removing unnecessary effort from one of the most repetitive and time-consuming processes in enterprise software.",
+          "type": "standard",
+          "content": [
+            "Enterprise ERP systems rarely operate in isolation.",
+            "For distributors and wholesalers, suppliers are a critical part of everyday business operations. Yet connecting suppliers to ERP systems often remained a slow, manual, and resource-intensive process.",
+            "Every supplier integration required significant implementation effort, repeated data mapping, and technical expertise, making onboarding time-consuming for both customers and implementation teams.",
+            "The challenge wasn't simply building another integration.",
+            "The challenge was creating a scalable platform that simplified supplier connectivity while reducing operational effort for everyone involved.",
+            "To me, this project wasn't about APIs.",
+            "It was about removing unnecessary effort from one of the most repetitive and time-consuming processes in enterprise software."
+          ]
+        },
+        {
+          "id": "sec-exec-summary",
+          "title": "Executive Summary",
+          "summaryCallout": "Lead Product Manager initiative at Epicor Software designing a scalable Supplier Integration platform that simplified supplier onboarding, standardized integrations, and reduced implementation complexity.",
+          "type": "standard",
+          "content": [
+            "Project: Supplier Integration Platform",
+            "Company: Epicor Software",
+            "ERP Platform: Epicor Prophet 21",
+            "Industry: Distribution & Wholesale",
+            "Role: Lead Product Owner / Product Manager",
+            "Primary Objective: Design a scalable Supplier Integration platform that simplified supplier onboarding, standardized integrations, and enabled customers to connect with suppliers more efficiently while reducing implementation complexity."
+          ]
+        },
+        {
+          "id": "sec-understanding-business",
+          "title": "Understanding the Business",
+          "summaryCallout": "Modern distribution businesses depend on constant collaboration between customers and suppliers across Purchase Orders, Confirmations, ASNs, Invoices, and Inventory Updates.",
+          "type": "standard",
+          "content": [
+            "Modern distribution businesses depend on constant collaboration between customers and suppliers.",
+            "Every one of these transactions requires accurate and timely communication:",
+            "Historically, supplier onboarding was a highly manual process. Each implementation often involved custom mapping, repeated configuration, extensive coordination, and significant support effort.",
+            "As the number of suppliers increased, the implementation effort increased almost proportionally.",
+            "Customers wanted faster onboarding. Implementation teams wanted repeatability. Epicor wanted a platform that could scale.",
+            "The opportunity was to transform supplier connectivity from a project into a reusable platform capability."
+          ],
+          "bullets": [
+            "Purchase Orders",
+            "Order Confirmations",
+            "Advance Shipping Notices (ASN)",
+            "Invoices",
+            "Inventory Updates"
+          ]
+        },
+        {
+          "id": "sec-understanding-customer",
+          "title": "Understanding the Customer",
+          "summaryCallout": "Listening to different stakeholder perspectives made one thing clear: everyone wanted the same outcome—less manual effort.",
+          "type": "standard",
+          "content": [
+            "The project served multiple stakeholder groups across the enterprise ecosystem:"
+          ],
+          "subsections": [
+            {
+              "title": "Distributors",
+              "content": "Wanted faster supplier onboarding without lengthy implementation projects."
+            },
+            {
+              "title": "Suppliers",
+              "content": "Needed a simpler way to exchange business documents without extensive technical expertise."
+            },
+            {
+              "title": "Professional Services",
+              "content": "Wanted repeatable implementation processes to scale deployment capacity."
+            },
+            {
+              "title": "Support Teams",
+              "content": "Wanted fewer customer-specific configurations to maintain over time."
+            },
+            {
+              "title": "Engineering",
+              "content": "Needed a scalable architecture capable of supporting long-term platform growth."
+            }
+          ]
+        },
+        {
+          "id": "sec-customer-problem",
+          "title": "The Customer Problem",
+          "summaryCallout": "The real issue wasn't connectivity—it was complexity. Every new supplier introduced additional operational effort.",
+          "type": "problem",
+          "content": [
+            "Although every customer wanted supplier integration, no two implementations looked exactly alike.",
+            "Common operational challenges included:"
+          ],
+          "bullets": [
+            "Manual supplier onboarding activities",
+            "Customer-specific and fragile data mapping",
+            "Long implementation timelines for new partners",
+            "Repetitive configuration activities across deployments",
+            "Limited visibility into onboarding progress",
+            "High dependency on implementation consultants",
+            "Difficult maintenance and troubleshooting",
+            "Limited scalability as supplier networks grew"
+          ]
+        },
+        {
+          "id": "sec-product-vision",
+          "title": "Product Vision & Strategy Principles",
+          "summaryCallout": "From the beginning, I viewed Supplier Integration as a platform rather than an individual feature. The best platform is one customers hardly notice because everything simply works.",
+          "type": "strategy",
+          "content": [
+            "Instead of optimizing individual integrations, we wanted to create a foundation that could support many suppliers through standardized workflows, reusable mappings, and scalable onboarding processes.",
+            "Three core principles guided the product strategy:"
+          ],
+          "subsections": [
+            {
+              "title": "1. Standardize wherever possible",
+              "content": "Every repeated implementation activity represented an opportunity for platform improvement."
+            },
+            {
+              "title": "2. Reduce implementation effort",
+              "content": "The less manual configuration required, the faster customers could begin exchanging business documents."
+            },
+            {
+              "title": "3. Design for growth",
+              "content": "The platform needed to support increasing supplier networks without increasing operational complexity."
+            }
+          ]
+        },
+        {
+          "id": "sec-discovery-research",
+          "title": "Discovery & Research",
+          "summaryCallout": "Asking 'Which activities are repeated every time a new supplier is onboarded?' changed the direction of the product from solving individual integration problems to eliminating repetitive work.",
+          "type": "standard",
+          "content": [
+            "Understanding the onboarding process required collaboration across Professional Services, Customer Support, Customer implementations, Engineering, Business stakeholders, and Customer onboarding teams.",
+            "Rather than asking 'What integration features should we build?' we asked 'Which activities are repeated every time a new supplier is onboarded?'",
+            "That single question changed the direction of the product. Instead of solving individual integration problems, we focused on eliminating repetitive work."
+          ]
+        },
+        {
+          "id": "sec-product-strategy",
+          "title": "Product Strategy & Priorities",
+          "summaryCallout": "The objective wasn't to replace implementation consultants—it was to allow them to spend more time solving customer-specific business challenges rather than repeating identical configuration work.",
+          "type": "strategy",
+          "content": [
+            "Strategic priorities included reusable integration patterns, standardized onboarding workflows, configurable business rules, improved supplier visibility, platform scalability, long-term maintainability, and reduced implementation effort.",
+            "Every roadmap decision was evaluated against one question: 'Can we remove unnecessary effort from supplier onboarding?'"
+          ],
+          "bullets": [
+            "Reusable integration patterns",
+            "Standardized onboarding workflows",
+            "Configurable business rules",
+            "Improved supplier visibility",
+            "Platform scalability",
+            "Long-term maintainability",
+            "Reduced implementation effort"
+          ]
+        },
+        {
+          "id": "sec-my-role",
+          "title": "My Role & Responsibilities",
+          "summaryCallout": "As Product Manager, I led the product direction from discovery through delivery, ensuring every decision contributed toward a scalable platform rather than isolated customer requests.",
+          "type": "standard",
+          "content": [
+            "Beyond feature definition, my focus was ensuring that every roadmap decision contributed toward a scalable platform rather than isolated customer requests.",
+            "Key responsibilities included:"
+          ],
+          "bullets": [
+            "Customer discovery & product vision",
+            "Product roadmap & backlog prioritization",
+            "Stakeholder alignment & epic creation",
+            "User stories & acceptance criteria",
+            "Workflow modelling & sprint planning",
+            "Release planning & customer discussions",
+            "Daily collaboration with Engineering",
+            "Product demonstrations & cross-functional alignment"
+          ]
+        },
+        {
+          "id": "sec-key-decisions",
+          "title": "Key Product Decisions",
+          "summaryCallout": "The best enterprise products solve classes of problems—not individual exceptions.",
+          "type": "strategy",
+          "content": [
+            "One of the most important strategic decisions was choosing to invest in platform capabilities rather than customer-specific customizations.",
+            "While individual customer requests often delivered immediate value, repeated analysis showed that many implementation challenges shared common patterns.",
+            "Instead of building separate solutions for individual customers, we prioritized reusable capabilities that benefited the broader customer base.",
+            "This approach required balancing short-term customer expectations with long-term product scalability, reinforcing a core PM belief: The best enterprise products solve classes of problems—not individual exceptions."
+          ]
+        },
+        {
+          "id": "sec-collaboration",
+          "title": "Cross-functional Collaboration",
+          "summaryCallout": "Supplier Integration required continuous collaboration across Engineering, QA, Professional Services, Support, Product Leadership, and Enterprise Customers.",
+          "type": "standard",
+          "content": [
+            "Professional Services played a particularly important role because they experienced onboarding challenges firsthand.",
+            "Their insights helped identify repetitive implementation activities that could be transformed into reusable platform capabilities."
+          ]
+        },
+        {
+          "id": "sec-product-capabilities",
+          "title": "Product Capabilities",
+          "summaryCallout": "Every capability focused on making supplier onboarding easier for customers and implementation teams rather than increasing technical complexity.",
+          "type": "solution",
+          "content": [
+            "The platform introduced capabilities focused on simplifying supplier connectivity:"
+          ],
+          "bullets": [
+            "Standardized supplier onboarding workflows",
+            "Configurable integration workflows",
+            "Reusable business mappings",
+            "Platform-based supplier connectivity",
+            "Improved onboarding visibility",
+            "Simplified implementation processes",
+            "Better scalability",
+            "Easier long-term maintenance",
+            "Flexible configuration"
+          ]
+        },
+        {
+          "id": "sec-tradeoffs",
+          "title": "Challenges & Trade-offs",
+          "summaryCallout": "Finding the right balance between standardization and configurability required continuous collaboration with customers, implementation consultants, and Engineering.",
+          "type": "tradeoffs",
+          "content": [
+            "Enterprise integrations naturally involve many exceptions. Different suppliers follow different business processes; different customers have different operational requirements.",
+            "One of the biggest challenges was deciding when to introduce configurability and when to standardize.",
+            "Too much flexibility increases product complexity. Too much standardization limits customer adoption.",
+            "Finding the right balance required continuous collaboration across teams. The most successful platform decisions came from identifying common business patterns rather than individual customer requests."
+          ]
+        },
+        {
+          "id": "sec-business-impact",
+          "title": "Business Impact & Value Delivered",
+          "summaryCallout": "Shifted supplier integration from a project-based activity toward a scalable product capability.",
+          "type": "outcome",
+          "content": [
+            "Although this project wasn't measured using publicly available business metrics, it created meaningful operational improvements:",
+            "• Simplified supplier onboarding.",
+            "• Reduced repetitive implementation activities.",
+            "• Improved consistency across supplier integrations.",
+            "• Increased platform scalability.",
+            "• Reduced long-term maintenance effort.",
+            "• Improved customer onboarding experience.",
+            "• Created a stronger foundation for future integrations."
+          ]
+        },
+        {
+          "id": "sec-lessons-learned",
+          "title": "Lessons Learned",
+          "summaryCallout": "Platforms create value by eliminating repetition. The more reusable the solution becomes, the more value it creates over time.",
+          "type": "standard",
+          "content": [
+            "This project fundamentally changed how I think about platform products.",
+            "Customers often ask for features; however, Product Managers need to identify the underlying pattern behind those requests.",
+            "Rather than solving individual onboarding challenges, we focused on building reusable capabilities that benefited every future customer."
+          ]
+        },
+        {
+          "id": "sec-building-today",
+          "title": "If I Were Building This Today (AI Vision)",
+          "summaryCallout": "If designing today, AI would significantly expand what the platform could accomplish by automating repetitive onboarding activities.",
+          "type": "standard",
+          "content": [
+            "If I were designing the Supplier Integration Platform today, I would continue focusing on reducing implementation effort—but Artificial Intelligence would significantly expand what the platform could accomplish.",
+            "AI could assist implementation teams by:"
+          ],
+          "bullets": [
+            "Automatically suggesting data mappings",
+            "Identifying document inconsistencies",
+            "Recommending configuration based on previous supplier onboarding",
+            "Detecting integration issues before deployment",
+            "Generating implementation documentation automatically",
+            "Providing intelligent onboarding assistants for customers"
+          ]
+        },
+        {
+          "id": "sec-key-takeaways",
+          "title": "Key Takeaways & Product Philosophy",
+          "summaryCallout": "Whenever I encounter a business process that requires the same work to be repeated over and over again, I ask: 'Why should teams have to do this repeatedly?'",
+          "type": "standard",
+          "content": [
+            "My Product Philosophy: This project perfectly reflects the way I approach Product Management.",
+            "Whenever I encounter a business process that requires the same work to be repeated over and over again, I ask a simple question: 'Why should customers or implementation teams have to do this repeatedly?'",
+            "That mindset shaped the Supplier Integration Platform. The goal wasn't simply to connect suppliers—the goal was to remove unnecessary effort from supplier onboarding while creating a scalable platform capable of supporting future growth.",
+            "To me, that is what Product Management is about—building products that make complex work feel simple."
+          ],
+          "keyTakeaways": [
+            "Enterprise platforms create the greatest value when they eliminate repetitive work rather than simply adding new functionality.",
+            "Standardization and configurability must be carefully balanced to support diverse customer requirements without increasing product complexity.",
+            "Product decisions should focus on solving common business patterns rather than individual customer exceptions.",
+            "Successful platform products require close collaboration across Product, Engineering, Professional Services, Customer Support, and customers.",
+            "Great Product Management is about designing systems that become simpler as they scale—not more complicated."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proj-amber-road-container-visibility",
+      "title": "Container Visibility & Demurrage Management",
+      "subtitle": "Improving logistics visibility through intelligent cost management",
+      "category": "Logistics",
+      "company": "Amber Road (WiseTech Global)",
+      "summary": "Designed a new logistics capability that provided customers with real-time visibility into container movements, tracked available free days, proactively notified users before charges were incurred, and helped reduce unnecessary Demurrage and Detention costs.",
+      "executiveSummary": "Designed a new logistics capability within Amber Road (WiseTech Global) providing real-time visibility into container movements, tracking available free days, and proactively notifying logistics teams before charges are incurred—transforming Demurrage and Detention management from reactive invoice processing to proactive cost prevention.",
+      "problem": "Customers lacked timely visibility into shipping container locations, remaining free days, and fee thresholds. By the time carrier invoices arrived for Demurrage & Detention (D&D), it was too late to avoid heavy penalties.",
+      "solution": "Created an integrated container tracking capability that combines real-time container status, free-day countdown tracking, proactive alerts before penalties occur, and operational decision-support tools.",
+      "role": "Product Owner — Led product initiative from discovery through delivery, including user experience design, workflow modelling, wireframes, user stories, acceptance criteria, and cross-functional execution.",
+      "businessOutcome": "Eliminated reliance on manual spreadsheets, improved operational return planning, empowered logistics teams to prevent avoidable D&D costs before invoices arrived, and delivered stronger shipment visibility.",
+      "techStack": [
+        "Amber Road Logistics Suite",
+        "EDI & API Tracking",
+        "Proactive Alert Engine",
+        "Free-Day Rule Engine",
+        "Logistics Dashboards",
+        "Agile / Scrum"
+      ],
+      "futureVision": "Leveraging AI for predictive alerts on high-risk containers, intelligent return recommendations, automated wireframing, and natural language decision-support dashboards.",
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=1000",
+      "metrics": [
+        {
+          "label": "Cost Prevention",
+          "value": "Proactive"
+        },
+        {
+          "label": "Container Tracking",
+          "value": "Real-time"
+        },
+        {
+          "label": "Spreadsheet Reliance",
+          "value": "Eliminated"
+        }
+      ],
+      "sections": [
+        {
+          "id": "sec-why-mattered",
+          "title": "Why This Project Mattered",
+          "summaryCallout": "This project wasn't about calculating Demurrage and Detention fees—it was about giving customers the visibility they needed to make better operational decisions before those costs were incurred.",
+          "type": "standard",
+          "content": [
+            "International trade doesn't end when a shipment reaches its destination.",
+            "Once a shipping container arrives, customers are responsible for unloading the goods and returning the empty container to the carrier within an agreed free period. If the container is returned late, carriers begin charging Demurrage and Detention (D&D) fees—costs that can quickly erode the profitability of a shipment.",
+            "The problem wasn't that customers didn't understand these charges.",
+            "The problem was that they didn't have timely visibility into where their containers were, how many free days remained, or when charges would begin.",
+            "By the time an invoice arrived from the carrier or third-party logistics provider (3PL), it was already too late to avoid the cost.",
+            "This project wasn't about calculating Demurrage and Detention fees. It was about giving customers the visibility they needed to make better operational decisions before those costs were incurred."
+          ]
+        },
+        {
+          "id": "sec-exec-summary",
+          "title": "Executive Summary",
+          "summaryCallout": "Product Owner initiative at Amber Road (WiseTech Global) designing real-time container tracking, free-day tracking, and proactive notifications to reduce unnecessary Demurrage and Detention costs.",
+          "type": "standard",
+          "content": [
+            "Project: Container Visibility & Demurrage Management",
+            "Company: Amber Road (WiseTech Global)",
+            "Product Module: Logistics",
+            "Industry: Global Trade & Logistics",
+            "Role: Product Owner",
+            "Primary Objective: Design a new logistics capability that provided customers with real-time visibility into container movements, tracked available free days, proactively notified users before charges were incurred, and helped reduce unnecessary Demurrage and Detention costs."
+          ]
+        },
+        {
+          "id": "sec-understanding-business",
+          "title": "Understanding the Business",
+          "summaryCallout": "While the financial impact of Demurrage & Detention was well understood, operational teams lacked centralized visibility into location, free days, and accumulating liability.",
+          "type": "standard",
+          "content": [
+            "Every international shipment depends on shared assets.",
+            "Shipping containers belong to carriers or third-party logistics providers, not the companies importing goods. Customers receive these containers with an agreed number of free days to unload the cargo and return the empty container.",
+            "Failing to return containers on time results in Demurrage and Detention charges. For organizations managing hundreds or thousands of containers simultaneously, these charges can become significant operational costs.",
+            "While the financial impact was well understood, the operational challenge remained visibility. Customers lacked a centralized way to understand:"
+          ],
+          "bullets": [
+            "Where containers were currently located",
+            "How many free days remained",
+            "Which containers were at risk of incurring charges",
+            "How much potential liability was accumulating"
+          ]
+        },
+        {
+          "id": "sec-understanding-customer",
+          "title": "Understanding the Customer",
+          "summaryCallout": "Despite operating sophisticated global supply chains, almost every organization was managing D&D using spreadsheets, emails, or manual calculations.",
+          "type": "standard",
+          "content": [
+            "The feature supported multiple user groups across the logistics lifecycle, including Logistics Managers, Supply Chain Managers, Import Teams, Freight Forwarders, Customs Teams, and Transportation Planners.",
+            "Although each group had different responsibilities, they all relied on accurate container information to coordinate transportation activities and avoid unnecessary costs.",
+            "During customer interviews, one pattern quickly emerged: Almost every organization was managing Demurrage and Detention using spreadsheets, emails, or manual calculations.",
+            "Despite operating sophisticated global supply chains, customers were relying on disconnected tools that rarely reflected real-time container status. As a result, calculations quickly became outdated, creating inaccurate forecasts and unexpected carrier invoices."
+          ]
+        },
+        {
+          "id": "sec-customer-problem",
+          "title": "The Customer Problem",
+          "summaryCallout": "The business problem wasn't calculating fees—it was helping customers avoid them altogether before the container became an afterthought.",
+          "type": "problem",
+          "content": [
+            "Customers generally focused on one milestone: Receiving their goods. Once products were unloaded, operational attention shifted elsewhere, and the container itself became an afterthought.",
+            "Days or weeks later, customers would receive an invoice from the carrier detailing unexpected Demurrage and Detention charges. These weren't planned transportation costs—they were avoidable operational costs caused by limited visibility.",
+            "The real business problem wasn't calculating fees. The business problem was helping customers avoid them altogether."
+          ]
+        },
+        {
+          "id": "sec-product-vision",
+          "title": "Product Vision",
+          "summaryCallout": "Enable customers to manage containers proactively rather than reactively. The best operational decisions happen before the invoice arrives.",
+          "type": "strategy",
+          "content": [
+            "The vision was straightforward: Enable customers to manage containers proactively rather than reactively.",
+            "Instead of discovering charges after invoices arrived, the platform would provide continuous visibility into container status, remaining free days, and expected charges before financial penalties occurred.",
+            "The product also created value for carriers and logistics providers by giving them better visibility into container ownership, expected returns, and anticipated revenue without relying on manual tracking processes.",
+            "My objective wasn't simply to display container information. It was to help customers make better operational decisions before costs became unavoidable."
+          ]
+        },
+        {
+          "id": "sec-discovery-research",
+          "title": "Discovery & Research",
+          "summaryCallout": "Rather than asking customers which reports they wanted, asking how they actually managed container returns revealed that customers didn't need another report—they needed actionable visibility.",
+          "type": "standard",
+          "content": [
+            "The opportunity emerged through customer interviews, market research, and conversations with logistics professionals.",
+            "Rather than asking customers which reports they wanted, I focused on understanding how they actually managed container returns. Most relied on Excel spreadsheets, email reminders, manual calculations, and individual knowledge.",
+            "None of these approaches provided accurate, real-time visibility. As container volumes increased, manual processes became increasingly difficult to maintain.",
+            "The product opportunity became clear: Customers didn't need another report. They needed actionable visibility."
+          ]
+        },
+        {
+          "id": "sec-product-strategy",
+          "title": "Product Strategy & Proactive Alerts",
+          "summaryCallout": "Shifting the product from reporting history to influencing operational decisions through proactive warnings while users still had time to act.",
+          "type": "strategy",
+          "content": [
+            "Rather than positioning the capability as a financial reporting tool, the product strategy focused on operational decision support. The objective was to help customers understand container locations, monitor available free days, anticipate future charges, plan container returns, and reduce unnecessary logistics costs.",
+            "One capability became especially important: Proactive notifications before free days expired.",
+            "Instead of simply informing customers about incurred charges, the product warned them while they still had time to act. This shifted the product from reporting history to influencing operational decisions."
+          ]
+        },
+        {
+          "id": "sec-my-role",
+          "title": "My Role & Responsibilities",
+          "summaryCallout": "As Product Owner, led the initiative from discovery through delivery, working daily with Engineering to ensure the product reflected real customer workflows.",
+          "type": "standard",
+          "content": [
+            "As Product Owner, I was responsible for leading the initiative from discovery through delivery.",
+            "Key responsibilities included:"
+          ],
+          "bullets": [
+            "Customer discovery & interviews",
+            "Product roadmap definition",
+            "User experience design & wireframes",
+            "Workflow modelling & story mapping",
+            "User stories & acceptance criteria",
+            "Customer validation & feedback loops",
+            "Daily collaboration with Engineering",
+            "Sprint planning & product demonstrations"
+          ]
+        },
+        {
+          "id": "sec-key-decisions",
+          "title": "Key Product Decisions",
+          "summaryCallout": "The guiding principle throughout the project was simple: The best operational decisions happen before the invoice arrives.",
+          "type": "strategy",
+          "content": [
+            "One of the most valuable product decisions was focusing on proactive visibility rather than retrospective reporting.",
+            "Rather than designing dashboards that explained costs after they occurred, we prioritized features that helped customers avoid unnecessary charges altogether.",
+            "The notification capability became one of the strongest examples of this philosophy: warning logistics teams beforehand to coordinate container returns while avoiding carrier penalties."
+          ]
+        },
+        {
+          "id": "sec-collaboration",
+          "title": "Cross-functional Collaboration",
+          "summaryCallout": "Customer validation across countries, ports, and carriers ensured the product remained flexible enough to support diverse logistics environments.",
+          "type": "standard",
+          "content": [
+            "Developing the product required close collaboration across Engineering, UX, QA, Customers, and Business Stakeholders.",
+            "Customer validation played an especially important role because operational processes varied across countries, ports, and carriers.",
+            "These conversations ensured the product remained flexible enough to support different logistics environments while maintaining a consistent user experience."
+          ]
+        },
+        {
+          "id": "sec-product-capabilities",
+          "title": "Product Capabilities",
+          "summaryCallout": "Designed around one objective: Helping customers act before costs occurred.",
+          "type": "solution",
+          "content": [
+            "The solution introduced capabilities focused on operational visibility rather than transaction processing:"
+          ],
+          "bullets": [
+            "Real-time container visibility",
+            "Free-day tracking countdown",
+            "Estimated Demurrage & Detention charges calculation",
+            "Container lifecycle monitoring",
+            "Proactive notifications before free days expire",
+            "Operational dashboards and reporting",
+            "Improved shipment visibility and logistics planning"
+          ]
+        },
+        {
+          "id": "sec-tradeoffs",
+          "title": "Challenges & Trade-offs",
+          "summaryCallout": "Balancing standard workflows with configurable business rules to support different carrier free-day policies and regional logistics practices.",
+          "type": "tradeoffs",
+          "content": [
+            "Although the underlying business problem was consistent, implementation required accommodating operational differences across regions.",
+            "Challenges included different carrier free-day policies, port-specific operational processes, country-specific logistics practices, and varying customer workflows.",
+            "Rather than creating separate products for every scenario, the platform balanced standard workflows with configurable business rules that supported different operational environments."
+          ]
+        },
+        {
+          "id": "sec-business-impact",
+          "title": "Business Impact & Value Delivered",
+          "summaryCallout": "Shifted organizations from reacting to invoices toward proactively managing container returns.",
+          "type": "outcome",
+          "content": [
+            "The product delivered measurable operational improvements without changing customers' logistics processes:",
+            "• Better container visibility and operational reporting.",
+            "• Greater customer confidence in tracking container return deadlines.",
+            "• Reduced dependence on manual spreadsheets and offline tracking.",
+            "• More proactive logistics decision-making.",
+            "• Stronger overall operational efficiency across global trade teams."
+          ]
+        },
+        {
+          "id": "sec-lessons-learned",
+          "title": "Lessons Learned",
+          "summaryCallout": "Customers rarely ask for visibility—they ask for fewer problems. Enterprise software should influence decisions, not simply record transactions.",
+          "type": "standard",
+          "content": [
+            "This project reinforced an important Product Management lesson: Customers rarely ask for visibility—they ask for fewer problems.",
+            "The real opportunity wasn't building a Demurrage and Detention feature. It was helping customers avoid unnecessary costs through better operational awareness.",
+            "The experience also reinforced my belief that enterprise software should influence decisions—not simply record transactions. The best enterprise products help customers act before problems occur."
+          ]
+        },
+        {
+          "id": "sec-building-today",
+          "title": "If I Were Building This Today (AI Vision)",
+          "summaryCallout": "AI would significantly improve discovery and operational decision support by providing predictive alerts and intelligent return recommendations.",
+          "type": "standard",
+          "content": [
+            "If I were building this capability today, Artificial Intelligence would significantly improve both product discovery and operational decision support.",
+            "During product discovery, AI could accelerate wireframe generation, workflow validation, customer journey visualization, edge-case identification, and dashboard prototyping.",
+            "Within the product itself, AI could provide:"
+          ],
+          "bullets": [
+            "Predictive alerts for containers at risk of exceeding free days",
+            "Estimated return recommendations based on historical transportation patterns",
+            "Intelligent prioritization of containers requiring immediate action",
+            "Natural language summaries explaining why specific shipments are at risk",
+            "Decision-support dashboards that recommend the next best operational action"
+          ]
+        },
+        {
+          "id": "sec-key-takeaways",
+          "title": "Key Takeaways & Product Philosophy",
+          "summaryCallout": "People don't wake up wanting another dashboard—they want fewer surprises. Great software helps businesses make better decisions.",
+          "type": "standard",
+          "content": [
+            "My Product Philosophy: People don't wake up wanting another dashboard—they want fewer surprises.",
+            "Every unnecessary cost usually begins as an operational problem that wasn't visible early enough.",
+            "My goal as a Product Manager is to build products that surface the right information at the right time so customers can make confident decisions before problems become expensive.",
+            "To me, that's what great enterprise software should do. It shouldn't just record business operations—it should help businesses make better decisions."
+          ],
+          "keyTakeaways": [
+            "Visibility creates better operational decisions.",
+            "The most valuable logistics products help customers prevent costs rather than simply report them.",
+            "Customer discovery often reveals that manual workarounds, such as spreadsheets and emails, hide significant product opportunities.",
+            "Enterprise software should support proactive decision-making instead of reactive reporting.",
+            "Great Product Management is about helping customers solve business problems before they become financial problems."
+          ]
+        }
+      ]
+    }
+  ],
+  "skillCategories": [
+    {
+      "id": "cat-pm",
+      "title": "Product Leadership",
+      "iconName": "Target",
+      "description": "Building enterprise products by understanding customer problems, aligning business goals, and delivering practical solutions through cross-functional collaboration.",
+      "skills": [
+        {
+          "name": "Product Strategy & Vision",
+          "experience": "16+ Years",
+          "howIApplyIt": "Define long-term product direction by balancing customer needs, business goals, market opportunities, and engineering constraints. I build product roadmaps that simplify complex operational workflows while supporting scalable platform growth.",
+          "keyAreas": [
+            "Product Vision",
+            "Product Strategy",
+            "Product Positioning",
+            "Roadmapping",
+            "Business Alignment"
+          ]
+        },
+        {
+          "name": "Product Discovery & Customer Research",
+          "experience": "16+ Years",
+          "howIApplyIt": "I work directly with customers through interviews, Customer Advisory Boards, workshops, implementation feedback, support cases, and product analytics to understand operational challenges before defining solutions.",
+          "philosophy": "Understand the workflow before designing the feature.",
+          "keyAreas": [
+            "Customer Discovery",
+            "User Research",
+            "Customer Advisory Boards",
+            "Journey Mapping",
+            "Opportunity Assessment"
+          ]
+        },
+        {
+          "name": "Roadmapping & Prioritization",
+          "experience": "16+ Years",
+          "howIApplyIt": "Prioritize initiatives using customer impact, business value, engineering effort, and long-term strategic fit. I believe product decisions should be driven by customer evidence and business outcomes rather than the loudest stakeholder.",
+          "frameworks": [
+            "RICE",
+            "MoSCoW",
+            "Value vs Effort",
+            "Outcome-driven Planning"
+          ]
+        },
+        {
+          "name": "Executive Stakeholder Management",
+          "experience": "16+ Years",
+          "howIApplyIt": "Collaborate closely with Engineering, UX, QA, Sales, Professional Services, Customer Support, Executive Leadership, and enterprise customers to align product direction and successfully deliver strategic initiatives.",
+          "philosophy": "Strong products are built through alignment, not authority.",
+          "keyAreas": [
+            "Cross-Functional Alignment",
+            "Executive Communication",
+            "Conflict Resolution",
+            "Strategic Buy-In",
+            "Customer Validation"
+          ]
+        },
+        {
+          "name": "Agile Product Delivery",
+          "experience": "16+ Years",
+          "howIApplyIt": "Lead products from discovery through delivery by defining epics, user stories, acceptance criteria, sprint planning, release planning, customer validation, and continuous product improvement.",
+          "philosophy": "The objective is not simply to deliver software. The objective is to deliver customer value.",
+          "keyAreas": [
+            "Epic & Story Definition",
+            "Acceptance Criteria",
+            "Sprint & Release Planning",
+            "Product Ownership",
+            "Continuous Improvement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-erp",
+      "title": "Enterprise Platforms",
+      "iconName": "Building2",
+      "description": "Experience building enterprise software across ERP, Manufacturing, Warehouse Management, Procurement, and Supply Chain platforms.",
+      "skills": [
+        {
+          "name": "ERP Product Management",
+          "experience": "16+ Years",
+          "howIApplyIt": "Building and enhancing core ERP capabilities across financials, inventory, purchasing, and order processing to support complex enterprise operations.",
+          "keyAreas": [
+            "Core ERP Architecture",
+            "Multi-Company & Currency",
+            "System Integrations",
+            "Financial Workflows",
+            "Data Standardization"
+          ]
+        },
+        {
+          "name": "Manufacturing & Production",
+          "experience": "16+ Years",
+          "howIApplyIt": "Designing production and material planning workflows that connect shop floor execution with enterprise ERP systems to improve operational efficiency.",
+          "keyAreas": [
+            "BOM & Routing",
+            "Material Requirements Planning (MRP)",
+            "Shop Floor Execution",
+            "Work Order Processing",
+            "Capacity Planning"
+          ]
+        },
+        {
+          "name": "Warehouse Management (WMS)",
+          "experience": "16+ Years",
+          "howIApplyIt": "Modernizing legacy warehouse operations with responsive web interfaces, guided mobile picking, bin management, and real-time inventory tracking.",
+          "keyAreas": [
+            "Guided Picking & Receiving",
+            "Bin & Zone Management",
+            "RF & Web Clients",
+            "Inventory Accuracy",
+            "Dock-to-Stock Workflows"
+          ]
+        },
+        {
+          "name": "Supply Chain & Logistics",
+          "experience": "16+ Years",
+          "howIApplyIt": "Orchestrating end-to-end supply chain flows connecting suppliers, distributors, and logistics providers for seamless document and material movement.",
+          "keyAreas": [
+            "EDI & B2B Gateways",
+            "Supplier Onboarding",
+            "Shipment Tracking",
+            "Compliance & Documentation",
+            "Partner Collaboration"
+          ]
+        },
+        {
+          "name": "Inventory & Order Management",
+          "experience": "16+ Years",
+          "howIApplyIt": "Simplifying order-to-cash and procure-to-pay processes while providing real-time inventory visibility across distributed warehouse networks.",
+          "keyAreas": [
+            "Order-to-Cash (O2C)",
+            "Procure-to-Pay (P2P)",
+            "Multi-Location Inventory",
+            "Safety Stock Rules",
+            "Fulfillment Orchestration"
+          ]
+        },
+        {
+          "name": "Procurement & Business Process Optimization",
+          "experience": "16+ Years",
+          "howIApplyIt": "Streamlining vendor management, purchase order generation, and invoice reconciliation to remove manual overhead from enterprise procurement.",
+          "keyAreas": [
+            "Vendor Onboarding",
+            "Automated PO Creation",
+            "Reconciliation Workflows",
+            "Approval Matrices",
+            "Process Automation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-sc",
+      "title": "Supply Chain & Logistics",
+      "iconName": "Truck",
+      "description": "Building products that simplify complex logistics operations while improving visibility, operational efficiency, and decision making.",
+      "skills": [
+        {
+          "name": "Warehouse Management & Operations",
+          "experience": "16+ Years",
+          "howIApplyIt": "Designing intuitive software for warehouse teams that streamlines receiving, putaway, cycle counting, picking, packing, and shipping.",
+          "keyAreas": [
+            "Directed Workflows",
+            "Inventory Control",
+            "Labor Efficiency",
+            "Batch & Serial Tracking",
+            "Cross-Docking"
+          ]
+        },
+        {
+          "name": "Supplier Integration & B2B Connectivity",
+          "experience": "16+ Years",
+          "howIApplyIt": "Creating scalable supplier portals and integration gateways that eliminate manual data entry, standardize document exchange, and accelerate partner onboarding.",
+          "keyAreas": [
+            "EDI Gateways",
+            "Supplier Portals",
+            "Document Standardization",
+            "API Integrations",
+            "Partner Onboarding"
+          ]
+        },
+        {
+          "name": "Inventory & Container Visibility",
+          "experience": "16+ Years",
+          "howIApplyIt": "Providing real-time tracking of container movements, port milestones, and inventory in transit to help logistics teams make proactive operational decisions.",
+          "keyAreas": [
+            "Real-Time Tracking",
+            "In-Transit Visibility",
+            "Milestone Alerts",
+            "Asset Tracking",
+            "Multi-Modal Transport"
+          ]
+        },
+        {
+          "name": "Demurrage & Detention Cost Management",
+          "experience": "16+ Years",
+          "howIApplyIt": "Designing proactive alert systems that monitor free days and warn logistics managers before expensive carrier penalties accrue.",
+          "keyAreas": [
+            "Free-Day Rule Engine",
+            "Proactive Cost Alerts",
+            "Penalty Prevention",
+            "3PL & Carrier Auditing",
+            "Liability Forecasting"
+          ]
+        },
+        {
+          "name": "Logistics & Enterprise Workflows",
+          "experience": "16+ Years",
+          "howIApplyIt": "Simplifying international trade compliance, customs documentation, and logistics workflows for global supply chain operations.",
+          "keyAreas": [
+            "Import/Export Workflows",
+            "Customs Compliance",
+            "Document Generation",
+            "Carrier Rate Management",
+            "Customer Operations"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-ai",
+      "title": "AI & Modern Product Management",
+      "iconName": "Sparkles",
+      "description": "Exploring practical applications of Artificial Intelligence to improve enterprise software, product discovery, customer experience, and engineering productivity.",
+      "skills": [
+        {
+          "name": "AI-Assisted Product Discovery & Requirements",
+          "experience": "Applied Practice",
+          "howIApplyIt": "Utilizing LLMs and AI tools to synthesize customer interview notes, analyze support tickets, extract user patterns, and draft comprehensive product specs faster.",
+          "keyAreas": [
+            "User Feedback Synthesis",
+            "Spec Generation",
+            "User Story Mapping",
+            "Edge Case Discovery",
+            "Requirement Validation"
+          ]
+        },
+        {
+          "name": "Practical Enterprise AI Applications",
+          "experience": "Enterprise Practice",
+          "howIApplyIt": "Integrating LLMs and intelligent automation into enterprise software to simplify data mapping, automate repetitive data entry, and offer contextual decision support.",
+          "keyAreas": [
+            "Data Mapping Suggestions",
+            "Anomalies Detection",
+            "Intelligent Assistants",
+            "Automated Summaries",
+            "Decision Support"
+          ]
+        },
+        {
+          "name": "Prompt Engineering & Workflow Automation",
+          "experience": "Applied Practice",
+          "howIApplyIt": "Designing structured prompts and automated workflows to accelerate market research, competitive analysis, and rapid prototyping of product concepts.",
+          "keyAreas": [
+            "Structured Prompting",
+            "Context Engineering",
+            "Workflow Automation",
+            "Competitive Benchmarking",
+            "Knowledge Management"
+          ]
+        },
+        {
+          "name": "Rapid Prototyping & Cursor AI",
+          "experience": "Hands-on",
+          "howIApplyIt": "Leveraging modern AI-powered coding tools like Cursor and LLMs to quickly build interactive prototypes for early customer validation and engineering alignment.",
+          "keyAreas": [
+            "Interactive Prototypes",
+            "Cursor AI / Claude",
+            "Rapid Validation",
+            "UI/UX Proofs of Concept",
+            "Design System Alignment"
+          ]
+        },
+        {
+          "name": "Modern Product Management Philosophy",
+          "experience": "Philosophy",
+          "howIApplyIt": "Applying AI to enhance human judgment, speed up feedback loops, and improve decision making—using technology as a force multiplier for customer value, not simply because it is a trend.",
+          "keyAreas": [
+            "Outcome-Driven AI",
+            "Evidence-Based Decisions",
+            "Human-in-the-Loop",
+            "Pragmatic Innovation",
+            "Product Delivery Velocity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cat-tech",
+      "title": "Technical & Delivery",
+      "iconName": "Cloud",
+      "description": "Strong technical understanding enables better collaboration with engineering teams and better product decisions.",
+      "skills": [
+        {
+          "name": "API & Integration Architecture",
+          "experience": "Technical Fluency",
+          "howIApplyIt": "Collaborating with architects to design REST APIs, Webhooks, and GraphQL schemas that enable seamless B2B integrations and system interoperability.",
+          "keyAreas": [
+            "REST APIs",
+            "GraphQL",
+            "Webhooks",
+            "JSON/XML Data Mapping",
+            "Integration Workflows"
+          ]
+        },
+        {
+          "name": "Cloud Platforms & Microservices",
+          "experience": "Technical Fluency",
+          "howIApplyIt": "Evaluating cloud infrastructure trade-offs (Azure, AWS) and microservice patterns to ensure product scalability, security, and high availability.",
+          "keyAreas": [
+            "Azure / Cloud SaaS",
+            "Microservices Architecture",
+            "Event-Driven Systems",
+            "Security & Compliance",
+            "System Scalability"
+          ]
+        },
+        {
+          "name": "Database & Query Fluency",
+          "experience": "Technical Fluency",
+          "howIApplyIt": "Writing SQL queries to analyze product usage, validate data models, troubleshoot customer issues, and verify system performance directly.",
+          "keyAreas": [
+            "SQL Querying",
+            "Data Modeling Discussions",
+            "Relational Databases",
+            "Data Validation",
+            "Analytics & Reporting"
+          ]
+        },
+        {
+          "name": "System Design & Technical Collaboration",
+          "experience": "Technical Fluency",
+          "howIApplyIt": "Participating in system design discussions with engineering to balance technical debt, performance constraints, and user experience requirements.",
+          "keyAreas": [
+            "System Architecture Discussions",
+            "Technical Debt Trade-offs",
+            "Non-Functional Requirements",
+            "Feasibility Evaluation",
+            "Engineering Alignment"
+          ]
+        },
+        {
+          "name": "Agile Execution & Technical Ownership",
+          "experience": "Technical Fluency",
+          "howIApplyIt": "Translating complex technical and business requirements into clear epics, user stories, and acceptance criteria that empower engineering sprints.",
+          "keyAreas": [
+            "Scrum & Agile",
+            "Epic & Story Writing",
+            "Acceptance Criteria",
+            "Release Management",
+            "Sprint Refinement"
+          ]
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-cspo",
+      "title": "Certified Scrum Product Owner (CSPO)®",
+      "issuer": "Scrum Alliance",
+      "issueDate": "Certified",
+      "description": "Agile product management, product backlog prioritization, user story mapping, sprint planning, and cross-functional team delivery.",
+      "skillsVerified": [
+        "Agile Product Management",
+        "User Story Mapping",
+        "Backlog Refinement",
+        "Sprint Planning"
+      ]
+    },
+    {
+      "id": "cert-six-sigma",
+      "title": "Six Sigma Black Belt (CSSBB)",
+      "issuer": "Six Sigma Institute",
+      "issueDate": "Certified",
+      "description": "Data-driven process optimization, root cause analysis, waste reduction, workflow standardization, and continuous quality improvement.",
+      "skillsVerified": [
+        "Process Optimization",
+        "Root Cause Analysis",
+        "Defect Reduction",
+        "Continuous Improvement"
+      ]
+    },
+    {
+      "id": "cert-mcp",
+      "title": "Microsoft Certified Professional (MCP)",
+      "issuer": "Microsoft",
+      "issueDate": "Certified",
+      "description": "Demonstrated technical proficiency in enterprise software architecture, operating systems, and developer infrastructure.",
+      "skillsVerified": [
+        "Enterprise Software",
+        "Technical Architecture",
+        "System Design"
+      ]
+    },
+    {
+      "id": "cert-sap-sd",
+      "title": "SAP R/3 SD 4.7 Certification",
+      "issuer": "SAP",
+      "issueDate": "Certified",
+      "description": "Configuration and execution of SAP Sales & Distribution (SD) module, order-to-cash workflows, master data alignment, and ERP integration.",
+      "skillsVerified": [
+        "SAP SD Module",
+        "Order-to-Cash (O2C)",
+        "ERP Configuration",
+        "Enterprise Workflows"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-mba",
+      "degree": "MBA — Master of Business Administration",
+      "institution": "Visvesvaraya Technological University",
+      "description": "Specialization in Business Administration, Strategic Management, and Operations."
+    },
+    {
+      "id": "edu-bba",
+      "degree": "BBA — Bachelor of Business Administration",
+      "institution": "Annamalai University",
+      "description": "Foundational education in Business Management, Accounting, and Business Operations."
+    }
+  ],
+  "blogPosts": [
+    {
+      "id": "blog-1",
+      "title": "The Agentic Shift in Cloud ERP: Moving from Record-Keeping to Autonomous Action",
+      "slug": "agentic-shift-in-cloud-erp",
+      "excerpt": "Why traditional ERP systems are evolving into self-healing, agentic decision engines that resolve supply chain bottlenecks before humans notice them.",
+      "publishDate": "August 2026",
+      "readTime": "6 min read",
+      "author": "Surya Prashanth",
+      "tags": [
+        "AI Products",
+        "Cloud ERP",
+        "Product Leadership"
+      ],
+      "published": true,
+      "content": "For decades, Enterprise Resource Planning (ERP) systems served as high-friction digital filing cabinets. They recorded transactions, updated ledgers, and required armies of human operators to click through hundreds of form fields.\n\nIn 2026, the paradigm has fundamentally shifted. With agentic AI models natively embedded into modern cloud ERPs, the software no longer waits for a human to re-order inventory or adjust pricing during supply shortages.\n\n### The 3 Stages of ERP Evolution\n1. **System of Record (2000s):** Store raw financial and inventory data in monolithic databases.\n2. **System of Intelligence (2015s):** Provide dashboards, BI reports, and static rule-based alerts.\n3. **System of Action (2026+):** Autonomous agents execute end-to-end PO revisions, re-route logistics streams, and reconcile supplier invoices in real time.\n\n### Business Outcomes Realized\nAt Nexus Enterprise Cloud, embedding agentic workflows into our Supply Chain suite allowed enterprise customers to reduce order-to-cash cycle times by 38% while cutting manual operational exceptions by over 60%.\n\nThe future of ERP isn't prettier dashboards—it is autonomous execution guided by human oversight."
+    },
+    {
+      "id": "blog-2",
+      "title": "Bridging human pickers & AGV robotics in high-density warehouse environments",
+      "slug": "human-picker-agv-robotics-wms",
+      "excerpt": "How modern Warehouse Management Systems must design unified UX for human teams working side-by-side with autonomous mobile robots.",
+      "publishDate": "June 2026",
+      "readTime": "8 min read",
+      "author": "Surya Prashanth",
+      "tags": [
+        "Warehouse Management",
+        "Robotics",
+        "User Experience"
+      ],
+      "published": true,
+      "content": "A common mistake product teams make when introducing robotics to a warehouse floor is treating human workers and AGVs as separate operational tracks.\n\nTo achieve peak dock-to-stock efficiency, the WMS control plane must act as a conductor for a single unified orchestra.\n\n### Key UX Principles for Mixed Human-Robot Fulfillment\n- **Dynamic Path Allocation:** Calculate pick paths that minimize human fatigue while keeping AGV transit corridors clear.\n- **Micro-Task Dispatching:** Send task instructions to wearable pick-to-light wristbands or spatial displays in under 50ms.\n- **Fail-Safe Exception Handling:** When a robot encounters an obstacle or unreadable barcode, seamlessly route the nearest human operator without stopping the entire picking wave.\n\nBy focusing on friction-free human-robot collaboration, we boosted pick throughput by 68% across 12 major fulfillment centers."
+    },
+    {
+      "id": "blog-3",
+      "title": "Product Leadership at Scale: Managing 100+ Engineer Teams Across 3 Continents",
+      "slug": "product-leadership-100-plus-engineers",
+      "excerpt": "A 20-year retrospective on building high-trust product cultures, radical alignment, and scaling product-led growth in complex enterprise domains.",
+      "publishDate": "May 2026",
+      "readTime": "7 min read",
+      "author": "Surya Prashanth",
+      "tags": [
+        "Leadership",
+        "Product Strategy",
+        "Management"
+      ],
+      "published": true,
+      "content": "Scaling a product org from 5 PMs to 45 across North America, Europe, and Asia requires moving away from micromanagement and towards outcome-based autonomy.\n\n### The 4 Pillars of Product Scaling\n1. **Radical Context, Not Rules:** Ensure every engineer and designer understands the customer's financial pain point before writing a single line of code.\n2. **Decentralized Decision Frameworks:** Empower team leads to make two-way door decisions rapidly without waiting for C-suite signoff.\n3. **Product-Engineering Synergy:** Treat engineering managers as equal strategic partners in defining product feasibility and architecture.\n4. **Ruthless Prioritization:** Focus on high-leverage customer workflows that directly move business KPIs.\n\nBuilding great products is ultimately about building great teams that thrive under clear direction and high psychological safety."
+    }
+  ]
+}
