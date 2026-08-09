@@ -78,7 +78,7 @@ export const AIChatWidget: React.FC<AIChatWidgetProps> = ({ isOpen, onClose, onO
       const errorMsg: ChatMessage = {
         id: 'ai-err-' + Date.now(),
         role: 'assistant',
-        text: "Surya Prashanth is a Senior Product Manager & AI Strategist with 20+ years of experience in Cloud ERP, Supply Chain, and Autonomous WMS. Reach him directly at surya.prashanth.kp@gmail.com.",
+        text: "Surya Prashanth is a Senior Product Manager & AI Strategist with 20+ years of experience in Cloud ERP, Supply Chain, and Autonomous WMS. Reach him directly at surya.prashanth.kp@hotmail.com.",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);

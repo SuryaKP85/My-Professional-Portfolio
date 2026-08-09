@@ -131,7 +131,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                   </div>
                   <div>
                     <p className="text-slate-400 text-[11px] font-semibold">GitHub Code & Open Standards</p>
-                    <p className="text-slate-100 font-medium group-hover:text-cyan-300 transition-colors">github.com/suryaprashanth</p>
+                    <p className="text-slate-100 font-medium group-hover:text-cyan-300 transition-colors">github.com/SuryaKP85</p>
                   </div>
                 </a>
 

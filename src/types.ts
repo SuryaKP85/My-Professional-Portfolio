@@ -16,6 +16,25 @@ export interface CaseStudySection {
   metrics?: { label: string; value: string }[];
 }
 
+export interface CaseStudyInitiative {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge?: string;
+  defaultExpanded?: boolean;
+  sections: CaseStudySection[];
+}
+
+export interface OverallBusinessImpact {
+  summary: string;
+  metricsTable: {
+    outcome: string;
+    impact: string;
+    description?: string;
+  }[];
+  foundationNote?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -34,6 +53,8 @@ export interface Project {
   image: string;
   metrics: { label: string; value: string }[];
   sections?: CaseStudySection[];
+  initiatives?: CaseStudyInitiative[];
+  overallBusinessImpact?: OverallBusinessImpact;
 }
 
 export interface ExperienceItem {
@@ -51,9 +72,15 @@ export interface ExperienceItem {
   productsOwned: string[];
   businessImpact: string;
   technologies: string[];
-  kpisImproved: string[];
+  kpisImproved?: string[];
   whatILearned?: string;
   companyLogo?: string;
+  industryPartnerships?: {
+    description: string;
+    oceanCarriers: string[];
+    logisticsProviders: string[];
+    enterpriseCustomers: string[];
+  };
 }
 
 export interface SkillItem {

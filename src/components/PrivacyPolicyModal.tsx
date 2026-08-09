@@ -52,7 +52,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
 
           <h3 className="text-sm font-bold text-slate-100">4. Data Subject Rights (GDPR / CCPA)</h3>
           <p>
-            You retain the right to request access to, deletion of, or modification of any personal information provided to this site at any time. Simply email <span className="text-cyan-400 font-mono">surya.prashanth.kp@gmail.com</span> with your request.
+            You retain the right to request access to, deletion of, or modification of any personal information provided to this site at any time. Simply email <span className="text-cyan-400 font-mono">surya.prashanth.kp@hotmail.com</span> with your request.
           </p>
         </div>
 

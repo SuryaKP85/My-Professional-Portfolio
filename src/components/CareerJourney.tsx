@@ -3,7 +3,6 @@ import {
   Briefcase, 
   Calendar, 
   MapPin, 
-  TrendingUp, 
   ChevronDown, 
   ChevronUp, 
   Layers, 
@@ -13,7 +12,8 @@ import {
   Filter,
   Lightbulb,
   Sparkles,
-  Target
+  Target,
+  Globe
 } from 'lucide-react';
 import { ExperienceItem } from '../types';
 
@@ -26,9 +26,9 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({
     'exp-5': true,
     'exp-4': true,
-    'exp-3': false,
-    'exp-2': false,
-    'exp-1': false
+    'exp-3': true,
+    'exp-2': true,
+    'exp-1': true
   });
 
   const categories = ['ALL', 'ERP & Manufacturing', 'Warehouse Management', 'Logistics', 'Supply Chain', 'Enterprise Tech'];
@@ -100,7 +100,7 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
         {/* Timeline Container */}
         <div className="relative border-l-2 border-slate-800/80 ml-4 sm:ml-8 lg:ml-12 space-y-10 text-left">
           {filteredExperiences.map((exp) => {
-            const isExpanded = !!expandedIds[exp.id];
+            const isExpanded = expandedIds[exp.id] ?? true;
             return (
               <div key={exp.id} className="relative pl-6 sm:pl-10 group">
                 
@@ -138,13 +138,6 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
                     </div>
 
                     <div className="flex items-center gap-3">
-                      {exp.businessImpact && (
-                        <div className="hidden sm:block text-right">
-                          <p className="text-xs text-slate-400">Core Impact</p>
-                          <p className="text-xs font-bold text-emerald-400">{exp.businessImpact.split(',')[0]}</p>
-                        </div>
-                      )}
-
                       <button
                         onClick={() => toggleExpand(exp.id)}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors"
@@ -223,6 +216,53 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
                         </div>
                       )}
 
+                      {/* Dedicated Key Industry Partnerships Subsection (GT Nexus / or any exp with industryPartnerships) */}
+                      {exp.industryPartnerships && (
+                        <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border border-cyan-900/40 shadow-inner space-y-4">
+                          <div className="flex items-center gap-2">
+                            <div className="p-1.5 rounded-lg bg-cyan-950 border border-cyan-800/80 text-cyan-400">
+                              <Globe className="w-4 h-4" />
+                            </div>
+                            <h4 className="text-sm font-bold text-slate-100 tracking-wide">
+                              Key Industry Partnerships
+                            </h4>
+                          </div>
+
+                          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            {exp.industryPartnerships.description}
+                          </p>
+
+                          <div className="grid sm:grid-cols-3 gap-4 pt-3 border-t border-slate-800/80">
+                            <div className="space-y-1.5 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800/80">
+                              <span className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider block">
+                                Global Ocean Carriers
+                              </span>
+                              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+                                {exp.industryPartnerships.oceanCarriers.join(' • ')}
+                              </p>
+                            </div>
+
+                            <div className="space-y-1.5 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800/80">
+                              <span className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider block">
+                                3PL Logistics Providers
+                              </span>
+                              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+                                {exp.industryPartnerships.logisticsProviders.join(' • ')}
+                              </p>
+                            </div>
+
+                            <div className="space-y-1.5 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800/80">
+                              <span className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider block">
+                                Enterprise Customers
+                              </span>
+                              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+                                {exp.industryPartnerships.enterpriseCustomers.join(' • ')}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       {/* What I Learned */}
                       {exp.whatILearned && (
                         <div className="p-4 rounded-xl bg-cyan-950/30 border border-cyan-800/40 relative">
@@ -236,26 +276,12 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
                         </div>
                       )}
 
-                      {/* KPIs Improved & Business Impact */}
-                      <div className="grid sm:grid-cols-2 gap-4 bg-slate-950/80 p-4 rounded-xl border border-slate-800/80">
-                        <div>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-                            <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-                            <span>KPIs & Metrics</span>
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {exp.kpisImproved.map((kpi, idx) => (
-                              <span key={idx} className="px-2.5 py-1 bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 text-[11px] font-semibold rounded-md">
-                                {kpi}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
+                      {/* Technologies & Methods */}
+                      {exp.technologies && exp.technologies.length > 0 && (
+                        <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800/80">
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
                             <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-                            <span>Technologies & Methods</span>
+                            <span>Technologies & Domain Methods</span>
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             {exp.technologies.map((tech, idx) => (
@@ -265,7 +291,7 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
                             ))}
                           </div>
                         </div>
-                      </div>
+                      )}
 
                     </div>
                   )}
@@ -280,3 +306,4 @@ export const CareerJourney: React.FC<CareerJourneyProps> = ({ experiences }) => 
     </section>
   );
 };
+

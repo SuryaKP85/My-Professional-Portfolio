@@ -34,118 +34,78 @@ export const Hero: React.FC<HeroProps> = ({ profile, onNavigate, onOpenAIChat })
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="max-w-4xl space-y-6 text-left">
           
-          {/* Left Column: Executive Identity & Copy */}
-          <div className="lg:col-span-7 space-y-6 text-left">
-            
-            {/* Status Pill Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-lg shadow-cyan-950/30">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-              </span>
-              <span className="text-xs font-semibold text-slate-200 tracking-wide">
-                Available for Enterprise Product Management Roles
-              </span>
-              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            </div>
-
-            {/* Name & Headline */}
-            <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-[1.1]">
-                SURYA <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">PRASHANTH</span>
-              </h1>
-              <p className="mt-3 text-lg sm:text-2xl font-semibold text-cyan-300/90 tracking-wide">
-                Enterprise Product Manager
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wider text-slate-300 uppercase">
-                <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">ERP</span>
-                <span className="text-cyan-500">•</span>
-                <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Manufacturing</span>
-                <span className="text-cyan-500">•</span>
-                <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Supply Chain</span>
-                <span className="text-cyan-500">•</span>
-                <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Warehouse Management</span>
-                <span className="text-cyan-500">•</span>
-                <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md text-cyan-300">AI Product Strategy</span>
-              </div>
-            </div>
-
-            {/* Hero Summary (Exact user content) */}
-            <div className="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
-              <p>I build products that remove unnecessary effort from complex business operations.</p>
-              <p>For over 16 years, I've worked across ERP, Manufacturing, Warehouse Management, Supply Chain, and Logistics, partnering with customers, engineering teams, and business stakeholders to deliver products that solve real operational challenges.</p>
-              <p>My experience spans product strategy, customer discovery, roadmap planning, stakeholder management, and end-to-end product delivery, with a growing focus on applying AI to make enterprise software more intuitive, efficient, and effective.</p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-4">
-              
-              {/* View Portfolio Button */}
-              <button
-                onClick={() => onNavigate('portfolio')}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all"
-              >
-                <Briefcase className="w-4 h-4" />
-                <span>View Portfolio</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              {/* Download Resume Button */}
-              <button
-                onClick={() => onNavigate('resume')}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold text-sm transition-all shadow-md"
-              >
-                <Download className="w-4 h-4 text-cyan-400" />
-                <span>Download Resume</span>
-              </button>
-
-              {/* Let's Connect Button */}
-              <button
-                onClick={() => onNavigate('contact')}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold text-sm transition-all shadow-md"
-              >
-                <Send className="w-4 h-4 text-emerald-400" />
-                <span>Let's Connect</span>
-              </button>
-
-            </div>
-
+          {/* Status Pill Badge */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 shadow-lg shadow-cyan-950/30">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span className="text-xs font-semibold text-slate-200 tracking-wide">
+              Available for Enterprise Product Management Roles
+            </span>
+            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
           </div>
 
-          {/* Right Column: Executive Photo Card & Visual Frame */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            
-            {/* Card Frame backdrop */}
-            <div className="relative w-full max-w-md bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-4 rounded-3xl border border-slate-800/90 shadow-2xl shadow-cyan-950/40 backdrop-blur-xl group">
-              
-              {/* Photo Container */}
-              <div className="relative overflow-hidden rounded-2xl aspect-[4/5] border border-slate-800 bg-slate-950">
-                <img 
-                  src={profile.photoUrl} 
-                  alt="Surya Prashanth" 
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 filter brightness-[0.98]"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-
-                {/* Overlaid Badge */}
-                <div className="absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-700/80 text-[11px] font-bold text-cyan-300 flex items-center gap-1.5 shadow-lg">
-                  <Award className="w-3.5 h-3.5 text-amber-400" />
-                  <span>16+ YEARS EXPERIENCE</span>
-                </div>
-
-                {/* Bottom Overlay Info */}
-                <div className="absolute bottom-4 left-4 right-4 text-left p-3 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-800">
-                  <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Product Focus</p>
-                  <p className="text-xs font-medium text-slate-200 mt-0.5">
-                    Building enterprise software across ERP, Manufacturing, Supply Chain, and AI workflows.
-                  </p>
-                </div>
-              </div>
-
+          {/* Name & Headline */}
+          <div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-[1.1]">
+              SURYA <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">PRASHANTH</span>
+            </h1>
+            <p className="mt-3 text-lg sm:text-2xl font-semibold text-cyan-300/90 tracking-wide">
+              Enterprise Product Manager
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wider text-slate-300 uppercase">
+              <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">ERP</span>
+              <span className="text-cyan-500">•</span>
+              <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Manufacturing</span>
+              <span className="text-cyan-500">•</span>
+              <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Supply Chain</span>
+              <span className="text-cyan-500">•</span>
+              <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md">Warehouse Management</span>
+              <span className="text-cyan-500">•</span>
+              <span className="px-2.5 py-1 bg-slate-900/80 border border-slate-800 rounded-md text-cyan-300">AI Product Strategy</span>
             </div>
+          </div>
+
+          {/* Hero Summary */}
+          <div className="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
+            <p>I build products that remove unnecessary effort from complex business operations.</p>
+            <p>For over 16 years, I've worked across ERP, Manufacturing, Warehouse Management, Supply Chain, and Logistics, partnering with customers, engineering teams, and business stakeholders to deliver products that solve real operational challenges.</p>
+            <p>My experience spans product strategy, customer discovery, roadmap planning, stakeholder management, and end-to-end product delivery, with a growing focus on applying AI to make enterprise software more intuitive, efficient, and effective.</p>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap items-center gap-3 pt-4">
+            
+            {/* View Portfolio Button */}
+            <button
+              onClick={() => onNavigate('portfolio')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              <Briefcase className="w-4 h-4" />
+              <span>View Portfolio</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            {/* Download Resume Button */}
+            <button
+              onClick={() => onNavigate('resume')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold text-sm transition-all shadow-md"
+            >
+              <Download className="w-4 h-4 text-cyan-400" />
+              <span>Download Resume</span>
+            </button>
+
+            {/* Let's Connect Button */}
+            <button
+              onClick={() => onNavigate('contact')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold text-sm transition-all shadow-md"
+            >
+              <Send className="w-4 h-4 text-emerald-400" />
+              <span>Let's Connect</span>
+            </button>
 
           </div>
 

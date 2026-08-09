@@ -380,6 +380,38 @@ Instructions for AI Response:
   }
 });
 
+// Explicit endpoints for PDF downloading and viewing
+app.get('/api/download-resume', (req, res) => {
+  const filePath = path.join(process.cwd(), 'public', 'KPSurya_Product Manager.pdf');
+  if (fs.existsSync(filePath)) {
+    res.download(filePath, 'KPSurya_Product Manager.pdf');
+  } else {
+    const fallbackPath = path.join(process.cwd(), 'public', 'Surya_Prashanth_Executive_Resume.pdf');
+    if (fs.existsSync(fallbackPath)) {
+      res.download(fallbackPath, 'KPSurya_Product Manager.pdf');
+    } else {
+      res.status(404).send('PDF not found');
+    }
+  }
+});
+
+app.get(['/KPSurya_Product%20Manager.pdf', '/KPSurya_Product_Manager.pdf', '/Surya_Prashanth_Executive_Resume.pdf', '/resume.pdf'], (req, res) => {
+  let filePath = path.join(process.cwd(), 'public', 'KPSurya_Product Manager.pdf');
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(process.cwd(), 'public', 'Surya_Prashanth_Executive_Resume.pdf');
+  }
+  if (fs.existsSync(filePath)) {
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="KPSurya_Product Manager.pdf"');
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('PDF not found');
+  }
+});
+
+// Serve public directory static files
+app.use(express.static(path.join(process.cwd(), 'public')));
+
 // ---------------- SERVER INITIALIZATION ----------------
 
 async function startServer() {

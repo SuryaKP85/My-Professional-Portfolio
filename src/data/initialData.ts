@@ -13,10 +13,10 @@ export const initialData: CMSData = {
     executiveSummary: "I build products that remove unnecessary effort from complex business operations.\n\nFor over 16 years, I've worked across ERP, Manufacturing, Warehouse Management, Supply Chain, and Logistics, partnering with customers, engineering teams, and business stakeholders to deliver products that solve real operational challenges.\n\nMy experience spans product strategy, customer discovery, roadmap planning, stakeholder management, and end-to-end product delivery, with a growing focus on applying AI to make enterprise software more intuitive, efficient, and effective.",
     yearsExperience: 16,
     location: "Bangalore, India",
-    email: "surya.prashanth.kp@gmail.com",
+    email: "surya.prashanth.kp@hotmail.com",
     linkedIn: "https://linkedin.com/in/suryaprashanth",
-    github: "https://github.com/suryaprashanth",
-    photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    github: "https://github.com/SuryaKP85",
+    photoUrl: "/surya_headshot.jpg",
     stats: {
       years: "16+",
       enterpriseValue: "Customer-Centric",
@@ -40,8 +40,8 @@ export const initialData: CMSData = {
       duration: "Present",
       location: "Bangalore, India",
       category: "ERP & Manufacturing",
-      description: "Leading product strategy for Manufacturing ERP solutions and managing a cross-functional team of approximately 14 professionals across Business Analysis, Development, and Quality Assurance.",
-      careerSummary: "Joining iRely has allowed me to expand my responsibilities beyond Product Management into product leadership and team management. Alongside defining product strategy for Manufacturing ERP solutions, I lead a cross-functional team of approximately 14 professionals across Business Analysis, Development, and Quality Assurance. My role combines product strategy, delivery leadership, people management, and engineering collaboration to ensure teams deliver high-quality solutions aligned with customer and business goals. In parallel, I have been driving AI-assisted engineering practices that improve development efficiency, code quality, and overall delivery effectiveness.",
+      description: "Leading product strategy for Manufacturing ERP solutions and managing a cross-functional team across Business Analysis, Development, and Quality Assurance.",
+      careerSummary: "Joining iRely has allowed me to expand my responsibilities beyond Product Management into product leadership and team management. Alongside defining product strategy for Manufacturing ERP solutions, I lead a cross-functional team across Business Analysis, Development, and Quality Assurance. My role combines product strategy, delivery leadership, people management, and engineering collaboration to ensure teams deliver high-quality solutions aligned with customer and business goals. In parallel, I have been driving AI-assisted engineering practices that improve development efficiency, code quality, and overall delivery effectiveness.",
       majorAchievements: [
         "Established a collaborative product organization that brings together Product, Business Analysis, Development, and QA around shared business goals.",
         "Improved engineering productivity through AI-assisted development practices and modern delivery workflows.",
@@ -50,7 +50,7 @@ export const initialData: CMSData = {
         "Built an environment focused on ownership, continuous improvement, and customer-centric product delivery."
       ],
       keyContributions: [
-        "Transformed cross-functional product delivery and team alignment across 14 team members.",
+        "Transformed cross-functional product delivery and team alignment across engineering and business functions.",
         "Advanced AI-assisted engineering practices for faster, higher quality releases.",
         "Expanded Manufacturing ERP capabilities across Agriculture, Petroleum, and Commodity Trading."
       ],
@@ -59,9 +59,9 @@ export const initialData: CMSData = {
         "Agri-Business & Commodity Trading Suite",
         "AI-Assisted Engineering Workflows"
       ],
-      businessImpact: "14-person cross-functional team leadership, AI-assisted productivity gains, multi-domain ERP delivery.",
+      businessImpact: "Cross-functional team leadership, AI-assisted development practices, multi-domain ERP delivery.",
       technologies: ["Manufacturing ERP", "AI-assisted Workflows", "Cross-Functional Leadership", "Agile Product Delivery"],
-      kpisImproved: ["Delivery Predictability (+35%)", "Engineering Efficiency (+30%)", "Cross-Functional Alignment (100%)"],
+      kpisImproved: [],
       whatILearned: "Leading both products and people has reinforced my belief that successful Product Management extends beyond defining roadmaps. It requires creating an environment where teams can collaborate effectively, make informed decisions, and continuously improve together. Managing a multidisciplinary team has given me a broader perspective on balancing customer needs, business priorities, engineering challenges, and people development while delivering products that create meaningful business value."
     },
     {
@@ -84,9 +84,9 @@ export const initialData: CMSData = {
         "Mentored Product Owners on backlog management, customer discovery, and stakeholder communication."
       ],
       keyContributions: [
-        "Modernized a legacy Warehouse Management platform.",
+        "Modernized a legacy Warehouse Management platform into a mobile-first experience.",
         "Delivered multiple enterprise integration initiatives.",
-        "Improved customer engagement through AI-assisted experiences.",
+        "Enhanced customer engagement through AI-assisted capabilities.",
         "Established stronger product management practices across the team."
       ],
       productsOwned: [
@@ -97,7 +97,7 @@ export const initialData: CMSData = {
       ],
       businessImpact: "Platform modernization, AI engagement adoption, mobile WMS transformation.",
       technologies: ["Mobile WMS", "AI Engagement (EVA)", "Enterprise Integration", "Agile & Product Strategy"],
-      kpisImproved: ["Mobile Adoption (+65%)", "Warehouse Workflow Speed (+40%)", "PO Error Reduction (-85%)"],
+      kpisImproved: [],
       whatILearned: "This role strengthened my ability to balance customer needs, technical complexity, and long-term product strategy. I learned that great enterprise products evolve through continuous collaboration, disciplined prioritization, and a deep understanding of customer operations."
     },
     {
@@ -131,7 +131,7 @@ export const initialData: CMSData = {
       ],
       businessImpact: "End-to-end product lifecycle ownership, customer discovery framework, global logistics scaling.",
       technologies: ["Logistics", "Supply Chain EDI", "User Story Mapping", "Customer Research"],
-      kpisImproved: ["Compliance Accuracy (99.9%)", "Customer Validation Speed (+50%)", "Release Quality (+40%)"],
+      kpisImproved: [],
       whatILearned: "This was where I truly began thinking like a Product Manager. I learned that successful products are built through continuous customer discovery, thoughtful prioritization, and close collaboration with cross-functional teams."
     },
     {
@@ -155,9 +155,15 @@ export const initialData: CMSData = {
       keyContributions: [
         "Successfully delivered multiple enterprise integration initiatives.",
         "Improved collaboration between customers and development teams.",
-        "Reduced manual intervention in EDI processing through process improvements.",
+        "Reduced manual intervention in EDI processing through workflow optimization.",
         "Strengthened customer relationships through consultative engagement."
       ],
+      industryPartnerships: {
+        description: "As Client Manager, I partnered directly with global ocean carriers, 3PL providers, and enterprise retail customers on EDI onboarding, end-to-end transportation integrations, supply chain implementations, and long-term customer success initiatives.",
+        oceanCarriers: ["Maersk", "APL", "ZIM", "CMA CGM", "MSC"],
+        logisticsProviders: ["DHL", "UPS"],
+        enterpriseCustomers: ["VF Corporation", "Williams-Sonoma", "adidas", "Sears"]
+      },
       productsOwned: [
         "GT Nexus Supply Chain Portal",
         "Ocean & Air EDI Gateway",
@@ -165,7 +171,7 @@ export const initialData: CMSData = {
       ],
       businessImpact: "Enterprise EDI automation, 3PL customer growth, Six Sigma operational optimization.",
       technologies: ["EDI 850/856/309/315", "Supply Chain Mesh", "Six Sigma", "Solution Architecture"],
-      kpisImproved: ["Manual EDI Touchpoints (-75%)", "Customer Onboarding Time (-30%)", "System Reliability (99.9%)"],
+      kpisImproved: [],
       whatILearned: "This role helped me understand that technology alone does not solve business problems. Success comes from understanding customer workflows, aligning technology with business objectives, and communicating effectively across technical and non-technical teams."
     },
     {
@@ -184,7 +190,7 @@ export const initialData: CMSData = {
         "Provided technical assistance for Intel RAID Matrix and AMD RAID Xpert environments.",
         "Troubleshot POST errors, POST beep sequences, and hardware initialization failures.",
         "Monitored customer support calls and coached team members to improve service quality.",
-        "Helped improve quality metrics by mentoring colleagues and sharing troubleshooting best practices.",
+        "Helped improve service quality by mentoring colleagues and sharing troubleshooting best practices.",
         "Reduced unnecessary hardware replacements by promoting structured root cause analysis and effective troubleshooting techniques."
       ],
       keyContributions: [
@@ -197,9 +203,9 @@ export const initialData: CMSData = {
         "Enterprise Storage & RAID Diagnostic Suite",
         "Technical Quality Support Framework"
       ],
-      businessImpact: "Global customer resolution across 5 continents, hardware replacement cost reduction, quality coaching.",
+      businessImpact: "Global customer resolution, hardware replacement cost reduction, quality coaching.",
       technologies: ["Intel RAID Matrix", "AMD RAID Xpert", "Root Cause Analysis", "Enterprise Diagnostics"],
-      kpisImproved: ["First Contact Resolution (+35%)", "Avoidable Hardware Replacements (-45%)", "Quality Score (+25%)"],
+      kpisImproved: [],
       whatILearned: "This role taught me that every technical issue represents a customer problem waiting to be understood. It strengthened my analytical thinking, customer empathy, and communication skills—foundations that later became essential in understanding customer pain points and building better enterprise products."
     }
   ],
