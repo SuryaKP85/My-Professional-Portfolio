@@ -47,6 +47,7 @@ export const VisitorModal: React.FC = () => {
     setLoading(true);
 
     try {
+      // 1. Post to internal backend API (saves to Admin Inbox & triggers server-side forwarding)
       const res = await fetch('/api/visitors', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,6 +58,20 @@ export const VisitorModal: React.FC = () => {
           trafficSource: document.referrer ? new URL(document.referrer).hostname : 'Direct'
         })
       });
+
+      // 2. Direct client-side relay to surya.prashanth.kp@hotmail.com
+      fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: `[Visitor Portal Lead] ${formData.firstName} ${formData.lastName || ''} (${formData.company || 'Visitor'})`,
+          name: `${formData.firstName} ${formData.lastName || ''}`.trim(),
+          email: formData.email,
+          _replyto: formData.email,
+          company: formData.company || 'Not specified',
+          designation: formData.designation || 'Not specified'
+        })
+      }).catch(err => console.warn('Visitor relay warning:', err));
 
       const data = await res.json();
       if (data.success) {

@@ -57,10 +57,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       console.warn('Server contact store warning:', err);
     }
 
-    // 2. Dispatch via FormSubmit.co relay to surya.prashanth.kp@gmail.com
+    // 2. Dispatch via FormSubmit.co relay to surya.prashanth.kp@hotmail.com & surya.prashanth.kp@gmail.com
     let dispatchedRelay = false;
     try {
-      const relayRes = await fetch('https://formsubmit.co/ajax/surya.prashanth.kp@gmail.com', {
+      const relayRes = await fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     // 3. Set clear, informative status message
     setStatus({ 
       type: 'success', 
-      message: `Your message has been delivered! It was logged in Surya's Executive Inbox${dispatchedRelay ? ' and forwarded to surya.prashanth.kp@gmail.com' : ''}. You can also send directly from your email app below.` 
+      message: `Your message has been delivered! It was logged in Surya's Executive Inbox${dispatchedRelay ? ' and forwarded to surya.prashanth.kp@hotmail.com' : ''}. You can also send directly from your email app below.` 
     });
 
     // Attempt automatic mailto popup as a client guarantee
@@ -286,7 +286,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                         className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-black shadow-md transition-all"
                       >
                         <Mail className="w-4 h-4" />
-                        <span>Send Direct Email to surya.prashanth.kp@gmail.com</span>
+                        <span>Send Direct Email to surya.prashanth.kp@hotmail.com</span>
                       </a>
                     </div>
                   )}

@@ -37,22 +37,22 @@ function hashPassword(pwd: string): string {
   return crypto.createHash('sha256').update(pwd + '_surya_secure_salt_2026').digest('hex');
 }
 
-if (!fs.existsSync(ADMIN_CONFIG_FILE)) {
-  const initialPassword = process.env.ADMIN_PASSWORD || 'SuryaExecutive2026!';
-  const initialConfig = {
-    passwordHash: hashPassword(initialPassword),
-    updatedAt: new Date().toISOString()
-  };
-  fs.writeFileSync(ADMIN_CONFIG_FILE, JSON.stringify(initialConfig, null, 2), 'utf-8');
-}
+const DEFAULT_ADMIN_PASSWORD = 'Burno@2026!';
+
+// Always ensure initial config or reset to requested password
+const initialConfig = {
+  passwordHash: hashPassword(DEFAULT_ADMIN_PASSWORD),
+  updatedAt: new Date().toISOString()
+};
+fs.writeFileSync(ADMIN_CONFIG_FILE, JSON.stringify(initialConfig, null, 2), 'utf-8');
 
 function getAdminPasswordHash(): string {
   try {
     const raw = fs.readFileSync(ADMIN_CONFIG_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
-    return parsed.passwordHash || hashPassword('SuryaExecutive2026!');
+    return parsed.passwordHash || hashPassword(DEFAULT_ADMIN_PASSWORD);
   } catch (err) {
-    return hashPassword('SuryaExecutive2026!');
+    return hashPassword(DEFAULT_ADMIN_PASSWORD);
   }
 }
 
@@ -392,7 +392,47 @@ app.post('/api/visitors', (req, res) => {
   visitors.unshift(newLead);
   writeVisitors(visitors);
 
-  console.log(`[EMAIL NOTIFICATION SENT]: New visitor lead captured -> ${firstName} (${email}) from ${company || 'Independent'}`);
+  // Auto-forward captured lead entry to surya.prashanth.kp@hotmail.com and surya.prashanth.kp@gmail.com
+  const forwardTargets = ['surya.prashanth.kp@hotmail.com', 'surya.prashanth.kp@gmail.com'];
+  
+  // 1. Forward via SMTP if configured
+  const transporter = getMailTransporter();
+  if (transporter) {
+    transporter.sendMail({
+      from: process.env.SMTP_FROM || `"Portfolio Visitor Lead" <${email}>`,
+      to: forwardTargets.join(','),
+      subject: `[Visitor Lead Captured] ${firstName} ${lastName || ''} (${company || 'Independent'})`,
+      text: `New Visitor Lead Captured:\n\nName: ${firstName} ${lastName || ''}\nEmail: ${email}\nCompany: ${company || 'Not specified'}\nDesignation: ${designation || 'Not specified'}\nTime: ${now.toLocaleString()}\nTraffic Source: ${trafficSource || 'Direct'}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #0f172a; background: #f8fafc; border-radius: 8px;">
+          <h2 style="color: #0891b2;">New Visitor Lead Capture</h2>
+          <p><strong>Name:</strong> ${firstName} ${lastName || ''}</p>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Company:</strong> ${company || 'Not specified'}</p>
+          <p><strong>Designation:</strong> ${designation || 'Not specified'}</p>
+          <p><strong>Captured At:</strong> ${now.toLocaleString()}</p>
+          <p><strong>Traffic Source:</strong> ${trafficSource || 'Direct'}</p>
+        </div>
+      `
+    }).catch(err => console.warn('[SMTP VISITOR FORWARD NOTICE]:', err.message));
+  }
+
+  // 2. Forward via FormSubmit.co HTTP relay to Hotmail
+  fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: `[Visitor Portal Lead] ${firstName} ${lastName || ''} - ${company || 'Visitor'}`,
+      name: `${firstName} ${lastName || ''}`.trim(),
+      email: email,
+      company: company || 'Not specified',
+      designation: designation || 'Not specified',
+      time: now.toLocaleString(),
+      trafficSource: trafficSource || 'Direct'
+    })
+  }).catch(err => console.warn('[FORMSUBMIT VISITOR FORWARD NOTICE]:', err.message));
+
+  console.log(`[EMAIL FORWARD SENT]: New visitor lead captured and forwarded to surya.prashanth.kp@hotmail.com -> ${firstName} (${email})`);
 
   res.json({
     success: true,
@@ -458,7 +498,20 @@ app.post('/api/contact', async (req, res) => {
   let smtpError = '';
 
   const transporter = getMailTransporter();
-  const targetEmail = process.env.SMTP_TO || 'surya.prashanth.kp@gmail.com';
+  const targetEmail = process.env.SMTP_TO || 'surya.prashanth.kp@hotmail.com, surya.prashanth.kp@gmail.com';
+
+  // Always attempt FormSubmit.co HTTP relay to surya.prashanth.kp@hotmail.com
+  fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: `[Portfolio Contact] ${subject || 'Executive Message'} from ${name}`,
+      name,
+      email,
+      _replyto: email,
+      message
+    })
+  }).catch(err => console.warn('[FORMSUBMIT CONTACT FORWARD NOTICE]:', err.message));
 
   if (transporter) {
     try {

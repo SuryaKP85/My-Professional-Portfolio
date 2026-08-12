@@ -16,7 +16,7 @@ export const initialData: CMSData = {
     email: "surya.prashanth.kp@hotmail.com",
     linkedIn: "https://linkedin.com/in/suryaprashanth",
     github: "https://github.com/SuryaKP85",
-    photoUrl: "/surya_headshot.jpg",
+    photoUrl: "/images/profile/surya-profile.jpg",
     stats: {
       years: "16+",
       enterpriseValue: "Customer-Centric",

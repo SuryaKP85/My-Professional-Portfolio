@@ -1,0 +1,91 @@
+[
+  {
+    "id": "lead-1786515035840",
+    "firstName": "Test",
+    "lastName": "Visitor",
+    "email": "test.visitor@example.com",
+    "company": "Acme Logistics",
+    "designation": "VP Supply Chain",
+    "date": "2026-08-12",
+    "time": "06:10:35",
+    "ip": "127.0.0.1",
+    "country": "United States",
+    "device": "Desktop",
+    "browser": "Chrome",
+    "pagesVisited": [
+      "/home"
+    ],
+    "timeSpent": "45s",
+    "trafficSource": "Direct",
+    "referrer": "Direct",
+    "isReturning": false
+  },
+  {
+    "id": "lead-1786512523930",
+    "firstName": "Surya",
+    "lastName": "Prasanth",
+    "email": "princekp18@gmail.com",
+    "company": "Amazon",
+    "designation": "CEO",
+    "date": "2026-08-12",
+    "time": "05:28:43",
+    "ip": "2406:7400:119:e7b2::1002",
+    "country": "United States",
+    "device": "Desktop",
+    "browser": "Edge",
+    "pagesVisited": [
+      "/"
+    ],
+    "timeSpent": "45s",
+    "trafficSource": "aistudio.google.com",
+    "referrer": "https://ais-dev-duh55xpw5ledfn2e7toiy7-939424068670.asia-southeast1.run.app/",
+    "isReturning": false
+  },
+  {
+    "id": "lead-1",
+    "firstName": "Michael",
+    "lastName": "Chen",
+    "email": "m.chen@enterprise-tech.com",
+    "company": "Enterprise Tech Partners",
+    "designation": "VP of Talent & Executive Recruiting",
+    "date": "2026-08-02",
+    "time": "14:32:05",
+    "ip": "198.51.100.42",
+    "country": "United States",
+    "device": "Desktop",
+    "browser": "Chrome 128",
+    "pagesVisited": [
+      "/home",
+      "/career-journey",
+      "/product-portfolio"
+    ],
+    "timeSpent": "3m 45s",
+    "trafficSource": "LinkedIn",
+    "referrer": "https://www.linkedin.com/in/suryaprashanth",
+    "isReturning": false
+  },
+  {
+    "id": "lead-2",
+    "firstName": "Sarah",
+    "lastName": "Jenkins",
+    "email": "sjenkins@global-supply.org",
+    "company": "Global Supply Chain Group",
+    "designation": "Chief Operating Officer",
+    "date": "2026-08-01",
+    "time": "09:15:22",
+    "ip": "203.0.113.88",
+    "country": "United Kingdom",
+    "device": "Desktop",
+    "browser": "Safari 18",
+    "pagesVisited": [
+      "/home",
+      "/about",
+      "/skills",
+      "/contact"
+    ],
+    "timeSpent": "5m 12s",
+    "trafficSource": "Direct",
+    "referrer": "Direct Bookmark",
+    "isReturning": true
+  }
+]

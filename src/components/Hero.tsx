@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { ProfileData } from '../types';
 
+export const PRIMARY_PROFILE_IMAGE = '/images/profile/surya-profile.jpg';
+
 interface HeroProps {
   profile: ProfileData;
   onNavigate: (sectionId: string) => void;
@@ -31,6 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, onNavigate, onOpenAIChat, o
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const [imgError, setImgError] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -257,17 +260,33 @@ export const Hero: React.FC<HeroProps> = ({ profile, onNavigate, onOpenAIChat, o
                 
                 {/* Image Frame */}
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 group">
-                  <img 
-                    src={profile.photoUrl || '/surya_headshot.jpg'} 
-                    alt={profile.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/surya_headshot.jpg';
-                    }}
-                  />
+                  {!imgError ? (
+                    <img 
+                      src={profile.photoUrl || PRIMARY_PROFILE_IMAGE} 
+                      alt="Surya Prashanth – Product Manager"
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      onError={() => setImgError(true)}
+                    />
+                  ) : (
+                    /* Intentional Professional Placeholder (No fake AI faces) */
+                    <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-slate-900 to-slate-950 space-y-3">
+                      <div className="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+                        <User className="w-8 h-8" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-slate-100">Profile Photo</p>
+                        <p className="text-xs text-slate-400 mt-1 max-w-[200px] leading-relaxed">
+                          Replace with Surya's professional photograph
+                        </p>
+                      </div>
+                      <p className="text-[10px] text-cyan-400/80 font-mono bg-slate-900 px-2 py-1 rounded border border-slate-800">
+                        /public/images/profile/surya-profile.jpg
+                      </p>
+                    </div>
+                  )}
 
                   {/* Dark Gradient Bottom Tint */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60 pointer-events-none" />
 
                   {/* Executive Badge */}
                   <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-full border border-slate-700/80 text-[11px] font-bold text-cyan-300 flex items-center gap-1.5 shadow-md">
