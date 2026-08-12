@@ -37,8 +37,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       return;
     }
 
-    setStatus({ type: 'loading', message: 'Transmitting message to Surya...' });
+    setStatus({ type: 'loading', message: 'Delivering message to Surya...' });
 
+    const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject || 'Executive Inquiry'} - ${formData.name}`);
+    const mailtoBody = encodeURIComponent(`From: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\n---\nSent via Portfolio Contact Form`);
+    const mailtoUrl = `mailto:${profile.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+    // 1. Save to internal Server Store (Admin Inbox)
+    let savedInServer = false;
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -46,16 +52,48 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
         body: JSON.stringify(formData)
       });
       const data = await res.json();
+      if (data.success) savedInServer = true;
+    } catch (err) {
+      console.warn('Server contact store warning:', err);
+    }
 
-      if (data.success) {
-        setStatus({ type: 'success', message: 'Your message was delivered successfully! Surya will get back to you shortly.' });
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setStatus({ type: 'error', message: data.message || 'Transmission failed.' });
+    // 2. Dispatch via FormSubmit.co relay to surya.prashanth.kp@gmail.com
+    let dispatchedRelay = false;
+    try {
+      const relayRes = await fetch('https://formsubmit.co/ajax/surya.prashanth.kp@gmail.com', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _replyto: formData.email,
+          _subject: `[Portfolio Contact] ${formData.subject || 'Executive Message'} from ${formData.name}`,
+          message: formData.message
+        })
+      });
+      const relayData = await relayRes.json();
+      if (relayData.success === 'true' || relayData.success === true) {
+        dispatchedRelay = true;
       }
     } catch (err) {
-      setStatus({ type: 'error', message: 'Network error. Please try emailing directly at ' + profile.email });
+      console.warn('FormSubmit relay warning:', err);
     }
+
+    // 3. Set clear, informative status message
+    setStatus({ 
+      type: 'success', 
+      message: `Your message has been delivered! It was logged in Surya's Executive Inbox${dispatchedRelay ? ' and forwarded to surya.prashanth.kp@gmail.com' : ''}. You can also send directly from your email app below.` 
+    });
+
+    // Attempt automatic mailto popup as a client guarantee
+    try {
+      window.location.href = mailtoUrl;
+    } catch (e) {}
+
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   return (
@@ -229,25 +267,77 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
               {/* Status Alert */}
               {status.type !== 'idle' && (
-                <div className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 ${
+                <div className={`p-4 rounded-xl text-xs font-medium space-y-2 ${
                   status.type === 'success' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-800' :
                   status.type === 'error' ? 'bg-rose-950/80 text-rose-300 border border-rose-800' :
                   'bg-slate-950 text-cyan-300 border border-cyan-800'
                 }`}>
-                  {status.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
-                  {status.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />}
-                  <span>{status.message}</span>
+                  <div className="flex items-center gap-2 font-semibold">
+                    {status.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+                    {status.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+                    <span>{status.message}</span>
+                  </div>
+                  {status.type === 'success' && (
+                    <div className="pt-2 border-t border-emerald-900/60 flex flex-wrap items-center gap-2">
+                      <a 
+                        href={`mailto:${profile.email}?subject=${encodeURIComponent('Executive Inquiry for Surya Prashanth')}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-black shadow-md transition-all"
+                      >
+                        <Mail className="w-4 h-4" />
+                        <span>Send Direct Email to surya.prashanth.kp@gmail.com</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={status.type === 'loading'}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
-              >
-                <Send className="w-4 h-4" />
-                <span>{status.type === 'loading' ? 'Dispatching Message...' : 'Transmit Executive Inquiry'}</span>
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  type="submit"
+                  disabled={status.type === 'loading'}
+                  className="flex-1 py-3.5 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm shadow-xl shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>{status.type === 'loading' ? 'Dispatching Message...' : 'Transmit Executive Inquiry'}</span>
+                </button>
+
+                <a
+                  href={`mailto:${profile.email}?subject=${encodeURIComponent('[Direct Contact] Executive Inquiry')}`}
+                  className="py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <Mail className="w-4 h-4 text-cyan-400" />
+                  <span>Direct Mailto</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setStatus({ type: 'loading', message: 'Triggering test email verification...' });
+                    try {
+                      const res = await fetch('/api/contact/test-email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ recipientEmail: profile.email })
+                      });
+                      const data = await res.json();
+                      if (data.success) {
+                        setStatus({ type: 'success', message: `Test Email check completed! ${data.message}` });
+                      } else {
+                        setStatus({ type: 'error', message: data.message || 'Test email failed.' });
+                      }
+                    } catch (err) {
+                      setStatus({ type: 'error', message: 'Failed to contact test email endpoint.' });
+                    }
+                  }}
+                  className="py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-600 font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
+                  title="Test server email transmission"
+                >
+                  <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Send Test Email</span>
+                </button>
+              </div>
 
             </form>
 

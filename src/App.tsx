@@ -120,7 +120,8 @@ export default function App() {
         <Hero 
           profile={cmsData.profile} 
           onNavigate={handleNavigate} 
-          onOpenAIChat={() => setAiChatOpen(true)} 
+          onOpenAIChat={() => setAiChatOpen(true)}
+          onUpdateProfile={(updatedProfile) => setCmsData(prev => ({ ...prev, profile: updatedProfile }))} 
         />
 
         <AboutSection profile={cmsData.profile} />

@@ -154,6 +154,18 @@ export interface ChatMessage {
   suggestions?: string[];
 }
 
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  subject?: string;
+  message: string;
+  timestamp: string;
+  ip?: string;
+  emailSentStatus?: 'sent_smtp' | 'stored_only' | 'failed_smtp';
+  smtpError?: string;
+}
+
 export interface ProfileData {
   name: string;
   title: string;

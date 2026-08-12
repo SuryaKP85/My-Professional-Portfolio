@@ -1,0 +1,81 @@
+[
+  {
+    "id": "msg-1786343177796",
+    "name": "Surya Prashanth",
+    "email": "surya.prashanth.kp@gmail.com",
+    "subject": "Test Form Post",
+    "message": "Testing submission workflow",
+    "timestamp": "2026-08-10T06:26:17.796Z",
+    "ip": "127.0.0.1",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Gmail authentication rejected: Google requires a 16-character App Password when 2FA is active (Google Account Settings > Security > App Passwords). Standard account passwords are not allowed for SMTP."
+  },
+  {
+    "id": "msg-1786342340066",
+    "name": "Surya",
+    "email": "shwetah4@gmail.com",
+    "subject": "1234",
+    "message": "12345",
+    "timestamp": "2026-08-10T06:12:20.066Z",
+    "ip": "49.206.133.109",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Invalid login: 534-5.7.9 Application-specific password required. For more information, go to\n534 5.7.9  https://support.google.com/mail/?p=InvalidSecondFactor 5a478bee46e88-315bebde2e6sm37223446eec.21 - gsmtp"
+  },
+  {
+    "id": "test-msg-1786342238013",
+    "name": "Portfolio System Tester",
+    "email": "surya.prashanth.kp@hotmail.com",
+    "subject": "Executive Portfolio Test Email Check",
+    "message": "This is a test notification generated at 8/10/2026, 6:10:38 AM to verify contact form transmission to surya.prashanth.kp@hotmail.com.",
+    "timestamp": "2026-08-10T06:10:38.012Z",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Invalid login: 534-5.7.9 Application-specific password required. For more information, go to\n534 5.7.9  https://support.google.com/mail/?p=InvalidSecondFactor 5a478bee46e88-315be86e917sm44422380eec.5 - gsmtp"
+  },
+  {
+    "id": "test-msg-1786341427474",
+    "name": "Portfolio System Tester",
+    "email": "surya.prashanth.kp@hotmail.com",
+    "subject": "Executive Portfolio Test Email Check",
+    "message": "This is a test notification generated at 8/10/2026, 5:57:07 AM to verify contact form transmission to surya.prashanth.kp@hotmail.com.",
+    "timestamp": "2026-08-10T05:57:07.474Z",
+    "emailSentStatus": "stored_only"
+  },
+  {
+    "id": "msg-1786341411079",
+    "name": "Shweta H",
+    "email": "shwetah4@gmail.com",
+    "subject": "Testing",
+    "message": "Test 1234",
+    "timestamp": "2026-08-10T05:56:51.079Z",
+    "ip": "49.206.133.109",
+    "emailSentStatus": "stored_only"
+  },
+  {
+    "id": "msg-1786341323356",
+    "name": "Surya Prashanth Test",
+    "email": "surya.prashanth.kp@gmail.com",
+    "subject": "Test Email Verification",
+    "message": "Testing the contact form email submission and store logging pipeline.",
+    "timestamp": "2026-08-10T05:55:23.356Z",
+    "ip": "127.0.0.1",
+    "emailSentStatus": "stored_only"
+  },
+  {
+    "id": "test-msg-1786341312852",
+    "name": "Portfolio System Tester",
+    "email": "surya.prashanth.kp@gmail.com",
+    "subject": "Executive Portfolio Test Email Check",
+    "message": "This is a test notification generated at 8/10/2026, 5:55:12 AM to verify contact form transmission to surya.prashanth.kp@gmail.com.",
+    "timestamp": "2026-08-10T05:55:12.852Z",
+    "emailSentStatus": "stored_only"
+  },
+  {
+    "id": "msg-welcome-1",
+    "name": "Executive Inquiry System",
+    "email": "surya.prashanth.kp@gmail.com",
+    "subject": "Welcome to your Executive Contact Inbox",
+    "message": "This system stores all incoming contact inquiries and test emails submitted through your portfolio site. Any email sent via the Contact Form is permanently logged here in your Admin Dashboard and dispatched via Nodemailer SMTP if configured.",
+    "timestamp": "2026-08-10T05:55:05.305Z",
+    "emailSentStatus": "stored_only"
+  }
+]

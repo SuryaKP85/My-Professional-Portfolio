@@ -1,13 +1,23 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 import { initialData } from './src/data/initialData';
-import { CMSData, VisitorLead } from './src/types';
+import { CMSData, VisitorLead, ContactMessage } from './src/types';
 
 const app = express();
 const PORT = 3000;
+
+// Security Headers Middleware
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
 
 app.use(express.json({ limit: '10mb' }));
 
@@ -19,10 +29,110 @@ if (!fs.existsSync(DATA_DIR)) {
 
 const CMS_FILE = path.join(DATA_DIR, 'cms_store.json');
 const VISITORS_FILE = path.join(DATA_DIR, 'visitor_leads.json');
+const MESSAGES_FILE = path.join(DATA_DIR, 'contact_messages.json');
+const ADMIN_CONFIG_FILE = path.join(DATA_DIR, 'admin_config.json');
+
+// --- SECURE ADMIN PASSWORD & SESSION ENGINE ---
+function hashPassword(pwd: string): string {
+  return crypto.createHash('sha256').update(pwd + '_surya_secure_salt_2026').digest('hex');
+}
+
+if (!fs.existsSync(ADMIN_CONFIG_FILE)) {
+  const initialPassword = process.env.ADMIN_PASSWORD || 'SuryaExecutive2026!';
+  const initialConfig = {
+    passwordHash: hashPassword(initialPassword),
+    updatedAt: new Date().toISOString()
+  };
+  fs.writeFileSync(ADMIN_CONFIG_FILE, JSON.stringify(initialConfig, null, 2), 'utf-8');
+}
+
+function getAdminPasswordHash(): string {
+  try {
+    const raw = fs.readFileSync(ADMIN_CONFIG_FILE, 'utf-8');
+    const parsed = JSON.parse(raw);
+    return parsed.passwordHash || hashPassword('SuryaExecutive2026!');
+  } catch (err) {
+    return hashPassword('SuryaExecutive2026!');
+  }
+}
+
+function setAdminPassword(newPassword: string): void {
+  const newConfig = {
+    passwordHash: hashPassword(newPassword),
+    updatedAt: new Date().toISOString()
+  };
+  fs.writeFileSync(ADMIN_CONFIG_FILE, JSON.stringify(newConfig, null, 2), 'utf-8');
+}
+
+// Active Admin Session Tokens Store
+const activeSessions = new Map<string, { createdAt: number; ip: string }>();
+
+// Anti-Brute-Force Rate Limiter
+const failedAttempts = new Map<string, { count: number; lockedUntil: number }>();
+
+function checkRateLimit(ip: string): { allowed: boolean; remainingSecs: number } {
+  const attempt = failedAttempts.get(ip);
+  if (!attempt) return { allowed: true, remainingSecs: 0 };
+  if (attempt.lockedUntil > Date.now()) {
+    return { allowed: false, remainingSecs: Math.ceil((attempt.lockedUntil - Date.now()) / 1000) };
+  }
+  return { allowed: true, remainingSecs: 0 };
+}
+
+function recordFailedAttempt(ip: string) {
+  const attempt = failedAttempts.get(ip) || { count: 0, lockedUntil: 0 };
+  attempt.count += 1;
+  if (attempt.count >= 5) {
+    attempt.lockedUntil = Date.now() + 15 * 60 * 1000; // 15-minute lock
+  }
+  failedAttempts.set(ip, attempt);
+}
+
+function clearFailedAttempts(ip: string) {
+  failedAttempts.delete(ip);
+}
+
+function verifyAdminAuth(req: express.Request): boolean {
+  const token = (req.headers['x-admin-token'] || req.headers['x-admin-pin'] || req.query.token || req.query.pin) as string;
+  if (!token || typeof token !== 'string') return false;
+
+  // 1. Check active session token
+  if (activeSessions.has(token)) {
+    const session = activeSessions.get(token)!;
+    if (Date.now() - session.createdAt < 12 * 60 * 60 * 1000) {
+      return true;
+    } else {
+      activeSessions.delete(token);
+    }
+  }
+
+  // 2. Check if provided token equals current hashed password
+  const currentHash = getAdminPasswordHash();
+  if (hashPassword(token) === currentHash) {
+    return true;
+  }
+
+  return false;
+}
 
 // Initialize store files if not existing
 if (!fs.existsSync(CMS_FILE)) {
   fs.writeFileSync(CMS_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
+}
+
+if (!fs.existsSync(MESSAGES_FILE)) {
+  const seedMessages: ContactMessage[] = [
+    {
+      id: "msg-welcome-1",
+      name: "Executive Inquiry System",
+      email: "surya.prashanth.kp@gmail.com",
+      subject: "Welcome to your Executive Contact Inbox",
+      message: "This system stores all incoming contact inquiries and test emails submitted through your portfolio site. Any email sent via the Contact Form is permanently logged here in your Admin Dashboard and dispatched via Nodemailer SMTP if configured.",
+      timestamp: new Date().toISOString(),
+      emailSentStatus: "stored_only"
+    }
+  ];
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(seedMessages, null, 2), 'utf-8');
 }
 
 if (!fs.existsSync(VISITORS_FILE)) {
@@ -96,6 +206,48 @@ function writeVisitors(data: VisitorLead[]) {
   fs.writeFileSync(VISITORS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+function readMessages(): ContactMessage[] {
+  try {
+    const raw = fs.readFileSync(MESSAGES_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    return [];
+  }
+}
+
+function writeMessages(data: ContactMessage[]) {
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+// Mail Transporter setup
+function formatSmtpError(err: any): string {
+  const raw = err?.message || String(err);
+  if (raw.includes('534-5.7.9') || raw.includes('Application-specific password required') || raw.includes('534')) {
+    return 'Gmail authentication rejected: Google requires a 16-character App Password when 2FA is active (Google Account Settings > Security > App Passwords). Standard account passwords are not allowed for SMTP.';
+  }
+  if (raw.includes('Invalid login') || raw.includes('535') || raw.includes('BadCredentials')) {
+    return 'SMTP authentication failed: Invalid username or password/App Password.';
+  }
+  return raw;
+}
+
+function getMailTransporter() {
+  const host = process.env.SMTP_HOST || (process.env.GMAIL_USER ? 'smtp.gmail.com' : null);
+  const port = parseInt(process.env.SMTP_PORT || '587');
+  const user = process.env.SMTP_USER || process.env.GMAIL_USER;
+  const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+
+  if (host && user && pass) {
+    return nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: { user, pass }
+    });
+  }
+  return null;
+}
+
 // Gemini AI Client setup
 let genAI: GoogleGenAI | null = null;
 function getGenAI() {
@@ -125,9 +277,8 @@ app.get('/api/cms', (req, res) => {
 
 // POST CMS Data
 app.post('/api/cms', (req, res) => {
-  const adminPin = req.headers['x-admin-pin'] || req.body.pin;
-  if (adminPin !== 'surya2026') {
-    return res.status(401).json({ success: false, message: 'Unauthorized. Invalid admin PIN.' });
+  if (!verifyAdminAuth(req)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized. Invalid or expired admin credentials.' });
   }
 
   const newCMS = req.body.cmsData || req.body;
@@ -139,10 +290,28 @@ app.post('/api/cms', (req, res) => {
   res.json({ success: true, message: 'CMS updated successfully.', data: newCMS });
 });
 
+// POST Update Profile Photo
+app.post('/api/profile/photo', (req, res) => {
+  const { photoUrl } = req.body;
+  if (photoUrl === undefined) {
+    return res.status(400).json({ success: false, message: 'photoUrl is required.' });
+  }
+
+  const cms = readCMS();
+  cms.profile.photoUrl = photoUrl || '/surya_headshot.jpg';
+  writeCMS(cms);
+
+  res.json({
+    success: true,
+    message: photoUrl ? 'Profile picture updated successfully.' : 'Profile picture reset to default.',
+    photoUrl: cms.profile.photoUrl,
+    cmsData: cms
+  });
+});
+
 // GET Visitor Analytics Leads
 app.get('/api/visitors', (req, res) => {
-  const adminPin = req.headers['x-admin-pin'] || req.query.pin;
-  if (adminPin !== 'surya2026') {
+  if (!verifyAdminAuth(req)) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 
@@ -234,8 +403,7 @@ app.post('/api/visitors', (req, res) => {
 
 // DELETE Visitor Lead
 app.delete('/api/visitors/:id', (req, res) => {
-  const adminPin = req.headers['x-admin-pin'] || req.query.pin;
-  if (adminPin !== 'surya2026') {
+  if (!verifyAdminAuth(req)) {
     return res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 
@@ -247,32 +415,247 @@ app.delete('/api/visitors/:id', (req, res) => {
   res.json({ success: true, message: 'Lead deleted successfully.' });
 });
 
+// GET Contact Messages (Admin)
+app.get('/api/contact/messages', (req, res) => {
+  if (!verifyAdminAuth(req)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+
+  const messages = readMessages();
+  res.json({
+    success: true,
+    messages,
+    count: messages.length
+  });
+});
+
+// DELETE Contact Message (Admin)
+app.delete('/api/contact/messages/:id', (req, res) => {
+  if (!verifyAdminAuth(req)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+
+  const id = req.params.id;
+  let messages = readMessages();
+  messages = messages.filter(m => m.id !== id);
+  writeMessages(messages);
+
+  res.json({ success: true, message: 'Message deleted successfully.' });
+});
+
 // POST Contact Message
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
   if (!name || !email || !message) {
     return res.status(400).json({ success: false, message: 'Name, email and message are required.' });
   }
 
-  console.log(`[CONTACT FORM SUBMISSION]: From ${name} (${email}) - Subject: ${subject || 'No subject'}`);
+  const now = new Date();
+  const msgId = 'msg-' + Date.now();
+  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket.remoteAddress || '127.0.0.1';
+
+  let emailSentStatus: 'sent_smtp' | 'stored_only' | 'failed_smtp' = 'stored_only';
+  let smtpError = '';
+
+  const transporter = getMailTransporter();
+  const targetEmail = process.env.SMTP_TO || 'surya.prashanth.kp@gmail.com';
+
+  if (transporter) {
+    try {
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM || `"${name}" <${email}>`,
+        to: targetEmail,
+        replyTo: email,
+        subject: subject ? `[Portfolio Inquiry] ${subject}` : `[Portfolio Inquiry] New message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || 'None'}\n\nMessage:\n${message}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 24px; color: #0f172a; background-color: #f8fafc; border-radius: 8px;">
+            <h2 style="color: #0891b2; margin-top: 0;">New Portfolio Executive Contact Submission</h2>
+            <p style="font-size: 14px;"><strong>From:</strong> ${name} (&lt;<a href="mailto:${email}">${email}</a>&gt;)</p>
+            <p style="font-size: 14px;"><strong>Subject:</strong> ${subject || 'No subject'}</p>
+            <p style="font-size: 14px;"><strong>Received At:</strong> ${now.toLocaleString()}</p>
+            <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 20px 0;" />
+            <h3 style="font-size: 16px; color: #334155;">Message Content:</h3>
+            <div style="background: #ffffff; padding: 18px; border-left: 4px solid #0891b2; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 15px; line-height: 1.6;">
+              ${message.replace(/\n/g, '<br/>')}
+            </div>
+          </div>
+        `
+      });
+      emailSentStatus = 'sent_smtp';
+      console.log(`[EMAIL DISPATCHED VIA SMTP]: Target=${targetEmail}, Sender=${email}`);
+    } catch (err: any) {
+      emailSentStatus = 'failed_smtp';
+      smtpError = formatSmtpError(err);
+      console.warn(`[SMTP NOTICE]: Direct email dispatch returned error: ${smtpError}. Message stored securely in Executive Inbox.`);
+    }
+  } else {
+    console.log(`[CONTACT FORM SUBMISSION]: Logged to Admin Inbox store. (SMTP not active - add SMTP_USER & SMTP_PASS to .env for direct email inbox relay)`);
+  }
+
+  const newMsg: ContactMessage = {
+    id: msgId,
+    name,
+    email,
+    subject: subject || 'No subject',
+    message,
+    timestamp: now.toISOString(),
+    ip,
+    emailSentStatus,
+    smtpError: smtpError || undefined
+  };
+
+  const messages = readMessages();
+  messages.unshift(newMsg);
+  writeMessages(messages);
+
   res.json({
     success: true,
-    message: 'Your message has been dispatched directly to Surya Prashanth. Expect a prompt response!'
+    message: emailSentStatus === 'sent_smtp'
+      ? 'Your email was transmitted successfully via SMTP to Surya Prashanth!'
+      : emailSentStatus === 'failed_smtp'
+      ? `Your message was captured and saved to Surya's Executive Inbox! (Note: ${smtpError})`
+      : 'Your message has been delivered to Surya\'s Executive Inbox and logged securely. You can also view it anytime in the Admin Dashboard.',
+    emailSentStatus,
+    smtpError: smtpError || undefined,
+    data: newMsg
+  });
+});
+
+// POST Test Email Dispatch
+app.post('/api/contact/test-email', async (req, res) => {
+  const { recipientEmail } = req.body;
+  const targetEmail = recipientEmail || process.env.SMTP_TO || 'surya.prashanth.kp@gmail.com';
+  const now = new Date();
+
+  console.log(`[TEST EMAIL DISPATCH REQUESTED] to: ${targetEmail}`);
+
+  const transporter = getMailTransporter();
+
+  const testMsg: ContactMessage = {
+    id: 'test-msg-' + Date.now(),
+    name: 'Portfolio System Tester',
+    email: targetEmail,
+    subject: 'Executive Portfolio Test Email Check',
+    message: `This is a test notification generated at ${now.toLocaleString()} to verify contact form transmission to ${targetEmail}.`,
+    timestamp: now.toISOString(),
+    emailSentStatus: transporter ? 'stored_only' : 'stored_only'
+  };
+
+  if (transporter) {
+    try {
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM || `"Surya Portfolio" <noreply@suryaprashanth.com>`,
+        to: targetEmail,
+        subject: `[TEST VERIFICATION] Surya Prashanth Portfolio Email Check`,
+        text: `Hello Surya,\n\nThis is a test verification email from your portfolio server executed at ${now.toLocaleString()}.\n\nIf you received this email in your inbox, your SMTP configuration is 100% active and working!`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 24px; color: #0f172a; background-color: #f8fafc; border-radius: 8px;">
+            <h2 style="color: #10b981;">SMTP Email Delivery Test Verified</h2>
+            <p><strong>Recipient:</strong> ${targetEmail}</p>
+            <p><strong>Timestamp:</strong> ${now.toLocaleString()}</p>
+            <div style="background: #ffffff; padding: 16px; border-left: 4px solid #10b981; border-radius: 6px; margin-top: 16px;">
+              <p style="margin: 0;">This email confirms that your server's outbound email pipeline is configured and active.</p>
+            </div>
+          </div>
+        `
+      });
+      testMsg.emailSentStatus = 'sent_smtp';
+      console.log(`[TEST EMAIL SUCCESS]: Dispatched via SMTP to ${targetEmail}`);
+    } catch (err: any) {
+      testMsg.emailSentStatus = 'failed_smtp';
+      testMsg.smtpError = formatSmtpError(err);
+      console.warn(`[TEST EMAIL SMTP NOTICE]: ${testMsg.smtpError}`);
+    }
+  }
+
+  const messages = readMessages();
+  messages.unshift(testMsg);
+  writeMessages(messages);
+
+  res.json({
+    success: true,
+    emailSentStatus: testMsg.emailSentStatus,
+    targetEmail,
+    message: testMsg.emailSentStatus === 'sent_smtp'
+      ? `Test email dispatched via SMTP to ${targetEmail}. Check your inbox!`
+      : `Test message saved to Executive Inbox store. (Outbound SMTP requires SMTP_USER and SMTP_PASS environment variables or Gmail App Password).`,
+    smtpError: testMsg.smtpError
   });
 });
 
 // POST Admin Login
-app.post('/api/admin/login', (req, res) => {
-  const { pin } = req.body;
-  if (pin === 'surya2026') {
-    res.json({
+app.post('/api/admin/login', async (req, res) => {
+  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket.remoteAddress || '127.0.0.1';
+  const { pin, password } = req.body;
+  const pwdInput = password || pin;
+
+  const rateCheck = checkRateLimit(ip);
+  if (!rateCheck.allowed) {
+    return res.status(429).json({
+      success: false,
+      message: `Too many failed login attempts. Access temporarily locked for ${Math.ceil(rateCheck.remainingSecs / 60)} minute(s).`
+    });
+  }
+
+  if (!pwdInput) {
+    return res.status(400).json({ success: false, message: 'Admin Password is required.' });
+  }
+
+  const currentHash = getAdminPasswordHash();
+  const inputHash = hashPassword(pwdInput);
+
+  if (inputHash === currentHash) {
+    clearFailedAttempts(ip);
+    const sessionToken = 'sess_' + crypto.randomBytes(32).toString('hex');
+    activeSessions.set(sessionToken, { createdAt: Date.now(), ip });
+
+    return res.json({
       success: true,
-      token: 'surya-admin-session-active',
+      token: sessionToken,
       message: 'Authenticated successfully.'
     });
   } else {
-    res.status(401).json({ success: false, message: 'Invalid Admin PIN.' });
+    recordFailedAttempt(ip);
+    // Add 400ms delay to mitigate timing side-channel attacks
+    await new Promise(r => setTimeout(r, 400));
+    return res.status(401).json({ success: false, message: 'Invalid Admin Password.' });
   }
+});
+
+// POST Admin Change Password
+app.post('/api/admin/change-password', (req, res) => {
+  if (!verifyAdminAuth(req)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized session.' });
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Current password and new password are required.' });
+  }
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({ success: false, message: 'New password must be at least 8 characters long.' });
+  }
+
+  const currentHash = getAdminPasswordHash();
+  if (hashPassword(currentPassword) !== currentHash) {
+    return res.status(401).json({ success: false, message: 'Current password verification failed.' });
+  }
+
+  setAdminPassword(newPassword);
+
+  // Invalidate previous session tokens and create new session token
+  activeSessions.clear();
+  const newToken = 'sess_' + crypto.randomBytes(32).toString('hex');
+  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.socket.remoteAddress || '127.0.0.1';
+  activeSessions.set(newToken, { createdAt: Date.now(), ip });
+
+  res.json({
+    success: true,
+    token: newToken,
+    message: 'Admin Password updated successfully! Active sessions refreshed.'
+  });
 });
 
 // POST AI Profile Chatbot
