@@ -6,7 +6,6 @@ import {
   Github, 
   MapPin, 
   Globe, 
-  Clock, 
   CheckCircle2, 
   AlertCircle,
   ShieldCheck,
@@ -30,6 +29,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     message: ''
   });
 
+  const recipientEmail = profile.email || 'surya.prashanth.kp@hotmail.com';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
@@ -37,19 +38,22 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       return;
     }
 
-    setStatus({ type: 'loading', message: 'Delivering message to Surya...' });
+    setStatus({ type: 'loading', message: 'Delivering executive message to surya.prashanth.kp@hotmail.com...' });
 
     const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject || 'Executive Inquiry'} - ${formData.name}`);
-    const mailtoBody = encodeURIComponent(`From: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\n---\nSent via Portfolio Contact Form`);
-    const mailtoUrl = `mailto:${profile.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    const mailtoBody = encodeURIComponent(`From: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\n---\nSent via Portfolio Executive Inquiry Form`);
+    const mailtoUrl = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-    // 1. Save to internal Server Store (Admin Inbox)
+    // 1. Deliver to internal Server Store & SMTP
     let savedInServer = false;
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          targetEmail: 'surya.prashanth.kp@hotmail.com'
+        })
       });
       const data = await res.json();
       if (data.success) savedInServer = true;
@@ -57,7 +61,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       console.warn('Server contact store warning:', err);
     }
 
-    // 2. Dispatch via FormSubmit.co relay to surya.prashanth.kp@hotmail.com & surya.prashanth.kp@gmail.com
+    // 2. Direct HTTP email relay to surya.prashanth.kp@hotmail.com
     let dispatchedRelay = false;
     try {
       const relayRes = await fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
@@ -70,8 +74,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           name: formData.name,
           email: formData.email,
           _replyto: formData.email,
-          _subject: `[Portfolio Contact] ${formData.subject || 'Executive Message'} from ${formData.name}`,
-          message: formData.message
+          _subject: `[Executive Portfolio Inquiry] ${formData.subject || 'New Message'} from ${formData.name}`,
+          message: formData.message,
+          _template: 'table'
         })
       });
       const relayData = await relayRes.json();
@@ -82,13 +87,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       console.warn('FormSubmit relay warning:', err);
     }
 
-    // 3. Set clear, informative status message
+    // 3. Set confirmation status
     setStatus({ 
       type: 'success', 
-      message: `Your message has been delivered! It was logged in Surya's Executive Inbox${dispatchedRelay ? ' and forwarded to surya.prashanth.kp@hotmail.com' : ''}. You can also send directly from your email app below.` 
+      message: `Your executive inquiry has been sent to surya.prashanth.kp@hotmail.com! It has also been recorded in Surya's Executive Inbox.` 
     });
 
-    // Attempt automatic mailto popup as a client guarantee
+    // Attempt automatic mailto link
     try {
       window.location.href = mailtoUrl;
     } catch (e) {}
@@ -293,7 +298,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   type="submit"
                   disabled={status.type === 'loading'}
@@ -304,39 +309,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                 </button>
 
                 <a
-                  href={`mailto:${profile.email}?subject=${encodeURIComponent('[Direct Contact] Executive Inquiry')}`}
-                  className="py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
+                  href={`mailto:${recipientEmail}?subject=${encodeURIComponent('[Direct Contact] Executive Inquiry')}`}
+                  className="py-3.5 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md"
                 >
                   <Mail className="w-4 h-4 text-cyan-400" />
                   <span>Direct Mailto</span>
                 </a>
-
-                <button
-                  type="button"
-                  onClick={async () => {
-                    setStatus({ type: 'loading', message: 'Triggering test email verification...' });
-                    try {
-                      const res = await fetch('/api/contact/test-email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ recipientEmail: profile.email })
-                      });
-                      const data = await res.json();
-                      if (data.success) {
-                        setStatus({ type: 'success', message: `Test Email check completed! ${data.message}` });
-                      } else {
-                        setStatus({ type: 'error', message: data.message || 'Test email failed.' });
-                      }
-                    } catch (err) {
-                      setStatus({ type: 'error', message: 'Failed to contact test email endpoint.' });
-                    }
-                  }}
-                  className="py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-600 font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
-                  title="Test server email transmission"
-                >
-                  <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Send Test Email</span>
-                </button>
               </div>
 
             </form>

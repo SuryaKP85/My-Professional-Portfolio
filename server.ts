@@ -508,7 +508,7 @@ app.post('/api/contact', async (req, res) => {
   let smtpError = '';
 
   const mailObj = getMailTransporter();
-  const targetEmail = process.env.SMTP_TO || 'surya.prashanth.kp@hotmail.com, surya.prashanth.kp@gmail.com';
+  const targetEmail = (req.body.targetEmail as string) || process.env.SMTP_TO || 'surya.prashanth.kp@hotmail.com';
 
   // Always attempt FormSubmit.co HTTP relay to surya.prashanth.kp@hotmail.com
   fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
