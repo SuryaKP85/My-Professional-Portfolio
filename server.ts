@@ -37,7 +37,7 @@ function hashPassword(pwd: string): string {
   return crypto.createHash('sha256').update(pwd + '_surya_secure_salt_2026').digest('hex');
 }
 
-const DEFAULT_ADMIN_PASSWORD = 'Burno@2026!';
+const DEFAULT_ADMIN_PASSWORD = 'Burno@1985';
 
 // Always ensure initial config or reset to requested password
 const initialConfig = {
@@ -232,18 +232,22 @@ function formatSmtpError(err: any): string {
 }
 
 function getMailTransporter() {
-  const host = process.env.SMTP_HOST || (process.env.GMAIL_USER ? 'smtp.gmail.com' : null);
+  const rawPass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD || '';
+  const pass = rawPass.trim().replace(/\s+/g, '');
+  const user = (process.env.SMTP_USER || process.env.GMAIL_USER || (pass ? 'surya.prashanth.kp@gmail.com' : '')).trim();
+  const host = (process.env.SMTP_HOST || (pass ? 'smtp.gmail.com' : '')).trim();
   const port = parseInt(process.env.SMTP_PORT || '587');
-  const user = process.env.SMTP_USER || process.env.GMAIL_USER;
-  const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
 
   if (host && user && pass) {
-    return nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
-      auth: { user, pass }
-    });
+    return {
+      transporter: nodemailer.createTransport({
+        host,
+        port,
+        secure: port === 465,
+        auth: { user, pass }
+      }),
+      smtpUser: user
+    };
   }
   return null;
 }
@@ -290,15 +294,19 @@ app.post('/api/cms', (req, res) => {
   res.json({ success: true, message: 'CMS updated successfully.', data: newCMS });
 });
 
-// POST Update Profile Photo
+// POST Update Profile Photo (Admin Only)
 app.post('/api/profile/photo', (req, res) => {
+  if (!verifyAdminAuth(req)) {
+    return res.status(401).json({ success: false, message: 'Unauthorized. Admin credentials required to update display picture.' });
+  }
+
   const { photoUrl } = req.body;
   if (photoUrl === undefined) {
     return res.status(400).json({ success: false, message: 'photoUrl is required.' });
   }
 
   const cms = readCMS();
-  cms.profile.photoUrl = photoUrl || '/surya_headshot.jpg';
+  cms.profile.photoUrl = photoUrl || '/images/profile/surya-profile.jpg';
   writeCMS(cms);
 
   res.json({
@@ -396,11 +404,13 @@ app.post('/api/visitors', (req, res) => {
   const forwardTargets = ['surya.prashanth.kp@hotmail.com', 'surya.prashanth.kp@gmail.com'];
   
   // 1. Forward via SMTP if configured
-  const transporter = getMailTransporter();
-  if (transporter) {
-    transporter.sendMail({
-      from: process.env.SMTP_FROM || `"Portfolio Visitor Lead" <${email}>`,
+  const mailObj = getMailTransporter();
+  if (mailObj) {
+    const fromAddr = process.env.SMTP_FROM || `"Portfolio Visitor Lead" <${mailObj.smtpUser}>`;
+    mailObj.transporter.sendMail({
+      from: fromAddr,
       to: forwardTargets.join(','),
+      replyTo: email,
       subject: `[Visitor Lead Captured] ${firstName} ${lastName || ''} (${company || 'Independent'})`,
       text: `New Visitor Lead Captured:\n\nName: ${firstName} ${lastName || ''}\nEmail: ${email}\nCompany: ${company || 'Not specified'}\nDesignation: ${designation || 'Not specified'}\nTime: ${now.toLocaleString()}\nTraffic Source: ${trafficSource || 'Direct'}`,
       html: `
@@ -497,7 +507,7 @@ app.post('/api/contact', async (req, res) => {
   let emailSentStatus: 'sent_smtp' | 'stored_only' | 'failed_smtp' = 'stored_only';
   let smtpError = '';
 
-  const transporter = getMailTransporter();
+  const mailObj = getMailTransporter();
   const targetEmail = process.env.SMTP_TO || 'surya.prashanth.kp@hotmail.com, surya.prashanth.kp@gmail.com';
 
   // Always attempt FormSubmit.co HTTP relay to surya.prashanth.kp@hotmail.com
@@ -513,10 +523,11 @@ app.post('/api/contact', async (req, res) => {
     })
   }).catch(err => console.warn('[FORMSUBMIT CONTACT FORWARD NOTICE]:', err.message));
 
-  if (transporter) {
+  if (mailObj) {
     try {
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM || `"${name}" <${email}>`,
+      const fromAddr = process.env.SMTP_FROM || `"${name} (via Portfolio)" <${mailObj.smtpUser}>`;
+      await mailObj.transporter.sendMail({
+        from: fromAddr,
         to: targetEmail,
         replyTo: email,
         subject: subject ? `[Portfolio Inquiry] ${subject}` : `[Portfolio Inquiry] New message from ${name}`,
@@ -543,7 +554,7 @@ app.post('/api/contact', async (req, res) => {
       console.warn(`[SMTP NOTICE]: Direct email dispatch returned error: ${smtpError}. Message stored securely in Executive Inbox.`);
     }
   } else {
-    console.log(`[CONTACT FORM SUBMISSION]: Logged to Admin Inbox store. (SMTP not active - add SMTP_USER & SMTP_PASS to .env for direct email inbox relay)`);
+    console.log(`[CONTACT FORM SUBMISSION]: Logged to Admin Inbox store. (SMTP not active - add GMAIL_APP_PASSWORD to environment for direct SMTP relay)`);
   }
 
   const newMsg: ContactMessage = {
@@ -583,7 +594,7 @@ app.post('/api/contact/test-email', async (req, res) => {
 
   console.log(`[TEST EMAIL DISPATCH REQUESTED] to: ${targetEmail}`);
 
-  const transporter = getMailTransporter();
+  const mailObj = getMailTransporter();
 
   const testMsg: ContactMessage = {
     id: 'test-msg-' + Date.now(),
@@ -592,12 +603,12 @@ app.post('/api/contact/test-email', async (req, res) => {
     subject: 'Executive Portfolio Test Email Check',
     message: `This is a test notification generated at ${now.toLocaleString()} to verify contact form transmission to ${targetEmail}.`,
     timestamp: now.toISOString(),
-    emailSentStatus: transporter ? 'stored_only' : 'stored_only'
+    emailSentStatus: mailObj ? 'stored_only' : 'stored_only'
   };
 
-  if (transporter) {
+  if (mailObj) {
     try {
-      await transporter.sendMail({
+      await mailObj.transporter.sendMail({
         from: process.env.SMTP_FROM || `"Surya Portfolio" <noreply@suryaprashanth.com>`,
         to: targetEmail,
         subject: `[TEST VERIFICATION] Surya Prashanth Portfolio Email Check`,

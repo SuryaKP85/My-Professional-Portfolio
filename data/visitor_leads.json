@@ -1,5 +1,26 @@
 [
   {
+    "id": "lead-1786519021389",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@techcorp.com",
+    "company": "TechCorp Logistics",
+    "designation": "Director of Product",
+    "date": "2026-08-12",
+    "time": "07:17:01",
+    "ip": "127.0.0.1",
+    "country": "United States",
+    "device": "Desktop",
+    "browser": "Chrome",
+    "pagesVisited": [
+      "/home"
+    ],
+    "timeSpent": "45s",
+    "trafficSource": "Direct",
+    "referrer": "Direct",
+    "isReturning": false
+  },
+  {
     "id": "lead-1786515035840",
     "firstName": "Test",
     "lastName": "Visitor",

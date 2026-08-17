@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, 
   Lock, 
@@ -19,28 +19,51 @@ import {
   ShieldCheck,
   Mail,
   Clock,
-  Send
+  Send,
+  Camera,
+  Upload,
+  RefreshCw,
+  LogOut,
+  AlertCircle,
+  Check,
+  Sliders,
+  Crop,
+  Maximize2
 } from 'lucide-react';
 import { VisitorLead, CMSData, ContactMessage } from '../types';
+import { ImageResizerModal } from './ImageResizerModal';
 
 interface AdminModalProps {
   isOpen: boolean;
   onClose: () => void;
   cmsData: CMSData;
   onUpdateCMS: (newData: CMSData) => void;
+  onAdminAuthChange?: (isAdmin: boolean, token?: string) => void;
 }
 
 export const AdminModal: React.FC<AdminModalProps> = ({
   isOpen,
   onClose,
   cmsData,
-  onUpdateCMS
+  onUpdateCMS,
+  onAdminAuthChange
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [passwordInput, setPasswordInput] = useState('');
-  const [adminToken, setAdminToken] = useState<string>('');
-  const [authenticated, setAuthenticated] = useState(false);
+  const [adminToken, setAdminToken] = useState<string>(() => {
+    return sessionStorage.getItem('surya_admin_token') || '';
+  });
+  const [authenticated, setAuthenticated] = useState<boolean>(() => {
+    return !!sessionStorage.getItem('surya_admin_token');
+  });
   const [authError, setAuthError] = useState('');
-  const [activeTab, setActiveTab] = useState<'analytics' | 'inbox' | 'cms' | 'security'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'inbox' | 'cms' | 'security'>('cms');
+
+  // Profile Photo Upload State
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoStatus, setPhotoStatus] = useState<{ type: 'idle' | 'success' | 'error'; message: string }>({ type: 'idle', message: '' });
+  const [isResizerOpen, setIsResizerOpen] = useState(false);
+  const [resizerImageSrc, setResizerImageSrc] = useState<string>('');
 
   // Change password state
   const [currPassword, setCurrPassword] = useState('');
@@ -60,6 +83,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     setProfileEdit(cmsData.profile);
   }, [cmsData]);
 
+  useEffect(() => {
+    if (authenticated && adminToken) {
+      fetchVisitorData(adminToken);
+      fetchContactMessages(adminToken);
+      if (onAdminAuthChange) {
+        onAdminAuthChange(true, adminToken);
+      }
+    }
+  }, [authenticated, adminToken]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
@@ -73,8 +106,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       const data = await res.json();
 
       if (data.success && data.token) {
+        sessionStorage.setItem('surya_admin_token', data.token);
         setAdminToken(data.token);
         setAuthenticated(true);
+        if (onAdminAuthChange) {
+          onAdminAuthChange(true, data.token);
+        }
         fetchVisitorData(data.token);
         fetchContactMessages(data.token);
       } else {
@@ -82,6 +119,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       }
     } catch (err) {
       setAuthError('Authentication server error.');
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('surya_admin_token');
+    setAdminToken('');
+    setAuthenticated(false);
+    setPasswordInput('');
+    if (onAdminAuthChange) {
+      onAdminAuthChange(false, '');
     }
   };
 
@@ -174,6 +221,106 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     document.body.removeChild(link);
   };
 
+  // Profile Picture Upload Handler (Admin-Only)
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 15 * 1024 * 1024) {
+      setPhotoStatus({ type: 'error', message: 'File is too large. Maximum size allowed is 15MB.' });
+      setTimeout(() => setPhotoStatus({ type: 'idle', message: '' }), 5000);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const rawBase64 = reader.result as string;
+      setResizerImageSrc(rawBase64);
+      setIsResizerOpen(true);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleOpenCurrentPhotoInResizer = () => {
+    const currentPhoto = profileEdit.photoUrl || '/images/profile/surya-profile.jpg';
+    setResizerImageSrc(currentPhoto);
+    setIsResizerOpen(true);
+  };
+
+  const handleSaveCroppedPhoto = async (finalCroppedBase64: string) => {
+    setPhotoUploading(true);
+    setPhotoStatus({ type: 'idle', message: 'Publishing resized headshot...' });
+
+    try {
+      const res = await fetch('/api/profile/photo', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-token': adminToken
+        },
+        body: JSON.stringify({ photoUrl: finalCroppedBase64 })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const updatedCMS: CMSData = {
+          ...cmsData,
+          profile: {
+            ...cmsData.profile,
+            photoUrl: finalCroppedBase64
+          }
+        };
+        setProfileEdit(prev => ({ ...prev, photoUrl: finalCroppedBase64 }));
+        onUpdateCMS(updatedCMS);
+        setPhotoStatus({ type: 'success', message: 'Headshot resized & published successfully to live website!' });
+      } else {
+        setPhotoStatus({ type: 'error', message: data.message || 'Failed to update photo.' });
+      }
+    } catch (err) {
+      setPhotoStatus({ type: 'error', message: 'Network error publishing resized photo.' });
+    } finally {
+      setPhotoUploading(false);
+      setTimeout(() => setPhotoStatus({ type: 'idle', message: '' }), 5000);
+    }
+  };
+
+  const handleResetPhoto = async () => {
+    setPhotoUploading(true);
+    setPhotoStatus({ type: 'idle', message: 'Resetting to default headshot...' });
+    const defaultPhoto = '/images/profile/surya-profile.jpg';
+
+    try {
+      const res = await fetch('/api/profile/photo', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-token': adminToken
+        },
+        body: JSON.stringify({ photoUrl: defaultPhoto })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const updatedCMS: CMSData = {
+          ...cmsData,
+          profile: {
+            ...cmsData.profile,
+            photoUrl: defaultPhoto
+          }
+        };
+        setProfileEdit(prev => ({ ...prev, photoUrl: defaultPhoto }));
+        onUpdateCMS(updatedCMS);
+        setPhotoStatus({ type: 'success', message: 'Reset to default executive photograph.' });
+      } else {
+        setPhotoStatus({ type: 'error', message: data.message || 'Failed to reset photo.' });
+      }
+    } catch (err) {
+      setPhotoStatus({ type: 'error', message: 'Failed to reset photo.' });
+    } finally {
+      setPhotoUploading(false);
+      setTimeout(() => setPhotoStatus({ type: 'idle', message: '' }), 5000);
+    }
+  };
+
   const handleSaveCMS = async () => {
     const updatedCMS: CMSData = {
       ...cmsData,
@@ -202,6 +349,50 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     }
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSecStatus({ type: 'idle', message: '' });
+
+    if (newPassword !== confirmPassword) {
+      setSecStatus({ type: 'error', message: 'New password and confirmation do not match.' });
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setSecStatus({ type: 'error', message: 'Password must be at least 8 characters long.' });
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': adminToken
+        },
+        body: JSON.stringify({
+          currentPassword: currPassword,
+          newPassword
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSecStatus({ type: 'success', message: 'Admin password updated successfully! Please keep your new password safe.' });
+        setCurrPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        if (data.token) {
+          sessionStorage.setItem('surya_admin_token', data.token);
+          setAdminToken(data.token);
+        }
+      } else {
+        setSecStatus({ type: 'error', message: data.message || 'Failed to update password.' });
+      }
+    } catch (err) {
+      setSecStatus({ type: 'error', message: 'Network error communicating with server.' });
+    }
+  };
+
   const filteredLeads = leads.filter((l) => {
     const q = searchTerm.toLowerCase();
     return (
@@ -227,19 +418,31 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             </div>
             <div>
               <h2 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
-                <span>Executive Admin & Visitor Portal</span>
+                <span>Executive Admin & Management Portal</span>
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
               </h2>
-              <p className="text-xs text-slate-400">Secure visitor analytics, lead captures, and headless CMS manager</p>
+              <p className="text-xs text-slate-400">Authenticated display photo management, leads analytics, and site content control</p>
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 rounded-xl bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {authenticated && (
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-rose-400 border border-slate-800 hover:border-rose-900 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                title="Lock / Logout Admin Session"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Lock Session</span>
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {!authenticated ? (
@@ -250,8 +453,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-slate-100">Protected Portal Access</h3>
-              <p className="text-xs text-slate-400 mt-1">Enter your Admin Password to manage leads and site content.</p>
+              <h3 className="text-xl font-bold text-slate-100">Protected Admin Portal</h3>
+              <p className="text-xs text-slate-400 mt-1">Enter your Admin Password to manage display photo, visitor leads, and site content.</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
@@ -262,6 +465,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-center text-slate-100 tracking-widest font-mono text-sm focus:outline-none focus:border-cyan-500"
+                  required
                 />
                 <Key className="w-4 h-4 text-slate-500 absolute left-4 top-3.5" />
               </div>
@@ -272,7 +476,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 active:scale-95 transition-all"
               >
                 Authenticate Portal
               </button>
@@ -284,6 +488,18 @@ export const AdminModal: React.FC<AdminModalProps> = ({
             
             {/* Nav Tabs */}
             <div className="flex flex-wrap bg-slate-950 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold gap-1">
+              <button
+                onClick={() => setActiveTab('cms')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
+                  activeTab === 'cms'
+                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-md'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Edit className="w-4 h-4" />
+                <span>Display Photo & CMS Manager</span>
+              </button>
+
               <button
                 onClick={() => setActiveTab('analytics')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
@@ -312,18 +528,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               </button>
 
               <button
-                onClick={() => setActiveTab('cms')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
-                  activeTab === 'cms'
-                    ? 'bg-cyan-500 text-slate-950 font-bold shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                <Edit className="w-4 h-4" />
-                <span>Headless CMS Manager</span>
-              </button>
-
-              <button
                 onClick={() => setActiveTab('security')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                   activeTab === 'security'
@@ -336,7 +540,176 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               </button>
             </div>
 
-            {activeTab === 'analytics' ? (
+            {/* CMS & Display Photo Tab */}
+            {activeTab === 'cms' ? (
+              <div className="space-y-6 text-xs">
+                
+                {/* Dedicated Executive Profile Picture Management Section */}
+                <div className="bg-slate-950 p-6 sm:p-8 rounded-2xl border border-cyan-500/30 space-y-6 shadow-xl">
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+                        <Camera className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
+                          <span>Executive Display Picture Manager</span>
+                          <span className="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-[10px] uppercase font-mono">
+                            Admin Only
+                          </span>
+                        </h3>
+                        <p className="text-xs text-slate-400">
+                          Upload, update, or reset the executive headshot displayed in the Hero section and portfolio cards.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-12 gap-6 items-center">
+                    
+                    {/* Live Preview of Display Photo */}
+                    <div className="md:col-span-4 flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-3">
+                      <div className="relative w-36 h-44 rounded-2xl overflow-hidden border-2 border-cyan-400/80 shadow-2xl bg-slate-950">
+                        <img 
+                          src={profileEdit.photoUrl || '/images/profile/surya-profile.jpg'} 
+                          alt="Live Executive Display Headshot" 
+                          className="w-full h-full object-cover object-top"
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/surya_headshot.jpg'; }}
+                        />
+                        <div className="absolute top-2 left-2 bg-slate-900/90 backdrop-blur-md px-2 py-0.5 rounded-md border border-cyan-500/40 text-[10px] font-bold text-cyan-300">
+                          Live Headshot
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-slate-400 font-mono">
+                        Active on live site
+                      </p>
+                    </div>
+
+                    {/* Upload Controls & Actions */}
+                    <div className="md:col-span-8 space-y-4">
+                      <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-2">
+                        <p className="text-slate-200 font-semibold text-xs">
+                          Display Picture Guidelines:
+                        </p>
+                        <ul className="text-slate-400 text-[11px] space-y-1 list-disc list-inside">
+                          <li>Supported formats: JPG, PNG, WEBP (Max 8MB)</li>
+                          <li>Ideal aspect ratio: 4:5 or 1:1 portrait format</li>
+                          <li>High-resolution executive headshots recommended</li>
+                          <li>Visitor view is strictly read-only; upload controls are restricted to this authenticated admin screen</li>
+                        </ul>
+                      </div>
+
+                      {/* Status Feedback Banner */}
+                      {photoStatus.message && (
+                        <div className={`p-3 rounded-xl text-xs font-semibold flex items-center gap-2 ${
+                          photoStatus.type === 'success' 
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                            : photoStatus.type === 'error'
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                            : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                        }`}>
+                          {photoStatus.type === 'success' ? (
+                            <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                          ) : photoStatus.type === 'error' ? (
+                            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                          ) : (
+                            <RefreshCw className="w-4 h-4 text-cyan-400 animate-spin shrink-0" />
+                          )}
+                          <span>{photoStatus.message}</span>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          disabled={photoUploading}
+                          onClick={() => fileInputRef.current?.click()}
+                          className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+                        >
+                          <Upload className="w-4 h-4" />
+                          <span>Upload & Resize Photo</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={photoUploading}
+                          onClick={handleOpenCurrentPhotoInResizer}
+                          className="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/40 font-semibold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
+                        >
+                          <Sliders className="w-4 h-4 text-cyan-400" />
+                          <span>Resize / Adjust Framing</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={photoUploading}
+                          onClick={handleResetPhoto}
+                          className="px-4 py-3 rounded-xl bg-slate-900 hover:bg-rose-950/70 hover:border-rose-700 text-slate-300 hover:text-rose-200 border border-slate-800 font-semibold text-xs transition-all flex items-center gap-2 disabled:opacity-50"
+                        >
+                          <RefreshCw className="w-4 h-4 text-slate-400" />
+                          <span>Reset to Default</span>
+                        </button>
+
+                        {/* Hidden File Input */}
+                        <input 
+                          type="file" 
+                          ref={fileInputRef} 
+                          accept="image/*" 
+                          onChange={handlePhotoUpload} 
+                          className="hidden" 
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Profile Text Metadata Editor */}
+                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+                  <h3 className="text-sm font-bold text-slate-100">Edit Executive Profile Text & Bio</h3>
+                  
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-slate-400 font-semibold mb-1">Full Name</label>
+                      <input
+                        type="text"
+                        value={profileEdit.name}
+                        onChange={(e) => setProfileEdit({ ...profileEdit, name: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-400 font-semibold mb-1">Title</label>
+                      <input
+                        type="text"
+                        value={profileEdit.title}
+                        onChange={(e) => setProfileEdit({ ...profileEdit, title: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-slate-400 font-semibold mb-1">Executive Summary</label>
+                    <textarea
+                      rows={4}
+                      value={profileEdit.executiveSummary}
+                      onChange={(e) => setProfileEdit({ ...profileEdit, executiveSummary: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 font-sans leading-relaxed focus:outline-none focus:border-cyan-500"
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleSaveCMS}
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20"
+                  >
+                    Save Profile Changes to CMS
+                  </button>
+                </div>
+
+              </div>
+            ) : activeTab === 'analytics' ? (
               /* Visitor Analytics & Lead Table */
               <div className="space-y-6">
                 
@@ -448,66 +821,57 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               </div>
             ) : activeTab === 'inbox' ? (
               /* Contact Inbox View */
-              <div className="space-y-6 text-xs">
-                
-                {/* SMTP Setup Guidance Box */}
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                  <div className="flex items-center gap-2 font-bold text-cyan-300">
-                    <Mail className="w-4 h-4 text-cyan-400" />
-                    <span>Executive Contact Inbox & Email Delivery Guide</span>
-                  </div>
-                  <p className="text-slate-300 leading-relaxed">
-                    All messages sent through the "Contact Me" section are automatically saved permanently in this Inbox.
-                    Visitors are also provided a 1-click option to send directly via their default Mail / Gmail app to <span className="text-cyan-300 font-mono">surya.prashanth.kp@gmail.com</span>.
-                  </p>
-                  <div className="pt-2 text-[11px] text-slate-400 bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                    <span className="font-semibold text-slate-200">Tip for Automated Background Gmail Forwarding:</span> Google requires a 16-character App Password for SMTP relay. If you want direct server-side forwarding, set <code className="text-cyan-400 font-mono">GMAIL_USER=surya.prashanth.kp@gmail.com</code> and <code className="text-cyan-400 font-mono">GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx</code> (generated under Google Account &gt; Security &gt; 2-Step Verification &gt; App Passwords).
-                  </div>
-                </div>
-
+              <div className="space-y-4 text-xs">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
                     <Mail className="w-4 h-4 text-cyan-400" />
-                    <span>Inbound Contact Messages ({messages.length})</span>
+                    <span>Inbound Inquiries & Messages ({messages.length})</span>
                   </h3>
                   <button
-                    onClick={fetchContactMessages}
-                    className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 font-medium text-xs transition-colors"
+                    onClick={() => fetchContactMessages()}
+                    className="px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 text-[11px] font-semibold flex items-center gap-1.5"
                   >
-                    Refresh Inbox
+                    <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Refresh Inbox</span>
                   </button>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {messages.length === 0 ? (
-                    <div className="p-8 text-center bg-slate-950 rounded-2xl border border-slate-800 text-slate-400">
-                      No contact messages received yet.
+                    <div className="p-8 text-center text-slate-500 bg-slate-950 rounded-2xl border border-slate-800">
+                      No inbound contact messages received yet.
                     </div>
                   ) : (
                     messages.map((m) => (
-                      <div key={m.id} className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-900 pb-3">
+                      <div 
+                        key={m.id} 
+                        className="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 hover:border-slate-700 transition-all space-y-3"
+                      >
+                        <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
-                            <span className="font-bold text-slate-100 text-sm">{m.name}</span>
-                            <a href={`mailto:${m.email}`} className="text-cyan-400 font-mono ml-2 text-xs hover:underline">
-                              &lt;{m.email}&gt;
-                            </a>
+                            <div className="text-sm font-bold text-slate-100 flex items-center gap-2">
+                              <span>{m.name}</span>
+                              <span className="text-cyan-400 font-mono text-xs">&lt;{m.email}&gt;</span>
+                            </div>
+                            <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+                              Received: {new Date(m.timestamp).toLocaleString()}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                            <Clock className="w-3.5 h-3.5 text-slate-500" />
-                            <span>{new Date(m.timestamp).toLocaleString()}</span>
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                              m.emailSentStatus === 'sent_smtp' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' :
-                              m.emailSentStatus === 'failed_smtp' ? 'bg-rose-950 text-rose-400 border border-rose-800' :
-                              'bg-cyan-950 text-cyan-300 border border-cyan-800'
+
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                              m.emailSentStatus === 'sent_smtp'
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                : m.emailSentStatus === 'failed_smtp'
+                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                                : 'bg-slate-800 text-slate-400'
                             }`}>
-                              {m.emailSentStatus === 'sent_smtp' ? 'Dispatched via SMTP' :
-                               m.emailSentStatus === 'failed_smtp' ? 'Saved in Inbox Store' :
-                               'Saved in Inbox Store'}
+                              {m.emailSentStatus === 'sent_smtp' ? 'SMTP Delivered' : m.emailSentStatus === 'failed_smtp' ? 'Stored Locally' : 'Stored in DB'}
                             </span>
+
                             <button
                               onClick={() => handleDeleteMessage(m.id)}
-                              className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-slate-900 ml-2"
+                              className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-900 transition-colors"
                               title="Delete Message"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -516,7 +880,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                         </div>
 
                         {m.subject && (
-                          <div className="font-semibold text-cyan-300 text-xs">
+                          <div className="text-xs font-semibold text-cyan-300">
                             Subject: {m.subject}
                           </div>
                         )}
@@ -545,54 +909,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   )}
                 </div>
               </div>
-            ) : activeTab === 'cms' ? (
-              /* Headless CMS Profile Editor */
-              <div className="space-y-6 text-xs">
-                
-                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
-                  <h3 className="text-sm font-bold text-slate-100">Edit Executive Profile Content</h3>
-                  
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-slate-400 font-semibold mb-1">Full Name</label>
-                      <input
-                        type="text"
-                        value={profileEdit.name}
-                        onChange={(e) => setProfileEdit({ ...profileEdit, name: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-slate-400 font-semibold mb-1">Title</label>
-                      <input
-                        type="text"
-                        value={profileEdit.title}
-                        onChange={(e) => setProfileEdit({ ...profileEdit, title: e.target.value })}
-                        className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Executive Summary</label>
-                    <textarea
-                      rows={4}
-                      value={profileEdit.executiveSummary}
-                      onChange={(e) => setProfileEdit({ ...profileEdit, executiveSummary: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 font-sans leading-relaxed"
-                    />
-                  </div>
-
-                  <button
-                    onClick={handleSaveCMS}
-                    className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs"
-                  >
-                    Save Profile Changes to CMS
-                  </button>
-                </div>
-
-              </div>
             ) : (
               /* Security & Password Manager Tab */
               <div className="space-y-6 text-xs">
@@ -603,7 +919,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-slate-100">Portal Password & Security Management</h3>
-                      <p className="text-xs text-slate-400">Update your Admin Password. All password hints have been stripped for complete privacy.</p>
+                      <p className="text-xs text-slate-400">Update your Admin Password securely.</p>
                     </div>
                   </div>
 
@@ -615,9 +931,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     <ul className="text-slate-400 text-[11px] space-y-1 list-disc list-inside">
                       <li>SHA-256 salted password hashing</li>
                       <li>Cryptographic 64-character session tokens</li>
-                      <li>Anti-brute-force rate limiting (5 attempts lock limit)</li>
-                      <li>Side-channel timing attack delay mitigation</li>
-                      <li>No plaintext credentials or hints stored in client UI</li>
+                      <li>Anti-brute-force rate limiting protection</li>
+                      <li>Display picture uploads secured with admin authorization token</li>
+                      <li>No plaintext credentials or hints exposed to website visitors</li>
                     </ul>
                   </div>
 
@@ -683,6 +999,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         )}
 
       </div>
+
+      {/* Image Crop, Scale & Framing Studio Modal */}
+      <ImageResizerModal
+        isOpen={isResizerOpen}
+        onClose={() => setIsResizerOpen(false)}
+        imageSrc={resizerImageSrc}
+        onSave={handleSaveCroppedPhoto}
+      />
 
     </div>
   );

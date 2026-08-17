@@ -1,5 +1,38 @@
 [
   {
+    "id": "msg-1786519020134",
+    "name": "Test Recruiter",
+    "email": "recruiter@example.com",
+    "subject": "Executive Inquiry Test",
+    "message": "Testing email forwarding pipeline and inbox store.",
+    "timestamp": "2026-08-12T07:17:00.134Z",
+    "ip": "127.0.0.1",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Gmail authentication rejected: Google requires a 16-character App Password when 2FA is active (Google Account Settings > Security > App Passwords). Standard account passwords are not allowed for SMTP."
+  },
+  {
+    "id": "msg-1786518823321",
+    "name": "surya",
+    "email": "princekp18@gmail.com",
+    "subject": "testing",
+    "message": "teasting",
+    "timestamp": "2026-08-12T07:13:43.321Z",
+    "ip": "2406:7400:119:e7b2::1002",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Gmail authentication rejected: Google requires a 16-character App Password when 2FA is active (Google Account Settings > Security > App Passwords). Standard account passwords are not allowed for SMTP."
+  },
+  {
+    "id": "msg-1786517979812",
+    "name": "Surya Prashanth",
+    "email": "surya.prashanth@hp.com",
+    "subject": "Test",
+    "message": "test",
+    "timestamp": "2026-08-12T06:59:39.812Z",
+    "ip": "2406:7400:119:e7b2::1002",
+    "emailSentStatus": "failed_smtp",
+    "smtpError": "Gmail authentication rejected: Google requires a 16-character App Password when 2FA is active (Google Account Settings > Security > App Passwords). Standard account passwords are not allowed for SMTP."
+  },
+  {
     "id": "msg-1786343177796",
     "name": "Surya Prashanth",
     "email": "surya.prashanth.kp@gmail.com",

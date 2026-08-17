@@ -27,6 +27,9 @@ export default function App() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [aiChatOpen, setAiChatOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    return !!sessionStorage.getItem('surya_admin_token');
+  });
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -121,7 +124,6 @@ export default function App() {
           profile={cmsData.profile} 
           onNavigate={handleNavigate} 
           onOpenAIChat={() => setAiChatOpen(true)}
-          onUpdateProfile={(updatedProfile) => setCmsData(prev => ({ ...prev, profile: updatedProfile }))} 
         />
 
         <AboutSection profile={cmsData.profile} />
@@ -186,6 +188,7 @@ export default function App() {
         onClose={() => setAdminOpen(false)} 
         cmsData={cmsData} 
         onUpdateCMS={setCmsData} 
+        onAdminAuthChange={(auth) => setIsAdmin(auth)}
       />
 
       {/* Global Command Palette (Ctrl+K) */}
