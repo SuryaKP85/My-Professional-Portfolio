@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { resumePdfBase64 } from '../resumePdfBase64';
 import { 
   FileText, 
   Download, 
@@ -36,6 +37,43 @@ export const ResumeSection: React.FC<Partial<ResumeSectionProps>> = () => {
   const [copied, setCopied] = useState(false);
 
   const resumePdfUrl = "/KPSurya_Product_Manager.pdf";
+
+  const getPdfBlobUrl = () => {
+    try {
+      const byteCharacters = atob(resumePdfBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      return URL.createObjectURL(blob);
+    } catch {
+      return resumePdfUrl;
+    }
+  };
+
+  const handleDownloadPdf = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    try {
+      const blobUrl = getPdfBlobUrl();
+      if (blobUrl) {
+        e.currentTarget.href = blobUrl;
+      }
+    } catch {
+      // Fall back to static URL
+    }
+  };
+
+  const handleOpenPdf = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    try {
+      const blobUrl = getPdfBlobUrl();
+      if (blobUrl) {
+        e.currentTarget.href = blobUrl;
+      }
+    } catch {
+      // Fall back to static URL
+    }
+  };
 
   // Data directly extracted from uploaded PDF resume
   const resumeData = {
@@ -167,10 +205,6 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
     window.print();
   };
 
-  const handleDownloadPdf = (e: React.MouseEvent) => {
-    // Direct static download
-  };
-
   return (
     <section id="resume" className="py-20 relative bg-slate-950 border-t border-slate-800/80">
       {/* Glow Effects */}
@@ -247,6 +281,7 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
               <a
                 href={resumePdfUrl}
                 download="KPSurya_Product_Manager.pdf"
+                onClick={handleDownloadPdf}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <Download className="w-4 h-4" />
@@ -257,6 +292,7 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
                 href={resumePdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleOpenPdf}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold text-xs sm:text-sm transition-all"
               >
                 <ExternalLink className="w-4 h-4 text-cyan-400" />
