@@ -9,7 +9,6 @@ import { CertificationsSection } from './components/CertificationsSection';
 import { ResumeSection } from './components/ResumeSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { CommandPalette } from './components/CommandPalette';
 import { CookieConsent } from './components/CookieConsent';
 import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { initialData } from './data/initialData';
@@ -19,7 +18,6 @@ import { ArrowUp, Send } from 'lucide-react';
 export default function App() {
   const [cmsData] = useState<CMSData>(initialData);
   const [activeSection, setActiveSection] = useState('home');
-  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -89,7 +87,6 @@ export default function App() {
         profile={cmsData.profile}
         activeSection={activeSection}
         setActiveSection={handleNavigate}
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
       {/* Main View Sections */}
@@ -151,14 +148,6 @@ export default function App() {
           </button>
         )}
       </div>
-
-      {/* Global Command Palette (Ctrl+K) */}
-      <CommandPalette 
-        isOpen={commandPaletteOpen} 
-        onClose={() => setCommandPaletteOpen(false)} 
-        cmsData={cmsData} 
-        onNavigate={handleNavigate} 
-      />
 
       {/* GDPR Cookie Consent Banner */}
       <CookieConsent onOpenPrivacyPolicy={() => setPrivacyModalOpen(true)} />

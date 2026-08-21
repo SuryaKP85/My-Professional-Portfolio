@@ -8,6 +8,7 @@ import {
   MapPin, 
   Linkedin, 
   Github, 
+  Globe, 
   Briefcase, 
   Award, 
   GraduationCap, 
@@ -44,6 +45,7 @@ export const ResumeSection: React.FC<Partial<ResumeSectionProps>> = () => {
     email: "surya.prashanth.kp@hotmail.com",
     linkedIn: "https://linkedin.com/in/suryaprashanth",
     github: "https://github.com/SuryaKP85",
+    website: "https://www.suryaprashanth.in",
     summary: "An accomplished Product Management Professional with a proven track record in Product Strategy, User Research, Stakeholder Management & GTM. I bring forth a wealth of experience in steering triumphant product endeavors from inception to fruition with an overall 16yrs experience in SCM, WMS, Customer Centric Solutions and Distribution domains.",
     coreSkills: [
       "Product Strategy", "Road mapping", "GTM Strategy", "Agile/Scrum", "OKRs/KPIs", 
@@ -128,7 +130,7 @@ export const ResumeSection: React.FC<Partial<ResumeSectionProps>> = () => {
   const plainTextResume = `${resumeData.name}
 ${resumeData.title}
 Phone: ${resumeData.phone} | Email: ${resumeData.email}
-LinkedIn: ${resumeData.linkedIn} | GitHub: ${resumeData.github}
+LinkedIn: ${resumeData.linkedIn} | GitHub: ${resumeData.github} | Website: ${resumeData.website}
 
 PROFESSIONAL SUMMARY
 ${resumeData.summary}
@@ -224,6 +226,16 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
             >
               <Github className="w-3.5 h-3.5" />
               <span>GitHub</span>
+            </a>
+
+            <a 
+              href={resumeData.website}
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-800 text-slate-300 hover:text-cyan-400 transition-all"
+            >
+              <Globe className="w-3.5 h-3.5 text-cyan-400" />
+              <span>www.suryaprashanth.in</span>
             </a>
           </div>
 

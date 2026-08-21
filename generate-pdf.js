@@ -107,7 +107,18 @@ async function createResumePDF() {
     font: fontRegular,
     color: primaryColor,
   });
-  y -= 18;
+  y -= 13;
+
+  const contactText4 = "Website: www.suryaprashanth.in";
+  const contact4Width = fontRegular.widthOfTextAtSize(contactText4, 9.5);
+  page.drawText(contactText4, {
+    x: (width - contact4Width) / 2,
+    y: y,
+    size: 9.5,
+    font: fontRegular,
+    color: primaryColor,
+  });
+  y -= 16;
 
   // --- PROFESSIONAL SUMMARY ---
   drawSectionHeading("Professional Summary");

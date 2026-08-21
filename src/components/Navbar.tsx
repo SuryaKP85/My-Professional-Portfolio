@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Search, 
   Menu, 
   X, 
   Sparkles, 
@@ -18,14 +17,12 @@ interface NavbarProps {
   profile: ProfileData;
   activeSection: string;
   setActiveSection: (sec: string) => void;
-  onOpenCommandPalette: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   profile,
   activeSection,
   setActiveSection,
-  onOpenCommandPalette,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -114,22 +111,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Action Tools */}
-          <div className="flex items-center gap-2">
-            {/* Quick Search Shortcut */}
-            <button
-              onClick={onOpenCommandPalette}
-              className="p-2 text-slate-400 hover:text-cyan-400 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-xl transition-colors hidden sm:flex items-center gap-1.5 text-xs"
-              title="Search Portfolio (Ctrl+K)"
-            >
-              <Search className="w-4 h-4" />
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">⌘K</span>
-            </button>
-
-            {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle */}
+          <div className="flex items-center lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-xl"
+              className="p-2 text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-xl"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
