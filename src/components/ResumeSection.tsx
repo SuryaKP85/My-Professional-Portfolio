@@ -165,23 +165,8 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
     window.print();
   };
 
-  const handleDownloadPdf = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/download-resume');
-      if (!response.ok) throw new Error('Download failed');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'KPSurya_Product Manager.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      window.open('/KPSurya_Product Manager.pdf', '_blank');
-    }
+  const handleDownloadPdf = (e: React.MouseEvent) => {
+    // Direct static download
   };
 
   return (
@@ -248,9 +233,8 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
             {/* Download & New Tab Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
-                href="/api/download-resume"
+                href={resumePdfUrl}
                 download="KPSurya_Product Manager.pdf"
-                onClick={handleDownloadPdf}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <Download className="w-4 h-4" />

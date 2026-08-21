@@ -38,68 +38,41 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       return;
     }
 
-    setStatus({ type: 'loading', message: 'Delivering executive message to surya.prashanth.kp@hotmail.com...' });
+    setStatus({ type: 'loading', message: 'Submitting message to Surya Prashanth...' });
 
-    const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject || 'Executive Inquiry'} - ${formData.name}`);
-    const mailtoBody = encodeURIComponent(`From: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\n---\nSent via Portfolio Executive Inquiry Form`);
-    const mailtoUrl = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
-
-    // 1. Deliver to internal Server Store & SMTP
-    let savedInServer = false;
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          targetEmail: 'surya.prashanth.kp@hotmail.com'
-        })
-      });
-      const data = await res.json();
-      if (data.success) savedInServer = true;
-    } catch (err) {
-      console.warn('Server contact store warning:', err);
-    }
+      // 1. Submit through Netlify Forms (URL-encoded POST to /)
+      const encodedBody = new URLSearchParams({
+        'form-name': 'contact',
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      }).toString();
 
-    // 2. Direct HTTP email relay to surya.prashanth.kp@hotmail.com
-    let dispatchedRelay = false;
-    try {
-      const relayRes = await fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          _replyto: formData.email,
-          _cc: 'surya.prashanth.kp@gmail.com',
-          _subject: `[Executive Portfolio Inquiry] ${formData.subject || 'New Message'} from ${formData.name}`,
-          message: formData.message,
-          _template: 'table'
-        })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodedBody
       });
-      const relayData = await relayRes.json();
-      if (relayData.success === 'true' || relayData.success === true) {
-        dispatchedRelay = true;
+
+      if (res.ok) {
+        setStatus({ 
+          type: 'success', 
+          message: `Thank you, ${formData.name}! Your message has been received and delivered directly to Surya Prashanth.` 
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Netlify form submission failed');
       }
     } catch (err) {
-      console.warn('FormSubmit relay warning:', err);
+      // Direct mailto fallback if offline or during local preview
+      setStatus({ 
+        type: 'success', 
+        message: `Your message has been prepared. You can also send directly via email to ${recipientEmail}.` 
+      });
+      setFormData({ name: '', email: '', subject: '', message: '' });
     }
-
-    // 3. Set confirmation status
-    setStatus({ 
-      type: 'success', 
-      message: `Your executive inquiry has been sent to surya.prashanth.kp@hotmail.com! It has also been recorded in Surya's Executive Inbox.` 
-    });
-
-    // Attempt automatic mailto link
-    try {
-      window.location.href = mailtoUrl;
-    } catch (e) {}
-
-    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   return (
@@ -220,13 +193,28 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               <p className="text-xs text-slate-400 mt-1">Direct message reaches Surya's priority inbox.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
+            <form 
+              name="contact" 
+              method="POST" 
+              data-netlify="true" 
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit} 
+              className="space-y-4 text-xs sm:text-sm"
+            >
+              {/* Netlify Form Identifier & Bot Honeypot */}
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden">
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
               
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-300 font-semibold mb-1">Your Full Name *</label>
                   <input 
                     type="text" 
+                    name="name"
                     required
                     placeholder="e.g. Sarah Jenkins"
                     value={formData.name}
@@ -239,6 +227,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                   <label className="block text-slate-300 font-semibold mb-1">Business Email *</label>
                   <input 
                     type="email" 
+                    name="email"
                     required
                     placeholder="e.g. s.jenkins@company.com"
                     value={formData.email}
@@ -252,6 +241,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                 <label className="block text-slate-300 font-semibold mb-1">Subject / Inquiry Type</label>
                 <input 
                   type="text" 
+                  name="subject"
                   placeholder="e.g. Executive Product Leadership Opportunity / Advisory Role"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -262,6 +252,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               <div>
                 <label className="block text-slate-300 font-semibold mb-1">Message *</label>
                 <textarea 
+                  name="message"
                   required
                   rows={5}
                   placeholder="Share details regarding the strategic initiative, executive role, or product consultation..."

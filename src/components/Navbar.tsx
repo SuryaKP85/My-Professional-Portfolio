@@ -10,9 +10,7 @@ import {
   Compass, 
   Briefcase, 
   Award, 
-  User, 
-  BookOpen,
-  Settings
+  User
 } from 'lucide-react';
 import { ProfileData } from '../types';
 
@@ -21,8 +19,6 @@ interface NavbarProps {
   activeSection: string;
   setActiveSection: (sec: string) => void;
   onOpenCommandPalette: () => void;
-  onOpenAIChat: () => void;
-  onOpenAdmin: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -30,8 +26,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeSection,
   setActiveSection,
   onOpenCommandPalette,
-  onOpenAIChat,
-  onOpenAdmin,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -120,16 +114,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Action Tools (Admin Portal) */}
+          {/* Action Tools */}
           <div className="flex items-center gap-2">
-            
-            {/* Admin Portal Toggle */}
+            {/* Quick Search Shortcut */}
             <button
-              onClick={onOpenAdmin}
-              className="p-2 text-slate-400 hover:text-cyan-400 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-xl transition-colors"
-              title="Admin Portal & Visitor Analytics"
+              onClick={onOpenCommandPalette}
+              className="p-2 text-slate-400 hover:text-cyan-400 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-xl transition-colors hidden sm:flex items-center gap-1.5 text-xs"
+              title="Search Portfolio (Ctrl+K)"
             >
-              <Settings className="w-4 h-4" />
+              <Search className="w-4 h-4" />
+              <span className="text-[10px] font-mono text-slate-500 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">⌘K</span>
             </button>
 
             {/* Mobile Menu Toggle */}
@@ -172,16 +166,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Verified Executive Profile</span>
             </div>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAdmin();
-              }}
-              className="text-cyan-400 hover:underline flex items-center gap-1"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>Admin</span>
-            </button>
           </div>
         </div>
       )}

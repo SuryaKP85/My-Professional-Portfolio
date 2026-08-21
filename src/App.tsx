@@ -7,65 +7,23 @@ import { ProductPortfolio } from './components/ProductPortfolio';
 import { SkillsMatrix } from './components/SkillsMatrix';
 import { CertificationsSection } from './components/CertificationsSection';
 import { ResumeSection } from './components/ResumeSection';
-import { BlogSection } from './components/BlogSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { AIChatWidget } from './components/AIChatWidget';
-import { VisitorModal } from './components/VisitorModal';
-import { AdminModal } from './components/AdminModal';
 import { CommandPalette } from './components/CommandPalette';
 import { CookieConsent } from './components/CookieConsent';
 import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { initialData } from './data/initialData';
 import { CMSData } from './types';
-import { MessageSquare, ArrowUp, Send } from 'lucide-react';
+import { ArrowUp, Send } from 'lucide-react';
 
 export default function App() {
-  const [cmsData, setCmsData] = useState<CMSData>(() => {
-    try {
-      const savedPhoto = localStorage.getItem('surya_profile_photo_override');
-      if (savedPhoto) {
-        return {
-          ...initialData,
-          profile: {
-            ...initialData.profile,
-            photoUrl: savedPhoto
-          }
-        };
-      }
-    } catch (e) {}
-    return initialData;
-  });
+  const [cmsData] = useState<CMSData>(initialData);
   const [activeSection, setActiveSection] = useState('home');
-
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
-  const [aiChatOpen, setAiChatOpen] = useState(false);
-  const [adminOpen, setAdminOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
-    return !!sessionStorage.getItem('surya_admin_token');
-  });
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    const savedPhoto = localStorage.getItem('surya_profile_photo_override');
-
-    // Fetch live CMS data from backend
-    fetch('/api/cms')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.data) {
-          const incoming = data.data;
-          if (savedPhoto && (!incoming.profile.photoUrl || incoming.profile.photoUrl === '/images/profile/surya-profile.jpg')) {
-            incoming.profile.photoUrl = savedPhoto;
-          }
-          setCmsData(incoming);
-        }
-      })
-      .catch(() => {
-        // Fallback to client-side initialData
-      });
-
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 400);
 
@@ -84,7 +42,9 @@ export default function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleNavigate = (sectionId: string) => {
@@ -109,11 +69,7 @@ export default function App() {
           "@type": "Person",
           "name": cmsData.profile.name,
           "jobTitle": cmsData.profile.title,
-          "worksFor": {
-            "@type": "Organization",
-            "name": "Nexus Enterprise Cloud Systems"
-          },
-          "url": "https://ais-dev-duh55xpw5ledfn2e7toiy7-939424068670.asia-southeast1.run.app",
+          "url": "https://suryaprashanth.in",
           "sameAs": [
             cmsData.profile.linkedIn,
             cmsData.profile.github
@@ -134,8 +90,6 @@ export default function App() {
         activeSection={activeSection}
         setActiveSection={handleNavigate}
         onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        onOpenAIChat={() => setAiChatOpen(true)}
-        onOpenAdmin={() => setAdminOpen(true)}
       />
 
       {/* Main View Sections */}
@@ -143,7 +97,6 @@ export default function App() {
         <Hero 
           profile={cmsData.profile} 
           onNavigate={handleNavigate} 
-          onOpenAIChat={() => setAiChatOpen(true)}
         />
 
         <AboutSection profile={cmsData.profile} />
@@ -198,18 +151,6 @@ export default function App() {
           </button>
         )}
       </div>
-
-      {/* Timed / Exit Intent Visitor Lead Capture Modal */}
-      <VisitorModal />
-
-      {/* Admin & Visitor Analytics Portal Modal */}
-      <AdminModal 
-        isOpen={adminOpen} 
-        onClose={() => setAdminOpen(false)} 
-        cmsData={cmsData} 
-        onUpdateCMS={setCmsData} 
-        onAdminAuthChange={(auth) => setIsAdmin(auth)}
-      />
 
       {/* Global Command Palette (Ctrl+K) */}
       <CommandPalette 

@@ -20,19 +20,32 @@ export const PRIMARY_PROFILE_IMAGE = '/images/profile/surya-profile.jpg';
 interface HeroProps {
   profile: ProfileData;
   onNavigate: (sectionId: string) => void;
-  onOpenAIChat?: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({ 
   profile, 
   onNavigate 
 }) => {
-  const [imgError, setImgError] = useState(false);
+  const [photoSrc, setPhotoSrc] = useState<string>(() => {
+    return profile.photoUrl || PRIMARY_PROFILE_IMAGE;
+  });
+  const [hasFailedAll, setHasFailedAll] = useState(false);
 
-  // Automatically reset error state whenever profile photo changes or updates
   useEffect(() => {
-    setImgError(false);
+    const candidate = profile.photoUrl || PRIMARY_PROFILE_IMAGE;
+    setPhotoSrc(candidate);
+    setHasFailedAll(false);
   }, [profile.photoUrl]);
+
+  const handleImageError = () => {
+    if (photoSrc !== '/images/profile/surya-profile.jpg' && photoSrc !== '/surya_headshot.jpg') {
+      setPhotoSrc('/images/profile/surya-profile.jpg');
+    } else if (photoSrc === '/images/profile/surya-profile.jpg') {
+      setPhotoSrc('/surya_headshot.jpg');
+    } else {
+      setHasFailedAll(true);
+    }
+  };
 
   return (
     <section id="home" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
@@ -139,13 +152,13 @@ export const Hero: React.FC<HeroProps> = ({
                 
                 {/* Image Frame */}
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 group">
-                  {!imgError ? (
+                  {!hasFailedAll ? (
                     <img 
-                      key={profile.photoUrl || PRIMARY_PROFILE_IMAGE}
-                      src={profile.photoUrl || PRIMARY_PROFILE_IMAGE} 
+                      key={photoSrc}
+                      src={photoSrc} 
                       alt="Surya Prashanth – Product Manager"
                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      onError={() => setImgError(true)}
+                      onError={handleImageError}
                     />
                   ) : (
                     /* Intentional Professional Placeholder */
