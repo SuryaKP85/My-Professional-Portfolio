@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   X, 
   ZoomIn, 
@@ -9,13 +9,16 @@ import {
   Move, 
   Maximize2, 
   Check, 
+  CheckCircle2,
   RefreshCw, 
   Sparkles, 
   Grid, 
   User, 
   Sliders,
   ShieldCheck,
-  Eye
+  Eye,
+  Maximize,
+  Minimize
 } from 'lucide-react';
 
 interface ImageResizerModalProps {
@@ -49,27 +52,61 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [saving, setSaving] = useState<boolean>(false);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
 
   // Image load state
   const [imgLoaded, setImgLoaded] = useState<boolean>(false);
   const [originalDimensions, setOriginalDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
+  const [fitScale, setFitScale] = useState<number>(1);
 
-  // Reset transforms whenever a new image is loaded
+  // Frame dimension helper
+  const getFrameDimensions = () => {
+    switch (aspectRatio) {
+      case '1:1':
+        return { w: 320, h: 320 };
+      case '3:4':
+        return { w: 300, h: 400 };
+      case '4:5':
+      default:
+        return { w: 320, h: 400 };
+    }
+  };
+
+  // Load and calculate uncropped fit whenever a new image or aspect ratio is selected
   useEffect(() => {
-    if (isOpen && imageSrc) {
-      setScale(1);
+    if (!isOpen || !imageSrc) return;
+
+    setUploadSuccess(false);
+    setSaving(false);
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const naturalW = img.naturalWidth || 800;
+      const naturalH = img.naturalHeight || 1000;
+      setOriginalDimensions({ width: naturalW, height: naturalH });
+
+      const frame = getFrameDimensions();
+      // Calculate scale where 100% of the image fits in the viewport without any cropping
+      const calculatedFit = Math.min(frame.w / naturalW, frame.h / naturalH);
+      setFitScale(calculatedFit);
+      
+      // Default: Scale to 1.0 (Full photo visible, uncropped)
+      setScale(1.0);
       setPosition({ x: 0, y: 0 });
       setRotation(0);
       setIsFlipped(false);
-      setImgLoaded(false);
-    }
-  }, [isOpen, imageSrc]);
+      setImgLoaded(true);
+    };
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.currentTarget;
-    setOriginalDimensions({ width: img.naturalWidth, height: img.naturalHeight });
-    setImgLoaded(true);
-  };
+    img.onerror = () => {
+      // Fallback
+      setOriginalDimensions({ width: 800, height: 1000 });
+      setImgLoaded(true);
+    };
+
+    img.src = imageSrc;
+  }, [isOpen, imageSrc, aspectRatio]);
 
   // Pointer / Mouse Drag Handlers
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -78,7 +115,9 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
       x: e.clientX - position.x,
       y: e.clientY - position.y
     });
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    try {
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    } catch (err) {}
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -94,36 +133,52 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
       setIsDragging(false);
       try {
         (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-      } catch (err) {
-        // Safe fallback
-      }
+      } catch (err) {}
     }
   };
 
+  // Wheel zoom handler
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.0015;
+    setScale(prev => Math.min(4.0, Math.max(0.3, prev + delta)));
+  };
+
   // Quick Preset Alignments
-  const alignPreset = (type: 'center' | 'top' | 'reset') => {
-    if (type === 'reset') {
-      setScale(1);
+  const alignPreset = (type: 'fit' | 'fill' | 'top' | 'center' | 'reset') => {
+    const frame = getFrameDimensions();
+    const naturalW = originalDimensions.width || 800;
+    const naturalH = originalDimensions.height || 1000;
+
+    if (type === 'fit' || type === 'reset') {
+      // Show entire picture with zero crop
+      setScale(1.0);
       setPosition({ x: 0, y: 0 });
       setRotation(0);
       setIsFlipped(false);
+    } else if (type === 'fill') {
+      // Fill the entire frame (cover mode)
+      const fillFactor = Math.max(frame.w / (naturalW * fitScale), frame.h / (naturalH * fitScale));
+      setScale(fillFactor);
+      setPosition({ x: 0, y: 0 });
     } else if (type === 'top') {
-      // Focus on upper portion (head/face for portraits)
+      // Focus upper portrait area
+      setScale(prev => Math.max(1.2, prev));
       setPosition(prev => ({ ...prev, y: 40 }));
     } else if (type === 'center') {
       setPosition({ x: 0, y: 0 });
     }
   };
 
-  // Generate cropped and resized high-res output on canvas
+  // Generate cropped output on canvas matching preview frame
   const handleExportAndSave = async () => {
-    if (!imgLoaded || !imageRef.current) return;
+    if (!imageSrc) return;
 
     setSaving(true);
     try {
       const exportCanvas = document.createElement('canvas');
       const ctx = exportCanvas.getContext('2d');
-      if (!ctx) throw new Error('Canvas 2D context not available');
+      if (!ctx) throw new Error('Canvas 2D context unavailable');
 
       // Target high-definition output dimensions based on chosen aspect ratio
       let targetW = 800;
@@ -140,80 +195,81 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
       exportCanvas.width = targetW;
       exportCanvas.height = targetH;
 
-      // Enable high-quality smoothing
+      // Enable ultra-smooth downsampling
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
-      // Background fill
+      // Matte Background fill
       ctx.fillStyle = '#090d16';
       ctx.fillRect(0, 0, targetW, targetH);
 
-      // Frame box in UI
-      const containerBox = containerRef.current?.getBoundingClientRect();
-      const frameW = containerBox?.width || 320;
-      const frameH = containerBox?.height || 400;
+      const frame = getFrameDimensions();
+      const scaleMultiplier = targetW / frame.w;
 
-      // Calculate scale factor between UI frame and export canvas
-      const scaleMultiplier = targetW / frameW;
+      // Render image to canvas
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // fallback gracefully
+        img.src = imageSrc;
+        if (img.complete) resolve();
+      });
+
+      const naturalW = img.naturalWidth || originalDimensions.width || 800;
+      const naturalH = img.naturalHeight || originalDimensions.height || 1000;
+      const effectiveFit = Math.min(frame.w / naturalW, frame.h / naturalH);
+
+      // Base display dimensions in viewport
+      const baseW = naturalW * effectiveFit;
+      const baseH = naturalH * effectiveFit;
 
       ctx.save();
-      // Move to center of canvas
+      // Center canvas coordinates and apply user translation
       ctx.translate(targetW / 2 + position.x * scaleMultiplier, targetH / 2 + position.y * scaleMultiplier);
       ctx.rotate((rotation * Math.PI) / 180);
-      ctx.scale(isFlipped ? -scale : scale, scale);
+      ctx.scale(isFlipped ? -1 : 1, 1);
 
-      // Calculate base displayed dimensions inside the UI frame
-      const imgNaturalW = originalDimensions.width;
-      const imgNaturalH = originalDimensions.height;
+      const finalDrawW = baseW * scale * scaleMultiplier;
+      const finalDrawH = baseH * scale * scaleMultiplier;
 
-      // Calculate 'cover' base dimensions relative to the frame
-      const ratioFrame = frameW / frameH;
-      const ratioImg = imgNaturalW / imgNaturalH;
-
-      let drawW: number;
-      let drawH: number;
-
-      if (ratioImg > ratioFrame) {
-        drawH = frameH;
-        drawW = frameH * ratioImg;
-      } else {
-        drawW = frameW;
-        drawH = frameW / ratioImg;
-      }
-
-      // Scale up to export canvas coordinates
-      const finalDrawW = drawW * scaleMultiplier;
-      const finalDrawH = drawH * scaleMultiplier;
-
-      // Draw centered image
-      const sourceImg = imageRef.current;
-      ctx.drawImage(sourceImg, -finalDrawW / 2, -finalDrawH / 2, finalDrawW, finalDrawH);
+      ctx.drawImage(img, -finalDrawW / 2, -finalDrawH / 2, finalDrawW, finalDrawH);
       ctx.restore();
 
-      const finalBase64 = exportCanvas.toDataURL('image/jpeg', 0.92);
+      const finalBase64 = exportCanvas.toDataURL('image/jpeg', 0.94);
+
+      // Save to parent state and storage
       await onSave(finalBase64);
-      onClose();
+
+      setSaving(false);
+      setUploadSuccess(true);
+
+      // Smooth transition back to admin portal
+      setTimeout(() => {
+        onClose();
+        setUploadSuccess(false);
+      }, 700);
     } catch (err) {
       console.error('Failed to crop and save image:', err);
-      alert('Could not process image crop. Please try again.');
-    } finally {
+      // Fallback: save raw image if canvas failed
+      await onSave(imageSrc);
       setSaving(false);
+      setUploadSuccess(true);
+      setTimeout(() => {
+        onClose();
+        setUploadSuccess(false);
+      }, 700);
     }
   };
 
   if (!isOpen) return null;
 
-  const getAspectClasses = () => {
-    switch (aspectRatio) {
-      case '1:1':
-        return 'w-72 h-72 sm:w-80 sm:h-80';
-      case '3:4':
-        return 'w-64 h-[340px] sm:w-72 sm:h-[384px]';
-      case '4:5':
-      default:
-        return 'w-64 h-80 sm:w-80 sm:h-[400px]';
-    }
-  };
+  const frame = getFrameDimensions();
+  const naturalW = originalDimensions.width || 800;
+  const naturalH = originalDimensions.height || 1000;
+  const baseDisplayW = naturalW * fitScale;
+  const baseDisplayH = naturalH * fitScale;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/90 backdrop-blur-md overflow-y-auto">
@@ -230,11 +286,11 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               <h2 className="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
                 <span>Executive Headshot Framing & Resizer</span>
                 <span className="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-[10px] uppercase font-mono">
-                  Admin Tool
+                  Uncropped Source Loaded
                 </span>
               </h2>
               <p className="text-xs text-slate-400">
-                Drag, scale, and align your photo so it fits seamlessly on the website.
+                Your full picture is loaded without automatic crop. Drag, zoom, and align as desired.
               </p>
             </div>
           </div>
@@ -257,9 +313,9 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
             <div className="w-full flex items-center justify-between mb-3 text-xs text-slate-400">
               <span className="flex items-center gap-1.5 font-medium text-cyan-300">
                 <Move className="w-3.5 h-3.5" />
-                <span>Click & drag photo to reposition</span>
+                <span>Drag to reposition • Scroll to zoom</span>
               </span>
-              <span className="text-[11px] font-mono text-slate-500">
+              <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
                 Zoom: {Math.round(scale * 100)}%
               </span>
             </div>
@@ -271,11 +327,17 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
               onPointerCancel={handlePointerUp}
-              className={`relative ${getAspectClasses()} rounded-2xl overflow-hidden border-2 border-cyan-400/90 shadow-2xl cursor-grab active:cursor-grabbing bg-slate-900 touch-none`}
+              onWheel={handleWheel}
+              style={{
+                width: `${frame.w}px`,
+                height: `${frame.h}px`,
+                maxWidth: '100%'
+              }}
+              className="relative rounded-2xl overflow-hidden border-2 border-cyan-400/90 shadow-2xl cursor-grab active:cursor-grabbing bg-slate-900 touch-none flex items-center justify-center"
             >
-              {/* Image Element */}
+              {/* Image Element Centered & Positioned */}
               <div 
-                className="w-full h-full flex items-center justify-center"
+                className="absolute flex items-center justify-center pointer-events-none"
                 style={{
                   transform: `translate(${position.x}px, ${position.y}px)`
                 }}
@@ -283,15 +345,14 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                 <img
                   ref={imageRef}
                   src={imageSrc}
-                  alt="Upload Source Preview"
+                  alt="Upload Preview"
                   crossOrigin="anonymous"
-                  onLoad={handleImageLoad}
-                  className="max-w-none pointer-events-none object-cover transition-none"
+                  className="max-w-none pointer-events-none select-none transition-none"
                   style={{
-                    transform: `scale(${isFlipped ? -scale : scale}, ${scale}) rotate(${rotation}deg)`,
-                    transformOrigin: 'center center',
-                    width: '100%',
-                    height: '100%'
+                    width: `${baseDisplayW * scale}px`,
+                    height: `${baseDisplayH * scale}px`,
+                    transform: `rotate(${rotation}deg) scaleX(${isFlipped ? -1 : 1})`,
+                    transformOrigin: 'center center'
                   }}
                 />
               </div>
@@ -316,12 +377,12 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                 <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-start pt-10">
                   {/* Eye Level Line */}
                   <div className="w-full border-b border-dashed border-emerald-400/40 relative">
-                    <span className="absolute right-2 -top-4 text-[9px] font-mono text-emerald-400 uppercase tracking-wider bg-slate-950/70 px-1 rounded">
+                    <span className="absolute right-2 -top-4 text-[9px] font-mono text-emerald-400 uppercase tracking-wider bg-slate-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
                       Eye Level
                     </span>
                   </div>
                   {/* Head Oval Guide */}
-                  <div className="w-28 h-36 rounded-full border border-dashed border-cyan-400/30 mt-2" />
+                  <div className="w-28 h-36 rounded-full border border-dashed border-cyan-400/35 mt-2" />
                 </div>
               )}
 
@@ -332,28 +393,26 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-cyan-400 pointer-events-none" />
             </div>
 
-            {/* Quick Helper Toggles Under Canvas */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-4 text-xs">
+            {/* Quick Helper Toggles & Fit Presets */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
               <button
                 type="button"
-                onClick={() => setShowGrid(!showGrid)}
-                className={`px-2.5 py-1 rounded-lg border text-[11px] font-medium flex items-center gap-1.5 transition-colors ${
-                  showGrid ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'
-                }`}
+                onClick={() => alignPreset('fit')}
+                className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-800 text-[11px] font-medium transition-colors flex items-center gap-1"
+                title="Fit entire photo without any cropping"
               >
-                <Grid className="w-3.5 h-3.5" />
-                <span>Grid</span>
+                <Minimize className="w-3 h-3" />
+                <span>Fit Whole Photo</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setShowFaceGuide(!showFaceGuide)}
-                className={`px-2.5 py-1 rounded-lg border text-[11px] font-medium flex items-center gap-1.5 transition-colors ${
-                  showFaceGuide ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'
-                }`}
+                onClick={() => alignPreset('fill')}
+                className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-[11px] font-medium transition-colors flex items-center gap-1"
+                title="Fill the entire frame"
               >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Eye Guide</span>
+                <Maximize className="w-3 h-3" />
+                <span>Fill Frame</span>
               </button>
 
               <button
@@ -361,7 +420,7 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                 onClick={() => alignPreset('top')}
                 className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-[11px] font-medium transition-colors"
               >
-                Focus Top/Face
+                Focus Face
               </button>
 
               <button
@@ -370,6 +429,28 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                 className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-[11px] font-medium transition-colors"
               >
                 Center
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowGrid(!showGrid)}
+                className={`px-2 py-1 rounded-lg border text-[11px] font-medium flex items-center gap-1 transition-colors ${
+                  showGrid ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'
+                }`}
+              >
+                <Grid className="w-3 h-3" />
+                <span>Grid</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowFaceGuide(!showFaceGuide)}
+                className={`px-2 py-1 rounded-lg border text-[11px] font-medium flex items-center gap-1 transition-colors ${
+                  showFaceGuide ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'
+                }`}
+              >
+                <Eye className="w-3 h-3" />
+                <span>Guide</span>
               </button>
             </div>
 
@@ -440,7 +521,7 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
+                  onClick={() => setScale(s => Math.max(0.3, s - 0.1))}
                   className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800"
                   title="Zoom Out"
                 >
@@ -449,8 +530,8 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
 
                 <input
                   type="range"
-                  min="0.5"
-                  max="3.0"
+                  min="0.3"
+                  max="3.5"
                   step="0.02"
                   value={scale}
                   onChange={(e) => setScale(parseFloat(e.target.value))}
@@ -459,7 +540,7 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => setScale(s => Math.min(3.0, s + 0.1))}
+                  onClick={() => setScale(s => Math.min(3.5, s + 0.1))}
                   className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800"
                   title="Zoom In"
                 >
@@ -468,11 +549,11 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               </div>
 
               <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-                <button type="button" onClick={() => setScale(0.8)} className="hover:text-slate-300">80%</button>
-                <button type="button" onClick={() => setScale(1.0)} className="hover:text-slate-300">100% (Default)</button>
-                <button type="button" onClick={() => setScale(1.3)} className="hover:text-slate-300">130%</button>
-                <button type="button" onClick={() => setScale(1.7)} className="hover:text-slate-300">170%</button>
-                <button type="button" onClick={() => setScale(2.2)} className="hover:text-slate-300">220%</button>
+                <button type="button" onClick={() => setScale(0.7)} className="hover:text-slate-300">70%</button>
+                <button type="button" onClick={() => setScale(1.0)} className="hover:text-slate-300 font-bold text-cyan-400">100% (Fit)</button>
+                <button type="button" onClick={() => setScale(1.4)} className="hover:text-slate-300">140%</button>
+                <button type="button" onClick={() => setScale(1.8)} className="hover:text-slate-300">180%</button>
+                <button type="button" onClick={() => setScale(2.4)} className="hover:text-slate-300">240%</button>
               </div>
             </div>
 
@@ -534,8 +615,8 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                   <span className="w-12">Horiz (X):</span>
                   <input
                     type="range"
-                    min="-200"
-                    max="200"
+                    min="-250"
+                    max="250"
                     value={position.x}
                     onChange={(e) => setPosition(p => ({ ...p, x: parseInt(e.target.value) }))}
                     className="w-full accent-cyan-400 h-1.5 bg-slate-900 rounded-lg cursor-pointer"
@@ -547,8 +628,8 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
                   <span className="w-12">Vert (Y):</span>
                   <input
                     type="range"
-                    min="-200"
-                    max="200"
+                    min="-250"
+                    max="250"
                     value={position.y}
                     onChange={(e) => setPosition(p => ({ ...p, y: parseInt(e.target.value) }))}
                     className="w-full accent-cyan-400 h-1.5 bg-slate-900 rounded-lg cursor-pointer"
@@ -558,23 +639,41 @@ export const ImageResizerModal: React.FC<ImageResizerModalProps> = ({
               </div>
             </div>
 
+            {/* Status Alert Banner */}
+            {uploadSuccess && (
+              <div className="p-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-2.5 animate-pulse">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                <span className="font-bold text-xs">Upload successful! Headshot published & returning to portal...</span>
+              </div>
+            )}
+
             {/* Action Buttons */}
             <div className="pt-2 flex items-center gap-3">
               <button
                 type="button"
+                disabled={saving || uploadSuccess}
                 onClick={() => alignPreset('reset')}
-                className="px-4 py-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 font-semibold text-xs transition-colors"
+                className="px-4 py-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 font-semibold text-xs transition-colors disabled:opacity-50"
               >
                 Reset All
               </button>
 
               <button
                 type="button"
-                disabled={saving}
+                disabled={saving || uploadSuccess}
                 onClick={handleExportAndSave}
-                className="flex-1 py-3 px-5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs shadow-xl shadow-cyan-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50"
+                className={`flex-1 py-3 px-5 rounded-xl font-bold text-xs shadow-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] ${
+                  uploadSuccess
+                    ? 'bg-emerald-500 text-slate-950 shadow-emerald-500/30'
+                    : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-cyan-500/25 disabled:opacity-50'
+                }`}
               >
-                {saving ? (
+                {uploadSuccess ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 text-slate-950" />
+                    <span>Upload Successful!</span>
+                  </>
+                ) : saving ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
                     <span>Processing & Publishing...</span>

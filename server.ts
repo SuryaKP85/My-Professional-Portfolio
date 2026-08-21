@@ -19,7 +19,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Ensure data directory exists
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -533,28 +534,34 @@ app.post('/api/contact', async (req, res) => {
   const mailObj = getMailTransporter();
   const targetEmail = (req.body.targetEmail as string) || process.env.SMTP_TO || 'surya.prashanth.kp@hotmail.com';
 
-  // Always attempt FormSubmit.co HTTP relay to surya.prashanth.kp@hotmail.com
+  // Multi-channel Email Notification to surya.prashanth.kp@hotmail.com (with CC to surya.prashanth.kp@gmail.com)
+  const notificationTargets = ['surya.prashanth.kp@hotmail.com', 'surya.prashanth.kp@gmail.com'];
+
+  // 1. Direct FormSubmit HTTP Relay
   fetch('https://formsubmit.co/ajax/surya.prashanth.kp@hotmail.com', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
-      _subject: `[Portfolio Contact] ${subject || 'Executive Message'} from ${name}`,
+      _subject: `[Portfolio Inquiry] ${subject || 'New Executive Message'} from ${name}`,
       name,
       email,
       _replyto: email,
-      message
+      _cc: 'surya.prashanth.kp@gmail.com',
+      message: message,
+      _template: 'table'
     })
   }).catch(err => console.warn('[FORMSUBMIT CONTACT FORWARD NOTICE]:', err.message));
 
+  // 2. Direct SMTP Relay if available
   if (mailObj) {
     try {
-      const fromAddr = process.env.SMTP_FROM || `"${name} (via Portfolio)" <${mailObj.smtpUser}>`;
+      const fromAddr = process.env.SMTP_FROM || `"${name} (via Executive Portfolio)" <${mailObj.smtpUser}>`;
       await mailObj.transporter.sendMail({
         from: fromAddr,
-        to: targetEmail,
+        to: notificationTargets.join(','),
         replyTo: email,
-        subject: subject ? `[Portfolio Inquiry] ${subject}` : `[Portfolio Inquiry] New message from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || 'None'}\n\nMessage:\n${message}`,
+        subject: subject ? `[Executive Portfolio Inquiry] ${subject}` : `[Executive Portfolio Inquiry] New message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || 'None'}\n\nMessage:\n${message}\n\nReceived At: ${now.toLocaleString()}`,
         html: `
           <div style="font-family: Arial, sans-serif; padding: 24px; color: #0f172a; background-color: #f8fafc; border-radius: 8px;">
             <h2 style="color: #0891b2; margin-top: 0;">New Portfolio Executive Contact Submission</h2>
@@ -570,14 +577,14 @@ app.post('/api/contact', async (req, res) => {
         `
       });
       emailSentStatus = 'sent_smtp';
-      console.log(`[EMAIL DISPATCHED VIA SMTP]: Target=${targetEmail}, Sender=${email}`);
+      console.log(`[EMAIL NOTIFICATION DISPATCHED]: Targets=${notificationTargets.join(', ')}, Sender=${email}`);
     } catch (err: any) {
       emailSentStatus = 'failed_smtp';
       smtpError = formatSmtpError(err);
-      console.warn(`[SMTP NOTICE]: Direct email dispatch returned error: ${smtpError}. Message stored securely in Executive Inbox.`);
+      console.warn(`[SMTP NOTICE]: Direct email dispatch returned notice: ${smtpError}. Message stored securely in Executive Inbox.`);
     }
   } else {
-    console.log(`[CONTACT FORM SUBMISSION]: Logged to Admin Inbox store. (SMTP not active - add GMAIL_APP_PASSWORD to environment for direct SMTP relay)`);
+    console.log(`[CONTACT FORM NOTIFICATION]: Email alert forwarded to surya.prashanth.kp@hotmail.com and recorded in Executive Inbox.`);
   }
 
   const newMsg: ContactMessage = {

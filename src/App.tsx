@@ -21,7 +21,21 @@ import { CMSData } from './types';
 import { MessageSquare, ArrowUp, Send } from 'lucide-react';
 
 export default function App() {
-  const [cmsData, setCmsData] = useState<CMSData>(initialData);
+  const [cmsData, setCmsData] = useState<CMSData>(() => {
+    try {
+      const savedPhoto = localStorage.getItem('surya_profile_photo_override');
+      if (savedPhoto) {
+        return {
+          ...initialData,
+          profile: {
+            ...initialData.profile,
+            photoUrl: savedPhoto
+          }
+        };
+      }
+    } catch (e) {}
+    return initialData;
+  });
   const [activeSection, setActiveSection] = useState('home');
 
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -34,12 +48,18 @@ export default function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    const savedPhoto = localStorage.getItem('surya_profile_photo_override');
+
     // Fetch live CMS data from backend
     fetch('/api/cms')
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
-          setCmsData(data.data);
+          const incoming = data.data;
+          if (savedPhoto && (!incoming.profile.photoUrl || incoming.profile.photoUrl === '/images/profile/surya-profile.jpg')) {
+            incoming.profile.photoUrl = savedPhoto;
+          }
+          setCmsData(incoming);
         }
       })
       .catch(() => {

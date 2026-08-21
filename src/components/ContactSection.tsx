@@ -74,6 +74,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           name: formData.name,
           email: formData.email,
           _replyto: formData.email,
+          _cc: 'surya.prashanth.kp@gmail.com',
           _subject: `[Executive Portfolio Inquiry] ${formData.subject || 'New Message'} from ${formData.name}`,
           message: formData.message,
           _template: 'table'
