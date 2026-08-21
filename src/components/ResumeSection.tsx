@@ -35,7 +35,7 @@ export const ResumeSection: React.FC<Partial<ResumeSectionProps>> = () => {
   const [activeView, setActiveView] = useState<'formatted' | 'document'>('formatted');
   const [copied, setCopied] = useState(false);
 
-  const resumePdfUrl = "/KPSurya_Product Manager.pdf";
+  const resumePdfUrl = "/KPSurya_Product_Manager.pdf";
 
   // Data directly extracted from uploaded PDF resume
   const resumeData = {
@@ -246,7 +246,7 @@ ${resumeData.education.map(e => `${e.degree}, ${e.institution}`).join('\n')}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href={resumePdfUrl}
-                download="KPSurya_Product Manager.pdf"
+                download="KPSurya_Product_Manager.pdf"
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <Download className="w-4 h-4" />
